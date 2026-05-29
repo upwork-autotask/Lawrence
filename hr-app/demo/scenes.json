@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01-title",
+    "narration": "Welcome. This is a preview build of the HR Desktop application — a modern, offline-first rewrite of your current HR system. In the next five minutes I'll walk you through what's working today, across nine modules."
+  },
+  {
+    "id": "02-login",
+    "narration": "The app runs entirely on your machine. No internet required, no data leaving your network. Your team signs in with a username and password — role-based access is built in, so a line manager sees a different view from HR Admin or an Executive. You're now signed in as the administrator."
+  },
+  {
+    "id": "03-employees",
+    "narration": "Employees is the heart of the system. Every person in your organisation is recorded here once — name, contact, hire date, region, department, job title, Paterson grade, EE group, NBC council. Each transactional record across the rest of the app links back to this one source of truth. Adding, editing and de-activating an employee is a two-minute task."
+  },
+  {
+    "id": "04-leave",
+    "narration": "Leave applications follow your existing two-step workflow. The employee or HR captures the request; the line manager approves or rejects with comments; then HR signs off. Every step is timestamped. Sick leave, annual, family responsibility, maternity, study — each leave type carries its own allowance and accrual rule, configurable without touching code."
+  },
+  {
+    "id": "05-disciplinary",
+    "narration": "Disciplinary tracks the full lifecycle of a case — from incident report through hearing to closure. Nature-of-offence and disciplinary-action catalogues are both editable. If a case crosses the criminal threshold, you can attach a police report directly to it. Closed cases retain the full audit trail for future reference."
+  },
+  {
+    "id": "06-jobdesc",
+    "narration": "Job descriptions are versioned and CEO-approved. Each JD breaks down into purpose and scope, weighted roles and responsibilities, KPIs that link directly to performance reviews, and the internal and external training required for the role. Assigning a JD to an employee captures their acknowledgement and sign-off, with HR and line-manager approvals tracked separately."
+  },
+  {
+    "id": "07-training",
+    "narration": "Training is split into a catalogue you maintain — what courses exist, internal or external, what they cost — and the actual sessions you assign to employees. The session pipeline tracks every checkpoint: booking, approval, purchase order, start, completion, certificate. Internal courses can include a quiz, with answers and scores stored against the employee's record for compliance."
+  },
+  {
+    "id": "08-performance",
+    "narration": "Performance reviews are built around your KPI catalogue, organised into financial, customer, operations and people categories. Each review captures target versus actual, scores the result, and routes through a three-step approval — line manager, HR, then EXCO. The system records who decided what and when, so you can produce a defensible audit trail for any disputed score."
+  },
+  {
+    "id": "09-development",
+    "narration": "Development plans tie performance gaps to a concrete twelve-month plan: qualifications, skills targets, and experience opportunities like rotations or secondments. Each plan moves through line manager, HR, compliance and Executive sign-off. The plan we're showing is for Lerato Molefe — already fully approved, with a B.Com Honours and two skill targets in flight."
+  },
+  {
+    "id": "10-settings",
+    "narration": "Behind the scenes, settings cover your organisation branding, SMTP for email notifications, and daily backup configuration. Everything is captured in a single SQLite database file on the user's machine, with a full audit log of every change."
+  },
+  {
+    "id": "11-roadmap",
+    "narration": "Four modules are still on the build sheet — Recruitment with full multi-lead interview panels, Succession planning, Expenses with the car scheme, and the Exit module. Beyond that, optional cloud sync will let multiple users in different regions stay in sync without changing how the app feels to use."
+  },
+  {
+    "id": "12-close",
+    "narration": "That's the preview. The build you've received is fully functional for the modules shown — you can create real employees, capture real leave applications, run real performance reviews. We'd love your feedback before we lock the next milestone. Thank you for watching."
+  }
+]

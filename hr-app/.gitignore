@@ -1,0 +1,14 @@
+node_modules
+.vite
+out
+dist
+*.log
+dev.db
+dev.db-journal
+dev.db-wal
+dev.db-shm
+drizzle/*.sql.snapshot
+.env
+.env.local
+.DS_Store
+Thumbs.db

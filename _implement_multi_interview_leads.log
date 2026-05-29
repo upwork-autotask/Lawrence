@@ -1,0 +1,28 @@
+Opened C:\Users\bhanu\Documents\Upwork\2026\May\Lawrence\Database_2ndCopy.accdb
+[INFO] tblInterviewLeads already exists
+[ADO SQL] ALTER TABLE tblInterviewLeads ALTER COLUMN CreatedAt DATETIME DEFAULT Now()
+[SQL] CREATE UNIQUE INDEX ux_tblInterviewLeads_Interview_Employee ON tblInterviewLeads (InterviewID, EmployeeID)
+[WARN] Could not add unique interview/employee index: Table 'tblInterviewLeads' already has an index named 'ux_tblInterviewLeads_Interview_Employee'.
+[SQL] CREATE INDEX ix_tblInterviewLeads_InterviewID ON tblInterviewLeads (InterviewID)
+[WARN] Could not add InterviewID index: Table 'tblInterviewLeads' already has an index named 'ix_tblInterviewLeads_InterviewID'.
+[SQL] CREATE INDEX ix_tblInterviewLeads_EmployeeID ON tblInterviewLeads (EmployeeID)
+[WARN] Could not add EmployeeID index: Table 'tblInterviewLeads' already has an index named 'ix_tblInterviewLeads_EmployeeID'.
+[SQL] ALTER TABLE tblInterviewLeads ADD CONSTRAINT fk_tblInterviewLeads_Interview FOREIGN KEY (InterviewID) REFERENCES tblMainSHeetInterview (EMPID)
+[WARN] Could not add interview FK: There is already a relationship named 'fk_tblInterviewLeads_Interview' in the current database.
+[SQL] ALTER TABLE tblInterviewLeads ADD CONSTRAINT fk_tblInterviewLeads_Employee FOREIGN KEY (EmployeeID) REFERENCES [Employees Employment details] (EmployeeID)
+[WARN] Could not add employee FK: There is already a relationship named 'fk_tblInterviewLeads_Employee' in the current database.
+[OK] Dropped existing qryInterviewLeads
+[OK] Created qryInterviewLeads
+[OK] Dropped existing module mdlInterviewPanel
+[OK] Created mdlInterviewPanel
+[OK] Dropped existing form fsubInterviewLeads
+[OK] Created fsubInterviewLeads
+[OK] Dropped existing form frmInterviewLeads_Edit
+[OK] Created frmInterviewLeads_Edit
+[OK] Hid existing Interviewer Lead control
+[OK] Deleted existing control txtInterviewerLeads from frmInterviewReg
+[OK] Deleted existing control cmdEditPanel from frmInterviewReg
+[OK] Replaced existing cmdEditPanel_Click handler
+[OK] Updated frmInterviewReg
+[WARN] Access threw while closing database after saves: 
+DONE

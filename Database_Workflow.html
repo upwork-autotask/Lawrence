@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Database Workflow — Database_2ndCopy.accdb</title>
+<style>
+  body { font-family: Segoe UI, Arial, sans-serif; max-width: 1400px; margin: 24px auto; padding: 0 16px; color: #222; }
+  h1 { border-bottom: 2px solid #2b6cb0; padding-bottom: 6px; }
+  h2 { color: #2b6cb0; margin-top: 36px; }
+  h3 { color: #444; }
+  .meta { background: #f3f7fb; border-left: 4px solid #2b6cb0; padding: 10px 14px; margin: 12px 0; }
+  .legend { font-size: 13px; color: #555; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  table { border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+  th, td { border: 1px solid #cdd5df; padding: 5px 9px; text-align: left; }
+  th { background: #eef3f8; }
+  code { background: #f1f3f5; padding: 1px 5px; border-radius: 3px; }
+  .module { background: #fafbfc; border: 1px solid #e1e7ee; border-radius: 6px; padding: 14px 18px; margin: 10px 0; }
+  .pill { display: inline-block; background: #e8f0fe; color: #1a4480; border-radius: 12px; padding: 2px 9px; font-size: 12px; margin-right: 4px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis' }, securityLevel: 'loose', maxTextSize: 200000 });
+</script>
+</head>
+<body>
+
+<h1>HR Management Database — Workflow Map</h1>
+<div class="meta">
+  <b>File:</b> Database_2ndCopy.accdb &nbsp; | &nbsp;
+  <b>Tables:</b> 73 &nbsp; | &nbsp;
+  <b>Queries (views):</b> 17 &nbsp; | &nbsp;
+  <b>Defined relationships:</b> 32
+  <br/><span class="legend">This is a Microsoft Access HR system. The diagrams below show how data flows between modules and how the key tables connect.</span>
+</div>
+
+<h2>1. High-level system map</h2>
+<p>Every module in the system orbits the central employee record. New people enter through Recruitment, become employees, and then generate records in Performance, Training, Leave, Expenses, Disciplinary, and Development.</p>
+
+<div class="mermaid">
+flowchart LR
+  classDef core fill:#2b6cb0,color:#fff,stroke:#1a365d,stroke-width:2px;
+  classDef module fill:#e8f0fe,stroke:#2b6cb0,color:#1a4480;
+  classDef lookup fill:#f7fafc,stroke:#a0aec0,color:#2d3748;
+
+  EMP["👤 Employees Employment details<br/>(master record)"]:::core
+
+  REC["📝 Recruitment<br/>request → interview → hire"]:::module
+  JD["📋 Job Description<br/>title, roles, KPIs, training"]:::module
+  TR["🎓 Training<br/>internal / external / tests"]:::module
+  PERF["⭐ Performance<br/>KPI reviews"]:::module
+  DEV["🚀 Development &amp; Succession<br/>plans, critical skills"]:::module
+  LV["🌴 Leave<br/>request → manager → HR"]:::module
+  EXP["💰 Expenses &amp; Car scheme<br/>claims, approvals"]:::module
+  DISC["⚖️ Disciplinary<br/>offences, actions, criminal"]:::module
+  EXIT["🚪 Exit<br/>reason, interview"]:::module
+  AUTH["🔐 Login &amp; Permissions"]:::lookup
+  LK["🗂️ Lookups<br/>Region · Dept · Depot · Site<br/>JobTitle · OccLevel · Grading · Tier"]:::lookup
+
+  REC --> EMP
+  EMP --> JD
+  EMP --> TR
+  EMP --> PERF
+  EMP --> DEV
+  EMP --> LV
+  EMP --> EXP
+  EMP --> DISC
+  EMP --> EXIT
+  JD -.kpis &amp; training.-> PERF
+  JD -.required courses.-> TR
+  TR -.scores.-> DEV
+  PERF -.gaps.-> DEV
+  AUTH -.who can see what.-> EMP
+  LK -.referenced by all.-> EMP
+</div>
+
+<h2>2. Recruitment &amp; onboarding workflow</h2>
+<p>This is the longest end-to-end flow in the database. Hiring starts with a request, goes through interview scoring and EE checks, lands in <code>tblActualRecruitment</code>, the new hire is captured in <code>tblEmpTake</code>, and finally promoted to a permanent record in <code>Employees Employment details</code>.</p>
+
+<div class="mermaid">
+flowchart TD
+  classDef start fill:#fff3bf,stroke:#b08800;
+  classDef step fill:#e8f0fe,stroke:#2b6cb0;
+  classDef approval fill:#fde2e2,stroke:#c53030;
+  classDef done fill:#d4edda,stroke:#2f855a;
+
+  R1["tblRequest<br/>Vacancy raised<br/>(Region, Dept, Job Title)"]:::start
+  R2["Manager + Regional Mgr + CEO approvals<br/>(fields on tblRequest)"]:::approval
+  R3["Recruitment<br/>candidate application + scoring"]:::step
+  R4["tblInterview / tblQue<br/>question bank"]:::step
+  R5["tblEmpInterview<br/>candidate's answers + scores"]:::step
+  R6["tblMainSHeetInterview<br/>panel scoresheet<br/>(EE · Qual · Exp · Psych · Cultural)"]:::step
+  R7["tblEvaluation<br/>JD grading + CEO approval"]:::step
+  R8["tblActualRecruitment<br/>final tracking + EE compliance<br/>tblNonRecruitmentReason if rejected"]:::step
+  R9["tblEmpTake<br/>onboarding form +<br/>docs (ID, criminal, bank, contract)"]:::step
+  R10["✅ Employees Employment details<br/>(permanent record created)"]:::done
+  R11["tblRecruitmentTarget /<br/>tblRecruitmentAppData<br/>(EE targets vs actuals)"]:::step
+
+  R1 --> R2 --> R3
+  R3 --> R4
+  R4 --> R5
+  R5 --> R6
+  R6 --> R7
+  R7 --> R8
+  R8 --> R9
+  R9 --> R10
+  R8 -.compared against.-> R11
+  R3 -.linked to TblJobTitle.-> R7
+</div>
+
+<h2>3. Job Description hierarchy</h2>
+<p>Each Job Title has a detailed JD record, which in turn anchors the roles, KPIs and required training. When an employee is linked to a JD, the system can check whether they have completed the required courses.</p>
+
+<div class="mermaid">
+flowchart LR
+  classDef anchor fill:#2b6cb0,color:#fff;
+  classDef child fill:#e8f0fe,stroke:#2b6cb0;
+  classDef link  fill:#fff3bf,stroke:#b08800;
+
+  JT["TblJobTitle<br/>JobTitleID"]:::anchor
+  JDR["TblJobdescriptionDetailRecord<br/>(JoBID · Skill level · Qualification)"]:::anchor
+  JDE["TblJobDescriptionEntryRecord<br/>full JD text"]:::child
+  ROLES["TblJobDesRolesAndResponsibility"]:::child
+  KPIE["TbJobDescriptionlKPIEntry<br/>(KPI per JD)"]:::child
+  ITR["TblJobDesInternalTrainingEntry"]:::child
+  ETR["TblJobDesExternalTrainingEntry"]:::child
+  EJD["TblEmployeJobDescriptionDetails<br/>(employee ↔ JD)"]:::link
+  EMP["Employees Employment details"]:::anchor
+
+  JT --> JDR
+  JDR --> JDE
+  JDR --> ROLES
+  JDR --> KPIE
+  JDR --> ITR
+  JDR --> ETR
+  EMP --> EJD
+  EJD --> JDR
+</div>
+
+<h2>4. Training, testing &amp; certification</h2>
+<p>Training is split into internal and external. Bookings are created, sent for approval, finance issues a PO, training runs, and a certificate is uploaded. Internal training also supports testing with a question/answer/score pipeline.</p>
+
+<div class="mermaid">
+flowchart TD
+  classDef step fill:#e8f0fe,stroke:#2b6cb0;
+  classDef test fill:#f0e6ff,stroke:#6b46c1;
+  classDef done fill:#d4edda,stroke:#2f855a;
+
+  AT["TblAllTrainings<br/>master catalogue"]:::step
+  EI["TblEmployeeInternalTrainingDetails<br/>(EmployeeID · InternalTraining · Approved)"]:::step
+  EE["TblEmployeeExternalTrainingDetails<br/>(EmployeeID · ExternalTraining)"]:::step
+  ANL["TblAnalysisSkils<br/>booking → approval → PO →<br/>start/end → quote → PP → certificate"]:::step
+
+  Q1["tblQue<br/>question bank"]:::test
+  A1["tblAnswers<br/>options + points"]:::test
+  ET["tblEmpTest<br/>employee answers + marks"]:::test
+  RES["qryEmpResult / qryFinalResult<br/>final scoring views"]:::done
+
+  AT --> EI
+  AT --> EE
+  EI -.workflow detail.-> ANL
+  EE -.workflow detail.-> ANL
+  AT --> Q1
+  Q1 --> A1
+  Q1 --> ET
+  A1 --> ET
+  ET --> RES
+</div>
+
+<h2>5. Performance · Development · Succession</h2>
+<p>Performance reviews score employees against KPI categories. Where gaps appear, development plans are opened (qualifications, skills, experience) and routed through Line Manager → HR → Compliance → EXCO approvals. Critical roles feed into the succession pipeline.</p>
+
+<div class="mermaid">
+flowchart LR
+  classDef perf fill:#e8f0fe,stroke:#2b6cb0;
+  classDef dev  fill:#fff3bf,stroke:#b08800;
+  classDef succ fill:#f0e6ff,stroke:#6b46c1;
+  classDef appr fill:#fde2e2,stroke:#c53030;
+
+  EMP["Employees Employment details"]:::perf
+  KPI["TblKPI / TblKPICategory"]:::perf
+  PR["TblEmployeePerformence<br/>(KPI · Target% · % achieved · ReviewedBy)"]:::perf
+
+  DV["tblDevelopement<br/>master plan per employee"]:::dev
+  QD["tblQualDev<br/>qualifications"]:::dev
+  SD["tblSkillsDev<br/>skills"]:::dev
+  XD["tblDevExp<br/>experience"]:::dev
+  AP["LineManager · HR · Compliance · EXCO<br/>(approval columns on each)"]:::appr
+
+  CR["tblCritical / tblCriticalSkills<br/>tier · risk · successor flag"]:::succ
+  SC["tblSuccession<br/>identified successors"]:::succ
+  SA["tblSuccAppData / TblScheme /<br/>TblScommitment / TblSPosition"]:::succ
+
+  EMP --> PR
+  KPI --> PR
+  PR -. gap .-> DV
+  DV --> QD
+  DV --> SD
+  DV --> XD
+  QD --> AP
+  SD --> AP
+  XD --> AP
+
+  EMP --> CR
+  CR --> SC
+  SC --> SA
+</div>
+
+<h2>6. Leave · Expenses · Disciplinary</h2>
+<p>Three independent transactional flows, each tied to <code>Employees Employment details</code> and ending in an approval state.</p>
+
+<div class="mermaid">
+flowchart LR
+  classDef step fill:#e8f0fe,stroke:#2b6cb0;
+  classDef appr fill:#fde2e2,stroke:#c53030;
+  classDef look fill:#f7fafc,stroke:#a0aec0;
+
+  subgraph LEAVE["Leave"]
+    L1["TblLeaveForm<br/>Employee · Type · Dates"]:::step
+    L2["TblTypeofLeave"]:::look
+    L3["Manager approval → HR approval<br/>EmailStatus"]:::appr
+    L1 --> L3
+    L2 --> L1
+  end
+
+  subgraph EXPENSE["Expenses"]
+    E1["TblExpense<br/>claim lines · VAT · totals"]:::step
+    E2["TblExpenseCategory · TblCostOfSale ·<br/>tblActivities · tblOverheads · TblDepot"]:::look
+    E3["MangerApproval · ApprovedBy ·<br/>tblApproval (RefID)"]:::appr
+    E4["tblCarScheme<br/>mileage claims"]:::step
+    E2 --> E1
+    E1 --> E3
+    E4 --> E3
+  end
+
+  subgraph DISC["Disciplinary"]
+    D1["TblDisciplinary<br/>offence · enquiry · action"]:::step
+    D2["tblNatureOfOffence"]:::look
+    D3["tblDisciplinaryAction"]:::look
+    D4["TblCriminalReport"]:::look
+    D2 --> D1
+    D3 --> D1
+    D4 -.criminal flag.-> D1
+  end
+</div>
+
+<h2>7. Entity-relationship view (defined FKs)</h2>
+<p>This is the actual relationship graph extracted from the Access catalogue. Every arrow below is a foreign key the database engine knows about.</p>
+
+<div class="mermaid">
+flowchart LR
+  classDef hub fill:#2b6cb0,color:#fff,stroke:#1a365d;
+  classDef tbl fill:#fafbfc,stroke:#cbd5e0;
+  classDef look fill:#f7fafc,stroke:#a0aec0;
+
+  EMP["Employees Employment details"]:::hub
+  JT["TblJobTitle"]:::look
+  JDR["TblJobdescriptionDetailRecord"]:::tbl
+  REG["TbRegion"]:::look
+  DEP["TblDeparment"]:::look
+  DPT["TblDepot"]:::look
+  TLV["TblTypeofLeave"]:::look
+  NAT["tblNatureOfOffence"]:::look
+  DA["tblDisciplinaryAction"]:::look
+  EXC["TblExpenseCategory"]:::look
+  COS["TblCostOfSale"]:::look
+  OH["tblOverheads"]:::look
+  ACT["tblActivities"]:::look
+  Q["tblQue"]:::tbl
+  A["tblAnswers"]:::tbl
+
+  REC["Recruitment"]:::tbl --> JT
+  JDR --> JT
+  TbJDKPI["TbJobDescriptionlKPIEntry"]:::tbl --> JDR
+  TblJDEntry["TblJobDescriptionEntryRecord"]:::tbl --> JDR
+  TblJDExt["TblJobDesExternalTrainingEntry"]:::tbl --> JDR
+  TblJDInt["TblJobDesInternalTrainingEntry"]:::tbl --> JDR
+  TblJDRR["TblJobDesRolesAndResponsibility"]:::tbl --> JDR
+
+  CAR["tblCarScheme"]:::tbl --> EMP
+  CAR --> DEP
+  CAR --> REG
+
+  DISC["TblDisciplinary"]:::tbl --> EMP
+  DISC --> NAT
+  DISC --> DA
+
+  INTV["tblEmpInterview"]:::tbl --> MAIN["tblMainSHeetInterview"]:::tbl
+
+  ETE["TblEmployeeExternalTrainingDetails"]:::tbl --> EMP
+  ITE["TblEmployeeInternalTrainingDetails"]:::tbl --> EMP
+  PERF["TblEmployeePerformence"]:::tbl --> EMP
+
+  EXP["TblExpense"]:::tbl --> EMP
+  EXP --> EXC
+  EXP --> COS
+  EXP --> REG
+  EXP --> DEP
+  EXP --> DPT
+  EXP --> OH
+  EXP --> ACT
+
+  LV["TblLeaveForm"]:::tbl --> EMP
+  LV --> DEP
+  LV --> TLV
+  LV --> REG
+
+  A --> Q
+</div>
+
+<h2>8. Module-by-module table inventory</h2>
+
+<div class="module">
+  <h3>Core master data</h3>
+  <span class="pill">central</span>
+  <code>Employees Employment details</code> — 108 columns; the hub of the entire system. Holds personal info, banking, employment terms, doc-checklist booleans (Criminalcheck, BankConfirmation, Contract, JobDescription, etc.).<br/>
+  <span class="pill">lookups</span>
+  <code>TbRegion · TblDeparment · TblDepot · tblSites · TblJobTitle · tblOccLevel · tblGrading · tblTaxStatus · tblTiers</code>
+</div>
+
+<div class="module">
+  <h3>Authentication</h3>
+  <code>LoginDetails</code> (UserName · Password · Admin/Editor/User flags · Level) drives <code>tblPermissions</code> (per-screen Admin/UserLevel1-3 flags).
+</div>
+
+<div class="module">
+  <h3>Recruitment / onboarding</h3>
+  <code>tblRequest → Recruitment → tblInterview/tblQue → tblEmpInterview → tblMainSHeetInterview → tblEvaluation → tblActualRecruitment → tblEmpTake → Employees Employment details</code>.
+  Targets &amp; analytics: <code>tblRecruitmentTarget · tblRecruitmentAppData · tblNonRecruitmentReason · qryRecCompare · frmRecTarget</code>. Staging: <code>tblTmpRec · tblTmpEmp</code>.
+</div>
+
+<div class="module">
+  <h3>Job description</h3>
+  <code>TblJobTitle → TblJobdescriptionDetailRecord</code> with children <code>TblJobDescriptionEntryRecord · TblJobDesRolesAndResponsibility · TbJobDescriptionlKPIEntry · TblJobDesInternalTrainingEntry · TblJobDesExternalTrainingEntry · TblEmployeJobDescriptionDetails · tblEvaluation</code>.
+</div>
+
+<div class="module">
+  <h3>Training</h3>
+  Catalogue <code>TblAllTrainings</code>; bookings <code>TblEmployeeInternalTrainingDetails · TblEmployeeExternalTrainingDetails · TblAnalysisSkils · ComboTraining</code>; testing <code>tblQue · tblAnswers · tblEmpTest</code>; reporting <code>qryEmpMarks · qryEmpResult · qryFinalResult · qryQuePerTraining · qryQueWisePts · qryTotMarks · qryTrainingWise · QryExportExcelTrainings · QryNewRecur · qryForTrainingReg</code>.
+</div>
+
+<div class="module">
+  <h3>Performance · Development · Succession</h3>
+  Performance: <code>TblEmployeePerformence · TblKPI · TblKPICategory</code>.<br/>
+  Development plans (with LineManager/HR/Compliance/EXCO approvals): <code>tblDevelopement · tblQualDev · tblSkillsDev · tblDevExp</code>.<br/>
+  Critical-skill / succession: <code>tblCritical · tblCriticalSkills · tblSuccession · tblSuccAppData · TblScheme · TblScommitment · TblSPosition</code>.
+</div>
+
+<div class="module">
+  <h3>Leave</h3>
+  <code>TblLeaveForm</code> (Manager + HR approval, EmailStatus) using <code>TblTypeofLeave</code>.
+</div>
+
+<div class="module">
+  <h3>Expenses &amp; car scheme</h3>
+  <code>TblExpense</code> joining <code>TblExpenseCategory · TblCostOfSale · tblActivities · tblOverheads · TblDepot · TbRegion · TblDeparment</code>. Approvals tracked in <code>tblApproval · qryClaimRef · qryForExp</code>. Mileage in <code>tblCarScheme</code>.
+</div>
+
+<div class="module">
+  <h3>Disciplinary &amp; exit</h3>
+  <code>TblDisciplinary</code> (uses <code>tblNatureOfOffence · tblDisciplinaryAction</code>) plus <code>TblCriminalReport</code>. Exit interviews in <code>tblExit</code>.
+</div>
+
+<h2>9. Notes &amp; observations</h2>
+<ul>
+  <li><b>Hub-and-spoke design.</b> Almost every transactional table points at <code>EmployeeID</code> in <code>Employees Employment details</code>. Renaming or splitting that table would ripple through the entire system.</li>
+  <li><b>Approval chains are baked into rows, not a separate table.</b> Most workflows (development, leave, expenses, recruitment) store <code>LineManager / HR / Compliance / EXCO / Approval</code> as columns on the same record. There is one shared <code>tblApproval</code> for expense claims.</li>
+  <li><b>South-African HR specifics.</b> EE (Employment Equity) groups, NBC councils, Paterson grades, and SARS tax fields are all first-class columns — this is built for SA labour-law reporting.</li>
+  <li><b>Staging tables.</b> <code>tblTmpRec · tblTmpEmp · tblTmpQue · tblTmpExp</code> appear to be import buffers used by Excel-paste or migration routines (<code>Paste Errors</code> table confirms this).</li>
+  <li><b>Only 32 explicit FKs.</b> Many logical joins (e.g. <code>Employees Employment details.Department → TblDeparment.DepID</code>) are by convention only — the database does not enforce referential integrity on them. Reports rely on Access queries to bridge those gaps.</li>
+</ul>
+
+</body>
+</html>

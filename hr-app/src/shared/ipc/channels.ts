@@ -1,0 +1,181 @@
+/**
+ * Authoritative list of IPC channel names. Modules register handlers
+ * against these constants; renderer calls them via `window.api`.
+ */
+export const Channels = {
+  // Auth
+  AuthLogin: 'auth.login',
+  AuthLogout: 'auth.logout',
+  AuthSession: 'auth.session',
+  AuthStatus: 'auth.status', // pre-login probe: returns { usersExist }
+  AuthBootstrap: 'auth.bootstrap', // first-run super_admin creation
+  AuthChangePassword: 'auth.changePassword',
+
+  // Employees
+  EmployeesList: 'employees.list',
+  EmployeesGet: 'employees.get',
+  EmployeesCreate: 'employees.create',
+  EmployeesUpdate: 'employees.update',
+  EmployeesDelete: 'employees.delete',
+
+  // Lookups
+  LookupsList: 'lookups.list',
+  LookupsCreate: 'lookups.create',
+  LookupsUpdate: 'lookups.update',
+  LookupsDelete: 'lookups.delete',
+
+  // Leave
+  LeaveList: 'leave.list',
+  LeaveGet: 'leave.get',
+  LeaveCreate: 'leave.create',
+  LeaveUpdate: 'leave.update',
+  LeaveDelete: 'leave.delete',
+  LeaveApprove: 'leave.approve',
+  LeaveTypesList: 'leaveTypes.list',
+  LeaveTypesCreate: 'leaveTypes.create',
+  LeaveTypesUpdate: 'leaveTypes.update',
+  LeaveTypesDelete: 'leaveTypes.delete',
+  LeaveBalancesList: 'leaveBalances.list',
+
+  // Disciplinary
+  DisciplinaryList: 'disciplinary.list',
+  DisciplinaryGet: 'disciplinary.get',
+  DisciplinaryCreate: 'disciplinary.create',
+  DisciplinaryUpdate: 'disciplinary.update',
+  DisciplinaryDelete: 'disciplinary.delete',
+  NatureOfOffenceList: 'disciplinary.offence.list',
+  NatureOfOffenceCreate: 'disciplinary.offence.create',
+  NatureOfOffenceUpdate: 'disciplinary.offence.update',
+  NatureOfOffenceDelete: 'disciplinary.offence.delete',
+  DisciplinaryActionList: 'disciplinary.action.list',
+  DisciplinaryActionCreate: 'disciplinary.action.create',
+  DisciplinaryActionUpdate: 'disciplinary.action.update',
+  DisciplinaryActionDelete: 'disciplinary.action.delete',
+  CriminalReportList: 'disciplinary.criminal.list',
+  CriminalReportCreate: 'disciplinary.criminal.create',
+  CriminalReportUpdate: 'disciplinary.criminal.update',
+  CriminalReportDelete: 'disciplinary.criminal.delete',
+
+  // Job Descriptions
+  JobDescriptionsList: 'jobDescriptions.list',
+  JobDescriptionsGet: 'jobDescriptions.get',
+  JobDescriptionsCreate: 'jobDescriptions.create',
+  JobDescriptionsUpdate: 'jobDescriptions.update',
+  JobDescriptionsDelete: 'jobDescriptions.delete',
+  JdEntriesList: 'jdEntries.list',
+  JdEntriesCreate: 'jdEntries.create',
+  JdEntriesUpdate: 'jdEntries.update',
+  JdEntriesDelete: 'jdEntries.delete',
+  JdRolesList: 'jdRoles.list',
+  JdRolesCreate: 'jdRoles.create',
+  JdRolesUpdate: 'jdRoles.update',
+  JdRolesDelete: 'jdRoles.delete',
+  JdKpisList: 'jdKpis.list',
+  JdKpisCreate: 'jdKpis.create',
+  JdKpisUpdate: 'jdKpis.update',
+  JdKpisDelete: 'jdKpis.delete',
+  JdTrainingInternalList: 'jdTrainingInternal.list',
+  JdTrainingInternalCreate: 'jdTrainingInternal.create',
+  JdTrainingInternalUpdate: 'jdTrainingInternal.update',
+  JdTrainingInternalDelete: 'jdTrainingInternal.delete',
+  JdTrainingExternalList: 'jdTrainingExternal.list',
+  JdTrainingExternalCreate: 'jdTrainingExternal.create',
+  JdTrainingExternalUpdate: 'jdTrainingExternal.update',
+  JdTrainingExternalDelete: 'jdTrainingExternal.delete',
+  EmployeeJdsList: 'employeeJds.list',
+  EmployeeJdsCreate: 'employeeJds.create',
+  EmployeeJdsUpdate: 'employeeJds.update',
+  EmployeeJdsDelete: 'employeeJds.delete',
+
+  // Training
+  TrainingCatalogueList: 'training.catalogue.list',
+  TrainingCatalogueGet: 'training.catalogue.get',
+  TrainingCatalogueCreate: 'training.catalogue.create',
+  TrainingCatalogueUpdate: 'training.catalogue.update',
+  TrainingCatalogueDelete: 'training.catalogue.delete',
+  TrainingInternalList: 'training.internal.list',
+  TrainingInternalGet: 'training.internal.get',
+  TrainingInternalCreate: 'training.internal.create',
+  TrainingInternalUpdate: 'training.internal.update',
+  TrainingInternalDelete: 'training.internal.delete',
+  TrainingExternalList: 'training.external.list',
+  TrainingExternalGet: 'training.external.get',
+  TrainingExternalCreate: 'training.external.create',
+  TrainingExternalUpdate: 'training.external.update',
+  TrainingExternalDelete: 'training.external.delete',
+  TrainingApprove: 'training.approve',
+  AnalysisSkillsList: 'training.analysisSkills.list',
+  AnalysisSkillsCreate: 'training.analysisSkills.create',
+  AnalysisSkillsUpdate: 'training.analysisSkills.update',
+  AnalysisSkillsDelete: 'training.analysisSkills.delete',
+  QuizQuestionList: 'training.quizQuestion.list',
+  QuizQuestionCreate: 'training.quizQuestion.create',
+  QuizQuestionUpdate: 'training.quizQuestion.update',
+  QuizQuestionDelete: 'training.quizQuestion.delete',
+  QuizAnswerList: 'training.quizAnswer.list',
+  QuizAnswerCreate: 'training.quizAnswer.create',
+  QuizAnswerUpdate: 'training.quizAnswer.update',
+  QuizAnswerDelete: 'training.quizAnswer.delete',
+  EmployeeTestList: 'training.employeeTest.list',
+  EmployeeTestCreate: 'training.employeeTest.create',
+  EmployeeTestUpdate: 'training.employeeTest.update',
+  EmployeeTestDelete: 'training.employeeTest.delete',
+
+  // Performance
+  PerformanceList: 'performance.list',
+  PerformanceGet: 'performance.get',
+  PerformanceCreate: 'performance.create',
+  PerformanceUpdate: 'performance.update',
+  PerformanceDelete: 'performance.delete',
+  PerformanceApprove: 'performance.approve',
+  KpisList: 'kpis.list',
+  KpisCreate: 'kpis.create',
+  KpisUpdate: 'kpis.update',
+  KpisDelete: 'kpis.delete',
+  KpiCategoriesList: 'kpiCategories.list',
+  KpiCategoriesCreate: 'kpiCategories.create',
+  KpiCategoriesUpdate: 'kpiCategories.update',
+  KpiCategoriesDelete: 'kpiCategories.delete',
+
+  // Development
+  DevelopmentList: 'development.list',
+  DevelopmentGet: 'development.get',
+  DevelopmentCreate: 'development.create',
+  DevelopmentUpdate: 'development.update',
+  DevelopmentDelete: 'development.delete',
+  DevelopmentApprove: 'development.approve',
+  QualDevList: 'development.qual.list',
+  QualDevCreate: 'development.qual.create',
+  QualDevUpdate: 'development.qual.update',
+  QualDevDelete: 'development.qual.delete',
+  SkillsDevList: 'development.skills.list',
+  SkillsDevCreate: 'development.skills.create',
+  SkillsDevUpdate: 'development.skills.update',
+  SkillsDevDelete: 'development.skills.delete',
+  DevExperienceList: 'development.experience.list',
+  DevExperienceCreate: 'development.experience.create',
+  DevExperienceUpdate: 'development.experience.update',
+  DevExperienceDelete: 'development.experience.delete',
+
+  // Users / Roles (settings)
+  UsersList: 'users.list',
+  UsersCreate: 'users.create',
+  UsersUpdate: 'users.update',
+  RolesList: 'roles.list',
+  RolesAssign: 'roles.assign',
+
+  // Settings
+  SettingsGet: 'settings.get',
+  SettingsSet: 'settings.set',
+  SettingsTestSmtp: 'settings.testSmtp',
+
+  // Sync
+  SyncStatus: 'sync.status',
+  SyncRunNow: 'sync.runNow',
+  SyncListConflicts: 'sync.listConflicts',
+
+  // Audit
+  AuditList: 'audit.list',
+} as const;
+
+export type Channel = (typeof Channels)[keyof typeof Channels];

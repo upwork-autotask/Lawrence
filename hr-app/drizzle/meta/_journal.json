@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1779869473948,
+      "tag": "0000_initial",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779870746182,
+      "tag": "0001_add_leave_disciplinary",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779874950755,
+      "tag": "0002_add_jd_training_perf_dev",
+      "breakpoints": true
+    }
+  ]
+}
