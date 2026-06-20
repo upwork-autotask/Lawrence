@@ -9,6 +9,7 @@ import type { CaseRow } from '@/lib/api/contracts/disciplinary';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { CaseForm } from '@/components/disciplinary/case-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -98,13 +99,14 @@ export default function DisciplinaryPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load cases: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No cases yet.</TD></TR>}
             {list.data?.items.map((c) => (
               <TR key={c.id}>
                 <TD className="font-mono text-xs">{c.caseNumber}</TD>
                 <TD className="font-medium">{empName(c.employeeId)}</TD>
                 <TD>{offenceName(c.offenceId)}</TD>
-                <TD><Badge tone={statusTone[c.status] ?? 'gray'}>{c.status}</Badge></TD>
+                <TD><Badge tone={statusTone[c.status] ?? 'gray'}>{titleCase(c.status)}</Badge></TD>
                 <TD>{day(c.incidentDate)}</TD>
                 <TD>
                   <div className="flex justify-end gap-1">

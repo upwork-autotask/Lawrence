@@ -9,6 +9,7 @@ import type { DevelopmentPlanRow } from '@/lib/api/contracts/development';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { DevelopmentForm } from '@/components/development/development-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -83,12 +84,13 @@ export default function DevelopmentPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={4} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={4} className="text-destructive">Could not load development plans: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={4} className="text-muted-foreground">No development plans yet.</TD></TR>}
             {list.data?.items.map((plan) => (
               <TR key={plan.id}>
                 <TD className="font-medium">{employeeName(plan.employeeId)}</TD>
                 <TD>{plan.planYear}</TD>
-                <TD><Badge tone={statusTone[plan.status] ?? 'gray'}>{plan.status}</Badge></TD>
+                <TD><Badge tone={statusTone[plan.status] ?? 'gray'}>{titleCase(plan.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

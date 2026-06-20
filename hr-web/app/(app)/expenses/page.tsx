@@ -95,6 +95,7 @@ export default function ExpensesPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load expense claims: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No expense claims yet.</TD></TR>}
             {list.data?.items.map((expense) => (
               <TR key={expense.id}>

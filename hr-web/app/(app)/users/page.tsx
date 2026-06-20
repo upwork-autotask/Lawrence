@@ -8,6 +8,7 @@ import type { UserRow } from '@/lib/api/contracts/users';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { UserForm } from '@/components/users/user-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -79,13 +80,14 @@ export default function UsersPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load users: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No users yet.</TD></TR>}
             {list.data?.items.map((u) => (
               <TR key={u.id}>
                 <TD className="font-mono text-xs">{u.username}</TD>
                 <TD className="font-medium">{u.fullName}</TD>
-                <TD>{u.roleName}</TD>
-                <TD><Badge tone={u.isActive ? 'green' : 'gray'}>{u.isActive ? 'active' : 'inactive'}</Badge></TD>
+                <TD>{titleCase(u.roleName)}</TD>
+                <TD><Badge tone={u.isActive ? 'green' : 'gray'}>{u.isActive ? 'Active' : 'Inactive'}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canManage && (

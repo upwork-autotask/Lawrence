@@ -9,6 +9,7 @@ import type { CriticalRoleRow } from '@/lib/api/contracts/succession';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { CriticalRoleForm } from '@/components/succession/critical-role-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -83,13 +84,14 @@ export default function SuccessionPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load critical roles: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No critical roles yet.</TD></TR>}
             {list.data?.items.map((role) => (
               <TR key={role.id}>
                 <TD className="font-medium">{role.title}</TD>
                 <TD>{employeeName(role.incumbentEmployeeId)}</TD>
-                <TD><Badge tone={riskTone[role.riskLevel] ?? 'gray'}>{role.riskLevel}</Badge></TD>
-                <TD>{role.status}</TD>
+                <TD><Badge tone={riskTone[role.riskLevel] ?? 'gray'}>{titleCase(role.riskLevel)}</Badge></TD>
+                <TD><Badge tone="gray">{titleCase(role.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

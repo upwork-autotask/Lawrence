@@ -110,6 +110,7 @@ export default function PerformancePage() {
             </THead>
             <TBody>
               {list.isLoading && <TR><TD colSpan={8} className="text-muted-foreground">Loading…</TD></TR>}
+              {list.isError && <TR><TD colSpan={8} className="text-destructive">Could not load reviews: {(list.error as Error).message}</TD></TR>}
               {list.data?.items.length === 0 && <TR><TD colSpan={8} className="text-muted-foreground">No performance reviews yet.</TD></TR>}
               {list.data?.items.map((review) => (
                 <TR key={review.id}>
@@ -160,6 +161,8 @@ export default function PerformancePage() {
               <TR><TH>KPI</TH><TH>Category</TH><TH>Unit</TH><TH>Target direction</TH><TH>Active</TH><TH className="w-24"></TH></TR>
             </THead>
             <TBody>
+              {options.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+              {options.isError && <TR><TD colSpan={6} className="text-destructive">Could not load KPIs: {(options.error as Error).message}</TD></TR>}
               {options.data?.kpis.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No KPIs defined yet.</TD></TR>}
               {options.data?.kpis.map((kpi) => (
                 <TR key={kpi.id}>

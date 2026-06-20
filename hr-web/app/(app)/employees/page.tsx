@@ -8,6 +8,7 @@ import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { EmployeeForm } from '@/components/employees/employee-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -107,13 +108,14 @@ export default function EmployeesPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load employees: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No employees yet.</TD></TR>}
             {list.data?.items.map((emp) => (
               <TR key={emp.id}>
                 <TD className="font-mono text-xs">{emp.employeeNumber}</TD>
                 <TD className="font-medium">{emp.firstName} {emp.surname}</TD>
                 <TD>{deptName(emp.departmentId)}</TD>
-                <TD><Badge tone={statusTone[emp.employmentStatus] ?? 'gray'}>{emp.employmentStatus}</Badge></TD>
+                <TD><Badge tone={statusTone[emp.employmentStatus] ?? 'gray'}>{titleCase(emp.employmentStatus)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

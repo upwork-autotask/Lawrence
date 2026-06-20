@@ -7,6 +7,7 @@ import { UserCreate, UserUpdate } from '@/lib/api/contracts/users';
 import type { UserRow } from '@/lib/api/contracts/users';
 import type { RoleOption } from '@/lib/api/users-client';
 import { usersApi } from '@/lib/api/users-client';
+import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -81,7 +82,7 @@ export function UserForm({
         <F label="Role" error={err.roleId?.message}>
           <Select {...form.register('roleId')}>
             <option value="">—</option>
-            {roles.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+            {roles.map((r) => <option key={r.id} value={r.id}>{titleCase(r.name)}</option>)}
           </Select>
         </F>
         {isEdit && (

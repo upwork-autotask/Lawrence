@@ -8,6 +8,7 @@ import type { TrainingRow } from '@/lib/api/contracts/training';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { TrainingForm } from '@/components/training/training-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -70,11 +71,12 @@ export default function TrainingPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load courses: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No courses yet.</TD></TR>}
             {list.data?.items.map((t) => (
               <TR key={t.id}>
                 <TD className="font-medium">{t.name}</TD>
-                <TD><Badge tone={kindTone[t.kind] ?? 'gray'}>{t.kind}</Badge></TD>
+                <TD><Badge tone={kindTone[t.kind] ?? 'gray'}>{titleCase(t.kind)}</Badge></TD>
                 <TD>{t.provider ?? '—'}</TD>
                 <TD>{t.durationHours ?? '—'}</TD>
                 <TD>{t.isActive ? 'Yes' : 'No'}</TD>

@@ -93,6 +93,7 @@ export default function LookupsPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load values: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No values yet.</TD></TR>}
             {list.data?.items.map((row) => (
               <TR key={row.id}>

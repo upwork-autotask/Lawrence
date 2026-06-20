@@ -9,6 +9,7 @@ import type { LeaveFormRow } from '@/lib/api/contracts/leave';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { LeaveForm } from '@/components/leave/leave-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -98,6 +99,7 @@ export default function LeavePage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={7} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={7} className="text-destructive">Could not load leave applications: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={7} className="text-muted-foreground">No leave applications yet.</TD></TR>}
             {list.data?.items.map((leave) => (
               <TR key={leave.id}>
@@ -106,7 +108,7 @@ export default function LeavePage() {
                 <TD>{day(leave.startDate)}</TD>
                 <TD>{day(leave.endDate)}</TD>
                 <TD>{leave.daysRequested}</TD>
-                <TD><Badge tone={statusTone[leave.status] ?? 'gray'}>{leave.status}</Badge></TD>
+                <TD><Badge tone={statusTone[leave.status] ?? 'gray'}>{titleCase(leave.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canApprove && (

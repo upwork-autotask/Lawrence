@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { auditApi } from '@/lib/api/audit-client';
+import { titleCase } from '@/lib/format';
 import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
@@ -39,7 +40,7 @@ export default function AuditPage() {
         <div className="w-56">
           <Select value={entityType} onChange={(e) => setEntityType(e.target.value)}>
             <option value="">All entity types</option>
-            {ENTITY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+            {ENTITY_TYPES.map((t) => <option key={t} value={t}>{titleCase(t)}</option>)}
           </Select>
         </div>
       </div>
@@ -53,13 +54,14 @@ export default function AuditPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load audit entries: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No audit entries.</TD></TR>}
             {list.data?.items.map((e) => (
               <TR key={e.id}>
                 <TD className="whitespace-nowrap text-xs">{new Date(e.at).toLocaleString()}</TD>
                 <TD className="font-mono text-xs">{e.actorId ?? '—'}</TD>
-                <TD><Badge tone={actionTone[e.action] ?? 'gray'}>{e.action}</Badge></TD>
-                <TD>{e.entityType}</TD>
+                <TD><Badge tone={actionTone[e.action] ?? 'gray'}>{titleCase(e.action)}</Badge></TD>
+                <TD>{titleCase(e.entityType)}</TD>
                 <TD className="font-mono text-xs">{e.entityId ?? '—'}</TD>
               </TR>
             ))}

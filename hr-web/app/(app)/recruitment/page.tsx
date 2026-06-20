@@ -9,6 +9,7 @@ import type { RequestRow } from '@/lib/api/contracts/recruitment';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { RequestForm } from '@/components/recruitment/request-form';
+import { titleCase } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -90,6 +91,7 @@ export default function RecruitmentPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load requisitions: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No requisitions yet.</TD></TR>}
             {list.data?.items.map((request) => (
               <TR key={request.id}>
@@ -97,7 +99,7 @@ export default function RecruitmentPage() {
                 <TD>{lookupName('departments', request.departmentId)}</TD>
                 <TD>{lookupName('regions', request.regionId)}</TD>
                 <TD>{request.headcount}</TD>
-                <TD><Badge tone={statusTone[request.status] ?? 'gray'}>{request.status}</Badge></TD>
+                <TD><Badge tone={statusTone[request.status] ?? 'gray'}>{titleCase(request.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

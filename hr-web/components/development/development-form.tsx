@@ -7,6 +7,7 @@ import { PlanCreate } from '@/lib/api/contracts/development';
 import type { DevelopmentPlanRow } from '@/lib/api/contracts/development';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { developmentApi } from '@/lib/api/development-client';
+import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -74,7 +75,7 @@ export function DevelopmentForm({
         </F>
         <F label="Status" error={err.status?.message}>
           <Select {...form.register('status')}>
-            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+            {STATUSES.map((s) => <option key={s} value={s}>{titleCase(s)}</option>)}
           </Select>
         </F>
         <F label="Target completion date" error={err.targetCompletionDate?.message}>
