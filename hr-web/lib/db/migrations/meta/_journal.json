@@ -15,6 +15,13 @@
       "when": 1781890089730,
       "tag": "0001_phase2_talent",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781934807288,
+      "tag": "0002_phase345",
+      "breakpoints": true
     }
   ]
 }
