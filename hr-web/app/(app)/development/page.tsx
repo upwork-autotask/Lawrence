@@ -36,7 +36,7 @@ export default function DevelopmentPage() {
   const options = useQuery({
     queryKey: ['development-options'],
     queryFn: async () => {
-      const e = await employeesApi.list({ pageSize: 200 });
+      const e = await employeesApi.list({ pageSize: 1000 });
       return { employees: e.ok ? e.value.items : [] };
     },
   });

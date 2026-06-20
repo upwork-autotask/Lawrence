@@ -35,7 +35,7 @@ export default function SuccessionPage() {
   const options = useQuery({
     queryKey: ['succession-options'],
     queryFn: async () => {
-      const e = await employeesApi.list({ pageSize: 200 });
+      const e = await employeesApi.list({ pageSize: 1000 });
       return { employees: e.ok ? e.value.items : [] };
     },
   });

@@ -41,7 +41,7 @@ export default function DisciplinaryPage() {
     queryKey: ['disciplinary-lookups'],
     queryFn: async () => {
       const [e, o, a] = await Promise.all([
-        employeesApi.list({ pageSize: 200 }), offencesApi.list({ pageSize: 200 }), actionsApi.list({ pageSize: 200 }),
+        employeesApi.list({ pageSize: 1000 }), offencesApi.list({ pageSize: 200 }), actionsApi.list({ pageSize: 200 }),
       ]);
       return {
         employees: e.ok ? e.value.items : [],

@@ -22,16 +22,32 @@ export default function EmployeesPage() {
   const qc = useQueryClient();
   const { data: me } = useMe();
   const [q, setQ] = React.useState('');
+  const [page, setPage] = React.useState(1);
   const [editing, setEditing] = React.useState<EmployeeRow | null | undefined>(undefined); // undefined = closed
 
+  const pageSize = 50;
+
   const list = useQuery({
-    queryKey: ['employees', q],
+    queryKey: ['employees', q, page],
     queryFn: async () => {
-      const r = await employeesApi.list({ q, pageSize: 100 });
+      const r = await employeesApi.list({ q, page, pageSize });
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
   });
+
+  const total = list.data?.total ?? 0;
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+
+  // Keep the page in range when the result set shrinks (e.g. a new search).
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  function onSearch(value: string) {
+    setQ(value);
+    setPage(1);
+  }
 
   const lookups = useQuery({
     queryKey: ['employee-lookups'],
@@ -79,7 +95,7 @@ export default function EmployeesPage() {
 
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input className="pl-9" placeholder="Search name or number…" value={q} onChange={(e) => setQ(e.target.value)} />
+        <Input className="pl-9" placeholder="Search name or number…" value={q} onChange={(e) => onSearch(e.target.value)} />
       </div>
 
       <div className="rounded-lg border bg-card">
@@ -117,6 +133,32 @@ export default function EmployeesPage() {
           </TBody>
         </Table>
       </div>
+
+      {total > pageSize && (
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            Page {page} of {pageCount} · {total} records
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= pageCount}
+              onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
 
       <Dialog open={editing !== undefined} onClose={() => setEditing(undefined)}>
         <DialogTitle>{editing ? 'Edit employee' : 'New employee'}</DialogTitle>

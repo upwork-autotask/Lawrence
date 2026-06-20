@@ -17,5 +17,5 @@ export const expectedUpdatedAt = z.string().datetime().optional();
 export const ListQuery = z.object({
   q: z.string().optional(),
   page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(200).default(25),
+  pageSize: z.coerce.number().int().min(1).max(1000).default(25),
 });

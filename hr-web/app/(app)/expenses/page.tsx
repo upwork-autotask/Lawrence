@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { expensesApi, expenseCategoriesApi } from '@/lib/api/expenses-client';
 import { employeesApi } from '@/lib/api/resources';
+import { titleCase } from '@/lib/format';
 import type { ExpenseRow } from '@/lib/api/contracts/expenses';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
@@ -38,7 +39,7 @@ export default function ExpensesPage() {
     queryKey: ['expense-options'],
     queryFn: async () => {
       const [e, c] = await Promise.all([
-        employeesApi.list({ pageSize: 200 }),
+        employeesApi.list({ pageSize: 1000 }),
         expenseCategoriesApi.list({ pageSize: 200 }),
       ]);
       return {
@@ -54,8 +55,10 @@ export default function ExpensesPage() {
     const e = options.data?.employees.find((x) => x.id === id);
     return e ? `${e.firstName} ${e.surname}` : '—';
   };
-  const categoryName = (id: string | null) =>
-    (id ? options.data?.categories.find((x) => x.id === id)?.name : null) ?? '—';
+  const categoryName = (id: string | null) => {
+    const name = id ? options.data?.categories.find((x) => x.id === id)?.name : null;
+    return name ? titleCase(name) : '—';
+  };
 
   async function onDelete(expense: ExpenseRow) {
     if (!confirm('Delete this expense claim?')) return;
@@ -99,7 +102,7 @@ export default function ExpensesPage() {
                 <TD>{categoryName(expense.categoryId)}</TD>
                 <TD>{expense.currency} {expense.amount.toFixed(2)}</TD>
                 <TD>{day(expense.expenseDate)}</TD>
-                <TD><Badge tone={statusTone[expense.status] ?? 'gray'}>{expense.status}</Badge></TD>
+                <TD><Badge tone={statusTone[expense.status] ?? 'gray'}>{titleCase(expense.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

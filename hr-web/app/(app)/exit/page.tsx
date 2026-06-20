@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { exitRecordsApi, exitReasonsApi } from '@/lib/api/exit-client';
 import { employeesApi } from '@/lib/api/resources';
+import { titleCase } from '@/lib/format';
 import type { ExitRecordRow } from '@/lib/api/contracts/exit';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
@@ -38,7 +39,7 @@ export default function ExitPage() {
     queryKey: ['exit-options'],
     queryFn: async () => {
       const [e, reasons] = await Promise.all([
-        employeesApi.list({ pageSize: 200 }),
+        employeesApi.list({ pageSize: 1000 }),
         exitReasonsApi.list({ pageSize: 200 }),
       ]);
       return {
@@ -90,13 +91,14 @@ export default function ExitPage() {
           </THead>
           <TBody>
             {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load exit records: {(list.error as Error).message}</TD></TR>}
             {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No exit records yet.</TD></TR>}
             {list.data?.items.map((record) => (
               <TR key={record.id}>
                 <TD className="font-medium">{employeeName(record.employeeId)}</TD>
-                <TD>{record.exitType}</TD>
+                <TD>{titleCase(record.exitType)}</TD>
                 <TD>{day(record.lastWorkingDay)}</TD>
-                <TD><Badge tone={statusTone[record.status] ?? 'gray'}>{record.status}</Badge></TD>
+                <TD><Badge tone={statusTone[record.status] ?? 'gray'}>{titleCase(record.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (

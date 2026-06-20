@@ -7,6 +7,7 @@ import { ExitCreate } from '@/lib/api/contracts/exit';
 import type { ExitRecordRow, ExitReasonRow } from '@/lib/api/contracts/exit';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { exitRecordsApi } from '@/lib/api/exit-client';
+import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -77,7 +78,7 @@ export function ExitForm({
         </F>
         <F label="Exit type" error={err.exitType?.message}>
           <Select {...form.register('exitType')}>
-            {exitTypes.map((t) => <option key={t} value={t}>{t}</option>)}
+            {exitTypes.map((t) => <option key={t} value={t}>{titleCase(t)}</option>)}
           </Select>
         </F>
         <F label="Reason" error={err.reasonId?.message}>
@@ -88,7 +89,7 @@ export function ExitForm({
         </F>
         <F label="Status" error={err.status?.message}>
           <Select {...form.register('status')}>
-            {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
+            {statuses.map((s) => <option key={s} value={s}>{titleCase(s)}</option>)}
           </Select>
         </F>
         <F label="Notice date" error={err.noticeDate?.message}><Input type="date" {...form.register('noticeDate')} /></F>

@@ -38,7 +38,7 @@ export default function LeavePage() {
     queryKey: ['leave-options'],
     queryFn: async () => {
       const [e, t] = await Promise.all([
-        employeesApi.list({ pageSize: 200 }),
+        employeesApi.list({ pageSize: 1000 }),
         leaveTypesApi.list({ pageSize: 200 }),
       ]);
       return {

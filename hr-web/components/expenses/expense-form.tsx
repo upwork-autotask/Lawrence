@@ -7,6 +7,7 @@ import { ExpenseCreate } from '@/lib/api/contracts/expenses';
 import type { ExpenseRow, CategoryRow } from '@/lib/api/contracts/expenses';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { expensesApi } from '@/lib/api/expenses-client';
+import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -72,7 +73,7 @@ export function ExpenseForm({
         <F label="Category" error={err.categoryId?.message}>
           <Select {...form.register('categoryId')}>
             <option value="">—</option>
-            {options.categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+            {options.categories.map((c) => <option key={c.id} value={c.id}>{titleCase(c.name)}</option>)}
           </Select>
         </F>
         <F label="Expense date" error={err.expenseDate?.message}><Input type="date" {...form.register('expenseDate')} /></F>
