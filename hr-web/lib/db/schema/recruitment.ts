@@ -1,0 +1,129 @@
+// MODULE: Recruitment — legacy tblRequest, Recruitment, tblInterview, tblEmpInterview,
+// tblMainSHeetInterview, tblEvaluation, tblActualRecruitment, tblNonRecruitmentReason,
+// tblRecruitmentTarget. Includes the multi-interview-lead junction (the original ask).
+import { boolean, doublePrecision, integer, pgTable, text, timestamp, uuid, uniqueIndex, index } from 'drizzle-orm/pg-core';
+import { pk, auditColumns, lookupColumns } from './common';
+import { employees } from './employees';
+import { departments, regions, jobTitles, eeGroups } from './lookups';
+
+/** Reasons a candidate was not recruited (tblNonRecruitmentReason). */
+export const nonRecruitmentReasons = pgTable('non_recruitment_reasons', lookupColumns);
+
+/** Recruitment requisition (tblRequest) with manager + HR approval columns. */
+export const recruitmentRequests = pgTable(
+  'recruitment_requests',
+  {
+    id: pk(),
+    requestNumber: text('request_number'),
+    positionTitle: text('position_title').notNull(),
+    jobTitleId: uuid('job_title_id').references(() => jobTitles.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+    regionId: uuid('region_id').references(() => regions.id),
+    headcount: integer('headcount').notNull().default(1),
+    motivation: text('motivation'),
+    employmentType: text('employment_type'),
+    status: text('status').notNull().default('draft'), // draft|approved|advertised|interviewing|filled|cancelled
+    managerId: uuid('manager_id'),
+    managerStatus: text('manager_status').notNull().default('pending'),
+    hrId: uuid('hr_id'),
+    hrStatus: text('hr_status').notNull().default('pending'),
+    targetStartDate: timestamp('target_start_date', { withTimezone: true }),
+    ...auditColumns,
+  },
+  (t) => ({ statusIdx: index('recruitment_requests_status_idx').on(t.status) }),
+);
+
+/** Candidates / applicants for a requisition. */
+export const candidates = pgTable(
+  'candidates',
+  {
+    id: pk(),
+    requestId: uuid('request_id').notNull().references(() => recruitmentRequests.id, { onDelete: 'cascade' }),
+    firstName: text('first_name').notNull(),
+    surname: text('surname').notNull(),
+    email: text('email'),
+    phone: text('phone'),
+    idNumber: text('id_number'),
+    eeGroupId: uuid('ee_group_id').references(() => eeGroups.id),
+    source: text('source'),
+    cvPath: text('cv_path'),
+    status: text('status').notNull().default('applied'), // applied|shortlisted|interviewed|offered|hired|rejected
+    rejectionReasonId: uuid('rejection_reason_id').references(() => nonRecruitmentReasons.id),
+    ...auditColumns,
+  },
+  (t) => ({ requestIdx: index('candidates_request_idx').on(t.requestId) }),
+);
+
+/** Interview events (tblInterview / tblEmpInterview / tblMainSHeetInterview). */
+export const interviews = pgTable(
+  'interviews',
+  {
+    id: pk(),
+    requestId: uuid('request_id').notNull().references(() => recruitmentRequests.id, { onDelete: 'cascade' }),
+    candidateId: uuid('candidate_id').notNull().references(() => candidates.id, { onDelete: 'cascade' }),
+    scheduledAt: timestamp('scheduled_at', { withTimezone: true }),
+    venue: text('venue'),
+    stage: text('stage').notNull().default('first'), // screening|first|second|final
+    status: text('status').notNull().default('scheduled'), // scheduled|completed|no_show|cancelled
+    notes: text('notes'),
+    ...auditColumns,
+  },
+  (t) => ({ candidateIdx: index('interviews_candidate_idx').on(t.candidateId) }),
+);
+
+/**
+ * Multi-lead interview panel junction. Replaces the single-text "Interviewer Lead"
+ * field on the legacy main interview sheet — an interview can have several panel
+ * members, one (or more) marked primary.
+ */
+export const interviewLeads = pgTable(
+  'interview_leads',
+  {
+    id: pk(),
+    interviewId: uuid('interview_id').notNull().references(() => interviews.id, { onDelete: 'cascade' }),
+    employeeId: uuid('employee_id').notNull().references(() => employees.id),
+    roleOnPanel: text('role_on_panel'),
+    isPrimary: boolean('is_primary').notNull().default(false),
+    notes: text('notes'),
+    ...auditColumns,
+  },
+  (t) => ({ interviewEmpIdx: uniqueIndex('interview_leads_interview_employee_unique').on(t.interviewId, t.employeeId) }),
+);
+
+/** Per-interview candidate evaluation / scoring (tblEvaluation). */
+export const evaluations = pgTable(
+  'evaluations',
+  {
+    id: pk(),
+    interviewId: uuid('interview_id').notNull().references(() => interviews.id, { onDelete: 'cascade' }),
+    candidateId: uuid('candidate_id').notNull().references(() => candidates.id, { onDelete: 'cascade' }),
+    evaluatorEmployeeId: uuid('evaluator_employee_id'),
+    score: doublePrecision('score'),
+    maxScore: doublePrecision('max_score').notNull().default(100),
+    strengths: text('strengths'),
+    weaknesses: text('weaknesses'),
+    recommendation: text('recommendation'), // hire|hold|reject
+    ...auditColumns,
+  },
+  (t) => ({ interviewIdx: index('evaluations_interview_idx').on(t.interviewId) }),
+);
+
+/** EE recruitment targets (tblRecruitmentTarget). */
+export const recruitmentTargets = pgTable(
+  'recruitment_targets',
+  {
+    id: pk(),
+    eeGroupId: uuid('ee_group_id').references(() => eeGroups.id),
+    periodYear: integer('period_year').notNull(),
+    targetCount: integer('target_count').notNull().default(0),
+    achievedCount: integer('achieved_count').notNull().default(0),
+    ...auditColumns,
+  },
+  (t) => ({ periodIdx: index('recruitment_targets_period_idx').on(t.periodYear) }),
+);
+
+export type RecruitmentRequest = typeof recruitmentRequests.$inferSelect;
+export type Candidate = typeof candidates.$inferSelect;
+export type Interview = typeof interviews.$inferSelect;
+export type InterviewLead = typeof interviewLeads.$inferSelect;
+export type Evaluation = typeof evaluations.$inferSelect;

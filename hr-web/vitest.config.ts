@@ -10,6 +10,11 @@ export default defineConfig({
     globals: true,
     include: ['**/*.test.ts'],
     pool: 'forks',
-    testTimeout: 20000,
+    // PGlite spins up a fresh embedded Postgres (WASM) per test; under full
+    // parallelism the setup hook needs headroom, and capping forks reduces
+    // simultaneous WASM compiles so each instance starts faster.
+    testTimeout: 30000,
+    hookTimeout: 60000,
+    poolOptions: { forks: { maxForks: 4, minForks: 1 } },
   },
 });

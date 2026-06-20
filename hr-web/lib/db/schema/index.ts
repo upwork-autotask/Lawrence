@@ -10,4 +10,9 @@ export * from './employees';
 export * from './leave';
 export * from './disciplinary';
 
+// Phase 2 — talent
+export * from './performance';
+export * from './job-descriptions';
+export * from './training';
+
 // Later phases append their schema exports here as modules are built.

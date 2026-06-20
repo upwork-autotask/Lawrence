@@ -8,6 +8,13 @@
       "when": 1781888544778,
       "tag": "0000_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781890089730,
+      "tag": "0001_phase2_talent",
+      "breakpoints": true
     }
   ]
 }
