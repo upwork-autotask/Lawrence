@@ -201,3 +201,28 @@ export type TrainingExternalRow = {
   notes: string | null;
   updatedAt: string;
 };
+
+export type QuizQuestionCreate = z.infer<typeof QuizQuestionCreate>;
+export type QuizQuestionUpdate = z.infer<typeof QuizQuestionUpdate>;
+export type QuizAnswerCreate = z.infer<typeof QuizAnswerCreate>;
+export type QuizAnswerUpdate = z.infer<typeof QuizAnswerUpdate>;
+
+export type QuizQuestionRow = {
+  id: string;
+  trainingId: string;
+  question: string;
+  kind: string;
+  points: number;
+  sortOrder: number;
+  explanation: string | null;
+  updatedAt: string;
+};
+
+export type QuizAnswerRow = {
+  id: string;
+  questionId: string;
+  answerText: string;
+  isCorrect: boolean;
+  sortOrder: number;
+  updatedAt: string;
+};
