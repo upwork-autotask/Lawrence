@@ -1,0 +1,6 @@
+ID,EmployeeName,Admin,Editior,User,UserName,Password,Level
+4,6,False,False,True,Ad,ad,Level 3 User
+7,15,True,False,False,Admin,Admin,Admin
+8,3,True,True,False,Keservan,JHBSHEQ,
+9,2,False,False,False,Graeme,123,Level 1 User
+10,1025,False,False,False,Wendy,123,Level 2 User

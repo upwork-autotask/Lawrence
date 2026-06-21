@@ -1,0 +1,26 @@
+CostofSaleID,CostOfSale,Code
+1,Labour,205
+2,Fuel,210
+3,Nets and tarps,215
+4,Depreciation,225
+5,Labour Support,230
+6,Maintenance Repairs,235>212
+7,Maintenance,235
+8,Maintenance Contracts,236
+9,Maintenance Equipment,237
+10,COS Drums,238
+11,COS Wheelie Bins,239
+12,Oils & Lubes,240
+13,Diesel,243
+14,Tyres,245
+15,Accident Damages,247
+16,Fines,248
+17,Licences,250
+18,Insurance,255
+19,Radios & Tracking,258
+20,Supervision,265
+21,Consumables,270
+22,Vehicle Hire,272
+23,Uniforms ,274
+24,Management fee,278
+25,Disposal (sub per supplier),280

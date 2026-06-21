@@ -1,0 +1,25 @@
+DepID,DepName
+1,Logistics
+2,Material Recycling
+3,Treatment Plant
+4,Safe Destruction Facility
+5,Organic waste
+6,Sales
+7,Onsite contracts
+8,Administration
+9,Out-soured 
+10,Alternate Fuel
+11,Hazardous Waste facility
+12,Laboratory
+13,SHEQ Department
+14,Compliance
+15,All departments (EXCO)
+16,Recyler/Disposal Site
+17,Technical (EXCO)
+18,Site
+19,Business Operational Risk- External
+20,Business Operational Risk - Internal
+21,Outsourced Process Risk
+22,Operations 
+23,Technical
+24,Finance

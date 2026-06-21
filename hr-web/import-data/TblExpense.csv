@@ -1,0 +1,5 @@
+ExpenseID,EmployeeID,Region,Department,DateOfClaim,PeriodClaimStartDate,PeriodClaimEndDate,ExpenseCategory,DepotID,CostOfSaleID,ActivitiesID,OverheadsID,CostExVAT,VAT,SignedOn,FIles,RefNo,ListTextItems,Merge,VATAmount,TotalAmount,MangerApproval,ApprovedBy,SignedBy
+1,940,2,6,2026-05-04 00:00:00,2026-05-01 00:00:00,2026-05-31 00:00:00,2,1,13,11,11,100000000,0.15,2026-05-10 00:00:00,1,1,Accomodatin,0 243 711 335,0.0,0,Approved,Roxanne,
+2,929,2,3,2026-05-14 00:00:00,,,2,1,13,13,10,1000000000,0.0,,4,,,0 243 713 330,0.0,0,,,
+3,929,1,1,2026-05-09 00:00:00,,,1,2,11,12,15,[],0.0,,6,,,10 239 712 350,0.0,0,,,
+4,939,2,4,,,,1,2,14,13,14,[],0.0,,7,,,10 245 713 345,0.0,0,,,

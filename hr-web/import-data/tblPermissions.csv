@@ -1,0 +1,65 @@
+Admin,UserLevel1,UserLevel2,UserLevel3,PermitID,ScreenName
+False,False,False,False,1,Employee Details Form
+False,False,False,False,2,Employee List
+False,False,False,False,3,Region Entry Form
+False,False,False,False,4,Deparment Entry Form
+False,False,False,False,5,Job Description Entry Form
+False,False,False,False,6,Job Title Entry Form
+False,False,False,False,7,KPI Category Entry Form
+False,False,False,False,8,Nature of Offence Entry Form
+False,False,False,False,19,Activities Entry Form
+False,False,False,False,21,Actual Recuitment
+False,False,False,False,22,Actual Recuitment Register
+False,False,False,False,23,CAR SCHEME REIMBURSEMENT CLAIM FORM
+False,False,False,False,25,CLAIM APPROVAL
+False,False,False,False,26,CLAIM APPROVAL HISTORY
+False,False,False,False,27,Claim History
+False,False,False,False,28,Cost of Sales Entry Form
+False,False,False,False,29,Crtitical Skills Form
+False,False,False,False,30,Crtitical Skills Register
+False,False,False,False,31,Depot Entry Form
+False,False,False,False,32,Individual Development
+False,False,False,False,33,Individual Developement Register
+False,False,False,False,34,Disciplinary Form
+False,False,False,False,35,Disciplianry Action  Entry Form
+False,False,False,False,36,Disciplinary Action  Form
+False,False,False,False,37,E-FORMS DASHBOARD
+False,False,False,False,40,Employee Performance Form
+False,False,False,False,41,Employee Performance List
+False,False,False,False,42,New Employee Take On
+False,False,False,False,43,Evaluation Form
+False,False,False,False,44,Evaluation Register
+False,False,False,False,45,Employee Exit form
+False,False,False,False,46,Register of Employee Exit form
+False,False,False,False,47,Expense  Category Entry Form
+False,False,False,False,48,Expense Entry Form
+False,False,False,False,49,Expense List
+False,False,False,False,50,Grading Form
+False,False,False,False,51,Grading Register
+False,False,False,False,52,Recruitment Interview
+False,False,False,False,53,Recruitment Interview Register
+False,False,False,False,54,Internal Training Results Register
+False,False,False,False,55,JD& KPI DASHBOARD
+False,False,False,False,59,Leave Entry Form
+False,False,False,False,60,Leave List
+False,False,False,False,61,Login Users
+False,False,False,False,63,New Employee List
+False,False,False,False,64,Overheads Entry Form
+False,False,False,False,65,Recruitment Form
+False,False,False,False,66,EE Target Register
+False,False,False,False,67,EE Target Form
+False,False,False,False,68,Recruitment  List
+False,False,False,False,70,Request for Recruitment
+False,False,False,False,71,Request Register for Recruitment
+False,False,False,False,72,Your result
+False,False,False,False,73,Succession Planner
+False,False,False,False,76,Sucession plan Details
+False,False,False,False,77,Sucession plan Register
+False,False,False,False,78,New Employee Take On Register
+False,False,False,False,79,Training  Main Entry Form
+False,False,False,False,80,Trainings Entry Form
+False,False,False,False,81,All Training List
+False,False,False,False,82,Training Planner
+False,False,False,False,83,Training Register
+False,False,False,False,84,Type Of Leave
+False,False,False,False,85,Take up test

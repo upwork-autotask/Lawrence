@@ -1,0 +1,94 @@
+TrainingID,Attach,Training,TrainingType
+1,1,Induction,Internal Training
+3,2,Company Orientation,Internal Training
+4,3,Deapartmental and Work Orientation,Internal Training
+5,4,Waste Management,Internal Training
+6,5,SOP - Waste Sorting and Speration,Internal Training
+7,6,SOP-Chemical Handling and Decanting,Internal Training
+8,7,General Waste Awareness,Internal Training
+9,8,SOP- Baling,Internal Training
+10,9,SOP- Shredding,Internal Training
+11,10,Hazardous Chemical Substance Awareness and Handling,External Training
+12,11,Dangerous Goods Handling and Transportation,External Training
+13,12,First Aid,External Training
+14,13,ISO - Emergency Prepareness and Response Training,Internal Training
+15,14,ISO-Risk Assessment Training,Internal Training
+16,15,ISO- Spill Containment Training,Internal Training
+17,16,ISO- Use of  Basic Fire Extinguisher Training,Internal Training
+18,17,ISO- Quality Policy Training,Internal Training
+19,18,ISO- Safety  Policy Training,Internal Training
+20,19,ISO-  Environmental Policy Training,Internal Training
+21,20,ISO- Sales Procedure Training,Internal Training
+22,21,SOP - Operatinal Control Procedure,Internal Training
+23,22,SOP- Order Taking and Booking Procedure,Internal Training
+24,23,SOP - Waste Acceptance Procedure,Internal Training
+25,24,SOP - Waste Management Procedure,Internal Training
+26,25,SOP - Hazardous Waste Procedure,Internal Training
+27,26,Hazardous Chemical Agents Training,External Training
+28,27,Legal Liability,External Training
+29,28,Production Management Certificate,External Training
+30,29,Production Management Diploma,External Training
+31,30,ISO 9001- Quality Management,External Training
+32,31,ISO14001- Environmental Management,External Training
+33,32,ISO45001- Safety Management,External Training
+34,33,Logistics Operations -Certficate,External Training
+35,34,Logistics Operations- Diploma,External Training
+36,35,Logistics Operations Degree,External Training
+37,36,Operations Management Diploma,Internal Training
+38,37,Operations Management Degree,External Training
+39,38,Health and Safety Reps Cerficate,External Training
+40,39,Fist Aid Certifcate level 1,External Training
+41,40,First Aid Certifcate- Level 2,External Training
+42,41,First Aid Certifcate- Level 3,External Training
+43,42,Basic Abulance Assistance- Advanced Fist aid- Permenant,External Training
+44,43,Risk Assessment Training,External Training
+45,44,Aspects and Impacts Assessment Training,External Training
+46,45,Confined Space Entry Training,External Training
+47,46,Fire Marshal Training,External Training
+48,47,First Extinguisher Handling Training,External Training
+49,48,Blue Wave Sales Training,Internal Training
+50,49,Blue Wave Operations Training,Internal Training
+51,50,Nimbus Training,Internal Training
+52,51,Logistics Operation Training,Internal Training
+53,52,Driver Training,External Training
+54,53,Hazardous Chemical Substances Training,External Training
+55,54,Dangerous Goods Handling Training,External Training
+56,55,Supervsiory Training,External Training
+57,56,SAMTRAC- Safety Management Training,External Training
+58,57,Environmental Training Certificate,External Training
+59,58,Environmental Management Training - Diploma,External Training
+60,59,Environmental Training- Degree,External Training
+61,60,Analytical Chemistry Diploma,External Training
+62,61,Analytical Chemistry Degree,External Training
+63,62,Business Administration certifcate,External Training
+64,63,Business Administration Diploma,External Training
+65,64,Financial Management Certifcate,External Training
+66,65,Financial Management Diploma,External Training
+67,66,Finanacial Management Degree,External Training
+68,67,Human Resources Certificate,External Training
+69,68,Human Resources Diploma,External Training
+70,69,Human Resources Degree,External Training
+71,70,Sales and Marketing Certificate,External Training
+72,71,Sales and Marketing Diploma,External Training
+73,72,Sales and Marketing Degree,External Training
+74,73,BCOM-Business Adminstration,External Training
+75,74,BCOM -Law Degree,External Training
+76,75,Safety Management Diploma,External Training
+77,76,Safety Management National Diploma,External Training
+78,77,Safety Management Degree,External Training
+79,78,Risk Management Certifcate,External Training
+80,79,Risk Management - Diploma,External Training
+81,80,Negotiations Technique,External Training
+82,81,Contract Writing and Understanding,External Training
+83,82,Manual Handling Training,Internal Training
+84,83,Waste Management Control Officers Training (WMCO),External Training
+85,84,Waste Logistics,Internal Training
+86,85,Waste Manifest,Internal Training
+87,86,Logistics,Internal Training
+88,87,Environmental,Internal Training
+89,88,Safety PPE,Internal Training
+90,89,ISO 9001,Internal Training
+91,90,Administration,Internal Training
+92,91,Waste Compliance,Internal Training
+93,92,Recycling,Internal Training
+94,93,Hazardous Waste Spillage,Internal Training

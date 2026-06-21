@@ -1,0 +1,18 @@
+ID,Status
+1,Directive %
+2,Temporary / Part Time
+3,PSP - Company
+4,PSP - Trust
+5,Independent Contractor
+6,No Tax
+7,Labour Broker - IRP30
+8,Labour Broker - no IRP30
+9,ResNonExecDirector
+10,NonResNonExecDirector(PAYE)
+11,NonResNonExecDirector(Dir%)
+12,NonResNonExecDirector(Temp)
+13,Directive (Director)
+14,No Tax (Director)
+15,PAYE (Director)
+16,Temporary (Director)
+17,Statutory Tables

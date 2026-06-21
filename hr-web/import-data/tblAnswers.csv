@@ -1,0 +1,81 @@
+AnswerID,QueNo,Points,Answer,Sort
+1,1,10,"Collection, Selling, Trading, Billing",A
+2,1,5,"Storage, Accounting, Payroll",B
+3,1,0,"Reduce, Reuse, Recycle, Recovery, Treatment, Disposal",C
+4,3,5,Never,A
+5,2,0,No,A
+6,2,0,Maybe dependant on wether I like him/her,B
+7,2,10,Yes,C
+8,2,5,If I see something I should report it,D
+9,3,0,Only when I am out of the Hazardous Area,B
+10,3,0,When I am tied,C
+11,3,10,Only when I am in a safe area away ffrom Hazards or when I am in my break away from safety Hazard,D
+12,4,0,"I got good relationship with him/her, I must help",A
+13,4,10," I will advise him that I am not trained to work on the machine. I will say  No I cant do it, I will advise him to switch the machin off , make it safe, go to the bathroom and come back .",B
+14,4,0,Don t Assist him or go near him at all,C
+15,4,5,Ask his supervisor to assit him or reliev him,D
+16,5,0,Yes sure why not,A
+17,5,5,Maybe if I had my license and it was an emergency,B
+18,5,0,"Production is being lost, that affects the company, so yes I will .",C
+19,5,10,"No, I am not licensed, not authorised and even if it s an emergency I would not do it.",D
+20,6,0,"Leave it it will go off, its small and I am here.",A
+21,6,5,Leave it and call you fire mashall,B
+22,6,5,Tramp it down and carryone,C
+23,6,10,"Apply my fire training, control eth spread if I can, while shouting for help, if I am trainedusing the fire exstinguisher, I out it off.",D
+24,1,0,"Procurement, Marketing, Advertising",D
+25,7,0,"To control, track and trace waste within legal compliance requirements from generator to disposal and keep records",A
+26,7,0,Delivery note to confirm goods were sold,B
+27,7,0,Employee attendance register,c
+28,7,0,Financial audit report,D
+29,8,0,Safe and compliant movement of waste from generator to treatment/disposal facility,A
+30,8,0,Transporting employees to work,B
+31,8,0,Managing office supplies,C
+32,8,0,Financial record keeping,D
+33,9,0,To track hazardous waste from generator to final disposal facility,A
+34,9,0,To record employee attendance,B
+35,9,0,To record fuel consumption,C
+36,9,0,To record product sales,D
+37,10,0,"Waste generator, transporter, and disposal facility",A
+38,10,0,Only the truck driver,B
+39,10,0,Only the waste generator,C
+40,10,0,Only the government inspector,D
+41,11,10,To prevent pollution and protect the environment,A
+42,11,0,To increase sales revenue,B
+43,11,0,To manage employee leave,C
+44,11,0,To increase production,D
+45,12,10,Report immediately and follow spill response procedures,A
+46,12,0,Ignore the spill,B
+47,12,0,Wash it down a drain,C
+48,12,0,Cover it with soil,D
+49,13,10,Report immediately and follow spill response procedures,A
+50,13,0,Ignore the spill,B
+51,13,0,Wash it down a drain,C
+52,13,0,Cover it with soil,D
+53,14,10,To ensure quality management and continuous improvement,A
+54,14,0,To regulate taxes,B
+55,14,0,To manage employee salaries,C
+56,14,0,To track fuel usage,D
+57,15,10,Managing and updating official company documents and procedures,A
+58,15,0,Controlling employee behaviour,B
+59,15,0,Controlling stock deliveries,C
+60,15,0,Managing waste bins,D
+61,16,10,Waste collection note or manifest,A
+62,16,0,Invoice only,B
+63,16,0,Payroll record,C
+64,16,0,Bank statement,D
+65,17,10,To provide legal proof and compliance records,A
+66,17,0,To decorate office files,B
+67,17,0,To reduce transport costs,C
+68,17,0,To increase advertising,D
+69,18,10,National Environmental Management: Waste Act,A
+70,18,0,Labour Relations Act,B
+71,18,0,Companies Act,C
+72,18,0,Income Tax Act,D
+73,19,10,Converting waste materials into new usable products,A
+74,19,0,Burning waste,B
+75,19,0,Dumping waste in landfills,C
+76,19,0,Storing waste permanently,D
+77,20,10,Identifying hazards and controlling risks in the workplace,A
+78,20,0,Inspecting employee uniforms,B
+79,20,0,Measuring truck speed,C
+80,20,0,Checking office supplies,D

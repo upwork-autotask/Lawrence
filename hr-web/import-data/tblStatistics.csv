@@ -1,0 +1,24 @@
+Statistics (filter by race,Field2,Field3,Field4
+Region,Race,Gender,count
+KZN,African,Male,1
+KZN,White,Male,1
+KZN,White,Female,1
+KZN,White,Female,1
+KZN,African,Female,1
+KZN,Indian,Female,1
+KZN,Indian,Female,1
+Gauteng,White,Male,1
+Gauteng,African,Female,1
+Gauteng,African,Male,1
+Gauteng,White,Female,1
+Gauteng,White,Female,1
+Gauteng,African,Female,1
+Gauteng,White,Female,1
+Gauteng,Coloured,Male,1
+Gauteng,African,Female,1
+Gauteng,Indian,Male,1
+Gauteng,African,Male,1
+Gauteng,African,Female,1
+Eastern Cape,White,Female,1
+Eastern Cape,Coloured,Male,1
+,,,20

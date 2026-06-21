@@ -1,0 +1,12 @@
+TierID,Tier
+1,Tick applicable reason:
+2,Regulatory risk mitigation (Tier 1)
+4,Operational risk mitigation  (Tier 1)
+7,Leadership continuity (Tier 2)
+8,Organisational growth (Tier 2)
+9,Transformation alignment (Tier 2)
+10,Internal promotion strategy (Tier 2)
+11,Governance continuity (Tier 3)
+12,Strategic direction (Tier 3)
+13,Long-term sustainability (Tier 3)
+14,Institutional knowledge retention (Tier 3)

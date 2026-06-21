@@ -1,0 +1,109 @@
+QueID,Score,Que,Ans,Head
+1,0,Do you know the EE target? if you don’t Please ask,,EE
+2,,Is this candate over -represenation of under -representation ? (if under choose one(10 points) if over choose (0),,EE
+3,10,African Female,,EE
+4,0,African Male,,EE
+5,0,Couloured Female,,EE
+6,0,Coloured Male,,EE
+7,0,Indian Female,,EE
+8,0,Indian Male,,EE
+9,0,White Female,,EE
+10,0,White male,,EE
+11,,Foreigner ,,EE
+12,5,Is the candiate disabled  or Not (0 not) (5 disabled),,EE
+13,5,"Do you have a qualification?:
+Do you have certified copies? Must!
+Honors/Masters/PhD -NQF 8 and above (score 5)
+Degree/ Diploma National -NQF 7 (N5-6) (score 4)
+Diploma/Certifcate- NQF 6 (N4) (score 3)
+Certificate /Matric- NQF 5 (N3) (score 2)",,Qualification
+15,4,"Is the qualification relavant to the position? State why (score 4-5)
+Is the qualification partially releavnt to the position- state why (score 2-3)
+The qualification not relvant - state why (score 1-2)",,Qualification
+17,3,"Have you completed any related short courses? 
+Is there certified certificates?
+Are they relevant to job needs?
+List &  explain? (Give a point for every one that is relavant. I.e HCS,DGD, H&S,FIRE,First Aid..",,Qualification
+19,0,"Are you computer literate? i.e. Microsoft office or equivalent & how advanced are you?.
+Entry level (score 1-2)
+Intermediate (score 3-4) must have certificate
+Advanced or super user (score 5) must have certificate",,Qualification
+21,0,"Did you complete any ISO or any other management system training ;i.e. ISO 9001, ISO 45001, ISO 14001, HACCP, TS,GMP?
+Certificated - (Score 3-5 )
+Awareness certificate - (1-2)",,Qualification
+23,0,"Purpose: Interaction, Expereince Relevance and Job hopng:
+Tell us about your previous roles and key responsibilities. 
+Last 1 -3 jobs, 
+From what year to year?
+What was the KPIs?
+Why did you leave?",,Experience
+25,3,"Purpose: Core technical/functional ability (adapt per role)
+You read the JD, Explain what you think this roles is about?
+What are the key skills required for this role, and how have you applied them?
+Walk me through how you would handle a typical task in this position.
+How do you ensure quality and accuracy in your work?
+Describe a time you had to learn a new skill quickly.",,Experience
+27,0,"Describe a challenging situation at work and how you handled it? (Check for process driven methods) ask leading questions:
+Have you ever controlled resources? Labour,Finances,Plants & Equipment & infrastructure? Ask leading questions:
+Detailed Explaination (score 4- 5)
+Average explaination (score 3-4)
+Vaguely explained (score (1-2)",,Experience
+29,0,"Purpose:SHEQ/Compliance  Awareness
+What does safety mean in your role?
+Have you ever identified a risk or non-compliance issue? 
+What did you do?
+How do you ensure you follow procedures and standards?
+Have you worked under any compliance frameworks or policies?
+What is an non conformance is?. Ask leading question on the process(containment, rootcause, preventativ measures) give example of experience you enounted.",,Experience
+31,1,"Purpose: IT Systems literacy and adaptability
+Have you completed or attended any  appliacble training? i.e
+Bluwave/CRM/SAP/Pastel/Sypro/Barn/Fortshift
+What systems or software have you worked with?
+How comfortable are you learning new systems?
+Can you describe how you’ve used a system to improve efficiency or reporting?
+Have you worked with any CRM or data management tools",,Experience
+33,3,"Explain what you know about Oricol? (what do we do, What is our MOTTO)
+ (score 1-3)
+Do you have any other information or expereince in waste management ? 
+Is the experience relavant to the position? State why
+Is the experience partially releavant to the position- state why (score 2-3)
+If the expereince is not relvant to the role - state why (score 1-2)",,Experience
+35,5,"How do you handle pressure or tight deadlines? Please explain?
+0–2: Poor coping / misaligned
+3–4: Acceptable
+5: Strong mindset",,Psychology
+37,0,"What motivates you at work? Look for clear identification Score each area with one point but if candidate explains on a particular point give more points)
+Good manager?
+Clear instructions and job SOP?
+Work environment ?
+The job its self?",,Psychology
+39,2,"How do you respond to  criticism or correction?
+Is there a defencive approach? (score 1-2)
+I will correct whatever is wrong?(score 3)
+The candiate first diagnoses the criticism or the correction, checks it validaity and accuracy and responds appropriately. (score 4-5)",,Psychology
+41,0,"Q4: You receive conflicting instructions from  your manager, Regional Manager, Compliance and Technical  Manager. How do you handle it?
+Listen to may manager only (score 1-3)
+Explain my manager what has happened and ask them to intevene addressing the other managers. (score 3-5)
+I see this as conflicting I would if I am allowed to, call a meeting and discuss the confussion. (score 3-5)",,Psychology
+43,0,"What type of work environment do you perform best in?
+Slow controlled  (score 1-3)
+Medium to low paced (Score 3-4)
+High paced enviroment (score 4-5)",,Cultural Fit
+45,3,"Describe how you build relationships with difficult peers, allies, subordinates and or senior manager? (score per point)
+Offer Support Proactively
+Share credit
+Avoid Offcie gossip
+Connect outside of task
+Listening
+Public praise",,Cultural Fit
+47,0,"How do you handle working in a team with different personalities?
+I don’t care about the personalities , work is work, I don’t tolerate pernality issue. (score 1-3)
+Understanding my team members and handling them according to their personalities. (score 4-5)",,Cultural Fit
+49,1,"What values are important to you in a workplace? Score per point)
+Mutal Respect
+Honesty and Integrity
+Accountability and Responsibility 
+Autonomy
+Loyalty",,Cultural Fit
+51,0,"How do you ensure compliance with policies and procedures even when under pressure? Ask challenge Questions
+Company procedures and polcies are important , it is the drive of the company, it documents the process to follow taking into considration (SHEQ, Legal and businss Risk)",,Cultural Fit

@@ -1,0 +1,90 @@
+JobTitleID,JobTitle,Job_code
+1,Chief Executive Officer,CEO
+2,Chief Operating Officer,COO
+3,Technical Manager,TECM
+4,Regional Manager,REGM
+5,Finance Manager,FINM
+6,Compliance Manager,COMP_M
+7,Logistics Manager,LOGMAN
+8,Sales Manager,SALM
+9,Sales Team leader,STL / STLDR
+10,Sales consultant,SALCON
+11,Admin Clerk,ADMCL
+12,Fleet Controller,FC
+13,Adminstrative Clerk,ADCLK
+14,Onsite Contracts Manager,OCM
+15,Integrated  Contracts Supervisor,ICSUP
+16,Integrated Contract Team Leader,ICTL
+17,Administration Manager,ADMM
+18,Administration Supervisor,ADMS
+19,Admin,ADMIN
+20,SHEQ officer,SHEQ
+21,Debtors clerk,DCLERK
+22,Finance Administrator,FINADM
+23,Hazardous Waste Controller,HWC
+24,EC Driver,ECDR
+25,Facilities Supervisor,FS
+26,Depo Supervisor,DEPSUP
+27,Hazardous waste manager,HWM
+28,Depo Manager,DEPM
+29,Lab Technician,LABTECH
+30,Waste Control Officer,WCO
+31,System Administrator (ERF),SYSADM
+32,Depo Supervisor,DEPSUP
+33,Driver Rollon,DRROLL
+34,Driver,DRIVER
+35,Disposal Administrator,DISPADM
+36,Truck assistant,TRASS
+37,Equipment Operator,EOP
+38,Foklift operator,FLTOP
+39,General worker,GW
+40,Logistics Admin,LOGADM
+41,Driver -4 tonner,DR4T
+42,4 Tonner Vehchle Assitant,4TVA
+43,Admin Team Leader,ATL
+44,Area Supervisor,ARSUP
+45,Rollon Assitant,ROLAS
+46,Bin Washer,BINWAS
+47,Cleaner,CLEAN
+48,Code 14 - Driver With DGP,C14DR DGP
+49,Code 14 Driver,C14DR / CDR
+50,Compost Site Team Leader,CSTL
+51,Driver Assistant,DRVASS
+52,Executive Chairman,EC
+53,Forklift Driver,FKDR
+54,Forklift Driver/Sorter,FKDS
+55,Forklift Operator /Team Leader,FOTL
+56,General Forklift Driver,GFD
+57,Floating Driver,FLDR
+58,Generalist Trainees,GENTRN
+59,General Worker/Sorter,GWS
+60,General Worker/Machine Operator,GWMO
+61,Green Guard/ General Worker,GGGW
+62,LDV Driver,LDV DR
+63,Internal Sales,INTSAL
+64,LTP Team Leader,LTPTL
+65,Lab Assistance,LABAS
+66,Junior Accountant,JACC
+67,Marketing Officer,MOFF
+68,On Site Supervisor,ONSUP
+69,Machine Operator,MACOPP
+70,Operator,OPER
+71,Recycling Supervisor,RECSUP / RSUP
+72,MRF Manager,MRFM
+73,Site Supervisor,SITESU / STSUP
+74,Skip Driver,SKDR
+75,Skip Assistant,SKIPAS
+76,Supervisor,SUP
+77,Site Team Leader,STML / STEAML
+78,Safe Disposal Supervisor,SDSUP
+79,Sales Consultant,SALCON
+80,Sales Representative,SALES
+81,Sales Administrator,SAA
+82,Warehouse Supervisor,WS
+83,Weigh Bridge Operator,WBO
+84,Team Leader,TM / T_LEAD
+85,Tow Motor Operator,TMOP
+86,Weight Brdieg Security,WBS
+87,Tea Lady,TEA LD
+88,Technical Admin Officer,TAO
+89,Treament Plant Admin,TPA

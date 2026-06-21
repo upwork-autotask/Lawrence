@@ -1,0 +1,11 @@
+ID,EmployeeID,Skills,BookingDate,TrainingStartDate,TrainingEndDate,Quote,PP,Certificate,EmployeeEmail,TypeOfTraining,Status,Name of training program,Educational Institute Name,TrainingLocation,Registration,NQF Rating,Notes,Approvers Email,ApproversName,Finance,Purchase Order
+24,1137,34,2024-05-07 00:00:00,2023-09-19 00:00:00,2023-10-25 00:00:00,1,1,1,,Internal Training,Planned,Supervisory,Production Management Institute,Queensburg,,5,,lawrence.nundkissor@oricoles.co.za,Lawrence,,
+25,5,32,,,,2,2,2,,External Training,Incomplete,,,,,,,,,,
+26,4,41,,,,3,3,3,,External Training,Completed,,,,,,,,,,
+27,2,50,,,,4,4,4,,Internal Training,Pending,,,,,,,,,,
+28,15,1,,,,5,5,5,,Internal Training,,Induction,,,,,,,,,
+29,2,5,,,,6,6,6,,Internal Training,,Waste Management,,,,,,,,,
+30,2,,,,,7,7,7,,,,Blue Wave Operations Trai,,,,,,,,,
+31,2,1,,,,8,8,8,,Internal Training,,Induction,,,,,,,,,
+32,15,1,,,,9,9,9,,Internal Training,,Induction,,,,,,,,,
+33,15,9,,,,10,10,10,,Internal Training,,SOP- Baling,,,,,,,,,
