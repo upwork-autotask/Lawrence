@@ -1,8 +1,9 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, PanelRightOpen } from 'lucide-react';
 import { developmentApi } from '@/lib/api/development-client';
 import { employeesApi } from '@/lib/api/resources';
 import type { DevelopmentPlanRow } from '@/lib/api/contracts/development';
@@ -10,7 +11,7 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { DevelopmentForm } from '@/components/development/development-form';
 import { titleCase, pluralize } from '@/lib/format';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
@@ -93,6 +94,13 @@ export default function DevelopmentPage() {
                 <TD><Badge tone={statusTone[plan.status] ?? 'gray'}>{titleCase(plan.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
+                    <Link
+                      href={`/development/${plan.id}`}
+                      aria-label="Details"
+                      className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+                    >
+                      <PanelRightOpen className="h-4 w-4" />
+                    </Link>
                     {canWrite && (
                       <Button variant="ghost" size="icon" onClick={() => setEditing(plan)} aria-label="Edit">
                         <Pencil className="h-4 w-4" />

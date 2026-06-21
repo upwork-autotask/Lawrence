@@ -1,15 +1,16 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, ListTree } from 'lucide-react';
 import { jdApi } from '@/lib/api/job-descriptions-client';
 import type { JdRow } from '@/lib/api/contracts/job-descriptions';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { JdForm } from '@/components/job-descriptions/jd-form';
 import { titleCase, pluralize } from '@/lib/format';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
@@ -64,7 +65,7 @@ export default function JobDescriptionsPage() {
         <Table>
           <THead>
             <TR>
-              <TH>Title</TH><TH>Version</TH><TH>Reports to</TH><TH>Status</TH><TH className="w-24"></TH>
+              <TH>Title</TH><TH>Version</TH><TH>Reports to</TH><TH>Status</TH><TH className="w-32"></TH>
             </TR>
           </THead>
           <TBody>
@@ -79,6 +80,13 @@ export default function JobDescriptionsPage() {
                 <TD><Badge tone={statusTone[jd.status] ?? 'gray'}>{titleCase(jd.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
+                    <Link
+                      href={`/job-descriptions/${jd.id}`}
+                      className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+                      aria-label="Details"
+                    >
+                      <ListTree className="h-4 w-4" />
+                    </Link>
                     {canWrite && (
                       <Button variant="ghost" size="icon" onClick={() => setEditing(jd)} aria-label="Edit">
                         <Pencil className="h-4 w-4" />

@@ -1,8 +1,9 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, PanelRightOpen } from 'lucide-react';
 import { requestsApi } from '@/lib/api/recruitment-client';
 import { lookupsApi } from '@/lib/api/resources';
 import type { RequestRow } from '@/lib/api/contracts/recruitment';
@@ -10,7 +11,7 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { RequestForm } from '@/components/recruitment/request-form';
 import { titleCase, pluralize } from '@/lib/format';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
@@ -102,6 +103,13 @@ export default function RecruitmentPage() {
                 <TD><Badge tone={statusTone[request.status] ?? 'gray'}>{titleCase(request.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
+                    <Link
+                      href={`/recruitment/${request.id}`}
+                      className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+                      aria-label="Details"
+                    >
+                      <PanelRightOpen className="h-4 w-4" />
+                    </Link>
                     {canWrite && (
                       <Button variant="ghost" size="icon" onClick={() => setEditing(request)} aria-label="Edit">
                         <Pencil className="h-4 w-4" />
