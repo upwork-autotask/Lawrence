@@ -9,7 +9,7 @@ import type { DevelopmentPlanRow } from '@/lib/api/contracts/development';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { DevelopmentForm } from '@/components/development/development-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -66,7 +66,7 @@ export default function DevelopmentPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Development</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} plans</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'plan')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

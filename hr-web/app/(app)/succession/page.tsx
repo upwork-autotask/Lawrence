@@ -9,7 +9,7 @@ import type { CriticalRoleRow } from '@/lib/api/contracts/succession';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { CriticalRoleForm } from '@/components/succession/critical-role-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -66,7 +66,7 @@ export default function SuccessionPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Succession</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} critical roles</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'critical role')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

@@ -10,7 +10,7 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { PerformanceForm } from '@/components/performance/performance-form';
 import { KpiForm } from '@/components/performance/kpi-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -92,7 +92,7 @@ export default function PerformancePage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Performance</h1>
-            <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} reviews</p>
+            <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'review')}</p>
           </div>
           {canWrite && (
             <Button onClick={() => setEditing(null)}>
@@ -147,7 +147,7 @@ export default function PerformancePage() {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold tracking-tight">KPI catalogue</h2>
-            <p className="text-sm text-muted-foreground">{options.data?.kpis.length ?? 0} KPIs across {options.data?.categories.length ?? 0} categories</p>
+            <p className="text-sm text-muted-foreground">{pluralize(options.data?.kpis.length ?? 0, 'KPI')} across {pluralize(options.data?.categories.length ?? 0, 'category', 'categories')}</p>
           </div>
           {canWrite && (
             <Button variant="outline" onClick={() => setEditingKpi(null)}>

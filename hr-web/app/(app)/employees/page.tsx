@@ -8,7 +8,7 @@ import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { EmployeeForm } from '@/components/employees/employee-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -53,20 +53,21 @@ export default function EmployeesPage() {
   const lookups = useQuery({
     queryKey: ['employee-lookups'],
     queryFn: async () => {
-      const [d, j, r] = await Promise.all([
-        lookupsApi.list('departments'), lookupsApi.list('jobTitles'), lookupsApi.list('regions'),
+      const [d, j, r, dp] = await Promise.all([
+        lookupsApi.list('departments'), lookupsApi.list('jobTitles'), lookupsApi.list('regions'), lookupsApi.list('depots'),
       ]);
       return {
         departments: d.ok ? d.value.items : [],
         jobTitles: j.ok ? j.value.items : [],
         regions: r.ok ? r.value.items : [],
+        depots: dp.ok ? dp.value.items : [],
       };
     },
   });
 
   const canWrite = can(me, Permissions.EmployeeWrite);
   const canDelete = can(me, Permissions.EmployeeDelete);
-  const deptName = (id: string | null) => lookups.data?.departments.find((d) => d.id === id)?.name ?? '—';
+  const depotName = (id: string | null) => lookups.data?.depots.find((d) => d.id === id)?.name ?? '—';
 
   async function onDelete(emp: EmployeeRow) {
     if (!confirm(`Delete ${emp.firstName} ${emp.surname}?`)) return;
@@ -85,7 +86,7 @@ export default function EmployeesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Employees</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} records</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'record')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>
@@ -103,7 +104,7 @@ export default function EmployeesPage() {
         <Table>
           <THead>
             <TR>
-              <TH>No.</TH><TH>Name</TH><TH>Department</TH><TH>Status</TH><TH className="w-24"></TH>
+              <TH>No.</TH><TH>Name</TH><TH>Depot</TH><TH>Status</TH><TH className="w-24"></TH>
             </TR>
           </THead>
           <TBody>
@@ -114,7 +115,7 @@ export default function EmployeesPage() {
               <TR key={emp.id}>
                 <TD className="font-mono text-xs">{emp.employeeNumber}</TD>
                 <TD className="font-medium">{emp.firstName} {emp.surname}</TD>
-                <TD>{deptName(emp.departmentId)}</TD>
+                <TD>{depotName(emp.depotId)}</TD>
                 <TD><Badge tone={statusTone[emp.employmentStatus] ?? 'gray'}>{titleCase(emp.employmentStatus)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">
@@ -139,7 +140,7 @@ export default function EmployeesPage() {
       {total > pageSize && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {pageCount} · {total} records
+            Page {page} of {pageCount} · {pluralize(total, 'record')}
           </p>
           <div className="flex gap-2">
             <Button

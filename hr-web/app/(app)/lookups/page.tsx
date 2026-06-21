@@ -8,6 +8,7 @@ import type { LookupRow } from '@/lib/api/contracts/lookups';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { LookupForm } from '@/components/lookups/lookup-form';
+import { pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
@@ -61,7 +62,7 @@ export default function LookupsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Lookups</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} values</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'value')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

@@ -8,7 +8,7 @@ import type { UserRow } from '@/lib/api/contracts/users';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { UserForm } from '@/components/users/user-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +57,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Users</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} accounts</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'account')}</p>
         </div>
         {canManage && (
           <Button onClick={() => setEditing(null)}>

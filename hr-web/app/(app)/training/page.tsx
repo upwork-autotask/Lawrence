@@ -8,7 +8,7 @@ import type { TrainingRow } from '@/lib/api/contracts/training';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { TrainingForm } from '@/components/training/training-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -50,7 +50,7 @@ export default function TrainingPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Training</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} courses in the catalogue</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'course')} in the catalogue</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { auditApi } from '@/lib/api/audit-client';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
@@ -35,7 +35,7 @@ export default function AuditPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Audit log</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} entries</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'entry', 'entries')}</p>
         </div>
         <div className="w-56">
           <Select value={entityType} onChange={(e) => setEntityType(e.target.value)}>

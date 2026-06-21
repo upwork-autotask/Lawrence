@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { expensesApi, expenseCategoriesApi } from '@/lib/api/expenses-client';
 import { employeesApi } from '@/lib/api/resources';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import type { ExpenseRow } from '@/lib/api/contracts/expenses';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
@@ -77,7 +77,7 @@ export default function ExpensesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Expenses</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} claims</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'claim')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

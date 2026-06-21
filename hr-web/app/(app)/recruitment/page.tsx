@@ -9,7 +9,7 @@ import type { RequestRow } from '@/lib/api/contracts/recruitment';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { RequestForm } from '@/components/recruitment/request-form';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
@@ -73,7 +73,7 @@ export default function RecruitmentPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Recruitment</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} requisitions</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'requisition')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

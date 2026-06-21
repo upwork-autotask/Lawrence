@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { exitRecordsApi, exitReasonsApi } from '@/lib/api/exit-client';
 import { employeesApi } from '@/lib/api/resources';
-import { titleCase } from '@/lib/format';
+import { titleCase, pluralize } from '@/lib/format';
 import type { ExitRecordRow } from '@/lib/api/contracts/exit';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
@@ -73,7 +73,7 @@ export default function ExitPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Exit</h1>
-          <p className="text-sm text-muted-foreground">{list.data?.total ?? 0} exit records</p>
+          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'exit record')}</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>

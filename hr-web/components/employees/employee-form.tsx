@@ -13,7 +13,7 @@ import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
-type Lookups = { departments: LookupRow[]; jobTitles: LookupRow[]; regions: LookupRow[] };
+type Lookups = { departments: LookupRow[]; jobTitles: LookupRow[]; regions: LookupRow[]; depots: LookupRow[] };
 const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 
 /** Form values are all strings (HTML inputs); Zod coerces dates/uuids on submit. */
@@ -21,7 +21,7 @@ type FormValues = {
   employeeNumber: string; firstName: string; surname: string; knownAs: string;
   email: string; phoneMobile: string; idNumber: string; dateOfBirth: string;
   gender: string; hireDate: string; employmentStatus: string;
-  departmentId: string; jobTitleId: string; regionId: string; notes: string;
+  departmentId: string; jobTitleId: string; regionId: string; depotId: string; notes: string;
 };
 
 export function EmployeeForm({
@@ -50,6 +50,7 @@ export function EmployeeForm({
       departmentId: employee?.departmentId ?? '',
       jobTitleId: employee?.jobTitleId ?? '',
       regionId: employee?.regionId ?? '',
+      depotId: employee?.depotId ?? '',
       notes: employee?.notes ?? '',
     },
   });
@@ -105,6 +106,12 @@ export function EmployeeForm({
           <Select {...form.register('regionId')}>
             <option value="">—</option>
             {lookups.regions.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </Select>
+        </F>
+        <F label="Depot" error={err.depotId?.message}>
+          <Select {...form.register('depotId')}>
+            <option value="">—</option>
+            {lookups.depots.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
           </Select>
         </F>
       </div>
