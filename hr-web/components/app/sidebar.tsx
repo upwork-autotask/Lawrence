@@ -6,12 +6,20 @@ import { NAV } from '@/lib/nav';
 import { cn } from '@/lib/cn';
 import type { MeResponse } from '@/lib/api/contracts/auth';
 
-export function Sidebar({ me }: { me: MeResponse }) {
+export function Sidebar({
+  me,
+  className,
+  onNavigate,
+}: {
+  me: MeResponse;
+  className?: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const perms = new Set(me.permissions);
 
   return (
-    <aside className="flex w-60 flex-col border-r bg-card">
+    <aside className={cn('flex w-60 flex-col border-r bg-card', className)}>
       <div className="flex h-14 items-center border-b px-6 font-semibold tracking-tight">HR&nbsp;System</div>
       <nav className="flex-1 space-y-6 overflow-y-auto p-4">
         {NAV.map((group) => {
@@ -30,6 +38,7 @@ export function Sidebar({ me }: { me: MeResponse }) {
                     <li key={item.href}>
                       <Link
                         href={item.href}
+                        onClick={onNavigate}
                         className={cn(
                           'flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors',
                           active ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-accent',

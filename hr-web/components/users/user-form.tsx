@@ -9,7 +9,7 @@ import type { RoleOption } from '@/lib/api/users-client';
 import { usersApi } from '@/lib/api/users-client';
 import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Select } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
@@ -69,29 +69,29 @@ export function UserForm({
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
       <div className="grid grid-cols-2 gap-4">
-        <F label="Full name" error={err.fullName?.message}><Input {...form.register('fullName')} /></F>
-        <F label="Username" error={err.username?.message}>
+        <FormField label="Full name" error={err.fullName?.message}><Input {...form.register('fullName')} /></FormField>
+        <FormField label="Username" error={err.username?.message}>
           <Input {...form.register('username')} disabled={isEdit} />
-        </F>
-        <F
+        </FormField>
+        <FormField
           label={isEdit ? 'Reset password (blank = keep current)' : 'Password'}
           error={err.password?.message}
         >
           <Input type="password" autoComplete="new-password" {...form.register('password')} />
-        </F>
-        <F label="Role" error={err.roleId?.message}>
+        </FormField>
+        <FormField label="Role" error={err.roleId?.message}>
           <Select {...form.register('roleId')}>
             <option value="">—</option>
             {roles.map((r) => <option key={r.id} value={r.id}>{titleCase(r.name)}</option>)}
           </Select>
-        </F>
+        </FormField>
         {isEdit && (
-          <F label="Status" error={err.isActive?.message}>
+          <FormField label="Status" error={err.isActive?.message}>
             <Select {...form.register('isActive')}>
               <option value="true">Active</option>
               <option value="false">Inactive</option>
             </Select>
-          </F>
+          </FormField>
         )}
       </div>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
@@ -102,15 +102,5 @@ export function UserForm({
         </Button>
       </div>
     </form>
-  );
-}
-
-function F({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1">
-      <Label>{label}</Label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
-    </div>
   );
 }

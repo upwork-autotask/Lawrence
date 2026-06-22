@@ -8,7 +8,7 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Textarea } from '@/components/ui/textarea';
 
 const FIELDS: { key: SettingKey; label: string; type?: string; multiline?: boolean }[] = [
@@ -25,7 +25,7 @@ export default function SettingsPage() {
   const { data: me } = useMe();
   const canWrite = can(me, Permissions.SettingsWrite);
 
-  const [values, setValues] = React.useState<Record<string, string>>({});
+  const [edits, setEdits] = React.useState<Record<string, string>>({});
   const [saving, setSaving] = React.useState(false);
   const [saved, setSaved] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -39,16 +39,14 @@ export default function SettingsPage() {
     },
   });
 
-  React.useEffect(() => {
-    if (settings.data) {
-      const init: Record<string, string> = {};
-      for (const k of SETTING_KEYS) init[k] = settings.data[k] ?? '';
-      setValues(init);
-    }
-  }, [settings.data]);
+  const values = React.useMemo(() => {
+    const current: Record<string, string> = {};
+    for (const key of SETTING_KEYS) current[key] = settings.data?.[key] ?? '';
+    return { ...current, ...edits };
+  }, [edits, settings.data]);
 
   function set(key: string, value: string) {
-    setValues((v) => ({ ...v, [key]: value }));
+    setEdits((v) => ({ ...v, [key]: value }));
     setSaved(false);
   }
 
@@ -60,6 +58,7 @@ export default function SettingsPage() {
     const r = await settingsApi.save(entries);
     setSaving(false);
     if (!r.ok) return setError(r.error.message);
+    setEdits({});
     setSaved(true);
     qc.invalidateQueries({ queryKey: ['settings'] });
   }
@@ -76,8 +75,7 @@ export default function SettingsPage() {
       ) : (
         <form className="space-y-4 rounded-lg border bg-card p-6" onSubmit={onSubmit}>
           {FIELDS.map((f) => (
-            <div key={f.key} className="space-y-1">
-              <Label>{f.label}</Label>
+            <FormField key={f.key} label={f.label}>
               {f.multiline ? (
                 <Textarea
                   value={values[f.key] ?? ''}
@@ -92,7 +90,7 @@ export default function SettingsPage() {
                   onChange={(e) => set(f.key, e.target.value)}
                 />
               )}
-            </div>
+            </FormField>
           ))}
 
           {error && <p className="text-sm text-destructive">{error}</p>}

@@ -14,7 +14,6 @@ import type { Db } from '../db/client';
 async function countWhere(tx: Db, table: unknown, conds: SQL[]): Promise<number> {
   // Loosely typed: the table objects don't share a common Drizzle type here, but
   // every table in the summary carries `deletedAt` so the where clause is valid.
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [{ count }] = await (tx as any)
     .select({ count: sql<number>`count(*)::int` })
     .from(table)

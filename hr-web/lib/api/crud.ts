@@ -10,7 +10,6 @@ import type { Db } from '../db/client';
  * module service stays tiny. Tables are loosely typed here; the REST routes
  * validate every input/output against a Zod contract, so the boundary is safe.
  */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type AnyTable = any;
 
 export async function crudList(

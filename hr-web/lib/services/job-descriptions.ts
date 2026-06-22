@@ -77,9 +77,7 @@ export async function listEmployeeJds(
 /** Generic child-by-jdId lister for the KPI/training link tables. */
 async function listByJd(
   ctx: Ctx,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   table: any,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jdCol: any,
   input: { jdId?: string; page?: number; pageSize?: number },
 ) {

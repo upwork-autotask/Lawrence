@@ -15,6 +15,12 @@ export default defineConfig({
     // simultaneous WASM compiles so each instance starts faster.
     testTimeout: 30000,
     hookTimeout: 60000,
-    poolOptions: { forks: { maxForks: 4, minForks: 1 } },
+    // Each test file gets its own fork that is torn down before the next runs,
+    // so the heavy PGlite WASM instance is released between files. Running them
+    // concurrently (the old maxForks:4) OOM-kills low-memory machines.
+    fileParallelism: false,
+    isolate: true,
+    maxWorkers: 1,
+    execArgv: ['--max-old-space-size=1536'],
   },
 });

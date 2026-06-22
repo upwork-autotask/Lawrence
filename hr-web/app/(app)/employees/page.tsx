@@ -40,11 +40,6 @@ export default function EmployeesPage() {
   const total = list.data?.total ?? 0;
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
 
-  // Keep the page in range when the result set shrinks (e.g. a new search).
-  React.useEffect(() => {
-    if (page > pageCount) setPage(pageCount);
-  }, [page, pageCount]);
-
   function onSearch(value: string) {
     setQ(value);
     setPage(1);

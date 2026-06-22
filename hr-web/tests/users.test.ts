@@ -6,7 +6,7 @@ import { bootstrap, login } from '@/lib/auth/service';
 import { hashPassword } from '@/lib/auth/password';
 import { users, roles, auditLog } from '@/lib/db/schema';
 import { GET as usersGET, POST as usersPOST } from '@/app/api/users/route';
-import { PATCH as userPATCH } from '@/app/api/users/[id]/route';
+import { DELETE as userDELETE, PATCH as userPATCH } from '@/app/api/users/[id]/route';
 import { GET as rolesGET } from '@/app/api/roles/route';
 import type { Db } from '@/lib/db/client';
 
@@ -117,6 +117,30 @@ describe('users API (RBAC admin)', () => {
       params(created.id),
     );
     expect(stale.status).toBe(409);
+  });
+
+  it('deactivates a user without removing them from the users list', async () => {
+    const [viewer] = await db.select().from(roles).where(eq(roles.name, 'viewer'));
+    const create = await usersPOST(
+      req('/api/users', {
+        method: 'POST', token,
+        body: { fullName: 'Inactive User', username: 'inactive', password: 'password123', roleId: viewer.id },
+      }),
+      undefined as never,
+    );
+    const created = (await create.json()).value;
+
+    const del = await userDELETE(
+      req(`/api/users/${created.id}`, { method: 'DELETE', token }),
+      params(created.id),
+    );
+    expect(del.status).toBe(200);
+
+    const list = await usersGET(req('/api/users?q=inactive', { token }), undefined as never);
+    expect(list.status).toBe(200);
+    const listed = (await list.json()).value;
+    expect(listed.total).toBe(1);
+    expect(listed.items[0]).toMatchObject({ username: 'inactive', isActive: false });
   });
 
   it('forbids a viewer (no users.manage) with 403', async () => {

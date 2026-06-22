@@ -65,7 +65,6 @@ export async function approveLeave(
     set.status = 'submitted';
   }
 
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const [row] = await (ctx.tx as any)
     .update(leaveForms)
     .set(set)

@@ -1,8 +1,6 @@
 import { withHandler } from '@/lib/api/handler';
-import { crudSoftDelete } from '@/lib/api/crud';
-import { updateUser } from '@/lib/services/users';
+import { deactivateUser, updateUser } from '@/lib/services/users';
 import { UserUpdate } from '@/lib/api/contracts/users';
-import { users } from '@/lib/db/schema';
 import { Permissions } from '@/lib/auth/permissions';
 
 export const PATCH = withHandler({
@@ -16,5 +14,5 @@ export const PATCH = withHandler({
 
 export const DELETE = withHandler({
   permission: Permissions.UsersManage,
-  handler: (_input, ctx) => crudSoftDelete(ctx, users, 'user', ctx.params.id),
+  handler: (_input, ctx) => deactivateUser(ctx, ctx.params.id),
 });

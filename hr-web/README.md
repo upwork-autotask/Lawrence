@@ -37,8 +37,10 @@ The import creates the users from the legacy `LoginDetails` table. Sign in with:
 | `npm test` | Vitest suite (in-memory PGlite) |
 | `npm run build` | Production build |
 
-> On low-memory machines the Vitest suite can OOM. Run it single-fork:
-> `NODE_OPTIONS=--max-old-space-size=2048 npx vitest run --pool=forks --poolOptions.forks.maxForks=1 --poolOptions.forks.minForks=1`
+> The Vitest config runs test files sequentially in a single isolated fork
+> (`fileParallelism: false`, capped heap) so the embedded PGlite/WASM Postgres
+> is released between files and the suite stays within ~1.5 GB. Just run
+> `npm test`.
 
 ## Notes
 

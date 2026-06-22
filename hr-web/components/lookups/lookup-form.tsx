@@ -7,7 +7,7 @@ import { LookupCreate } from '@/lib/api/contracts/lookups';
 import type { LookupRow } from '@/lib/api/contracts/lookups';
 import { lookupsApi } from '@/lib/api/resources';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -61,17 +61,17 @@ export function LookupForm({
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
       <div className="grid grid-cols-2 gap-4">
-        <F label="Name" error={err.name?.message}><Input {...form.register('name')} /></F>
-        <F label="Code" error={err.code?.message}><Input {...form.register('code')} /></F>
-        <F label="Sort order" error={err.sortOrder?.message}><Input type="number" {...form.register('sortOrder')} /></F>
-        <F label="Active" error={err.isActive?.message}>
+        <FormField label="Name" error={err.name?.message}><Input {...form.register('name')} /></FormField>
+        <FormField label="Code" error={err.code?.message}><Input {...form.register('code')} /></FormField>
+        <FormField label="Sort order" error={err.sortOrder?.message}><Input type="number" {...form.register('sortOrder')} /></FormField>
+        <FormField label="Active" error={err.isActive?.message}>
           <Select {...form.register('isActive')}>
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </Select>
-        </F>
+        </FormField>
       </div>
-      <F label="Description" error={err.description?.message}><Textarea {...form.register('description')} /></F>
+      <FormField label="Description" error={err.description?.message}><Textarea {...form.register('description')} /></FormField>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">
         <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
@@ -80,15 +80,5 @@ export function LookupForm({
         </Button>
       </div>
     </form>
-  );
-}
-
-function F({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1">
-      <Label>{label}</Label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
-    </div>
   );
 }

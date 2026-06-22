@@ -8,7 +8,7 @@ import { authApi } from '@/lib/api/auth-client';
 import { LoginInput, BootstrapInput } from '@/lib/api/contracts/auth';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Button } from '@/components/ui/button';
 
 export default function LoginPage() {
@@ -53,12 +53,12 @@ export default function LoginPage() {
         <CardContent>
           {mode === 'login' ? (
             <form className="space-y-4" onSubmit={loginForm.handleSubmit(onLogin)}>
-              <Field label="Username" error={loginForm.formState.errors.username?.message}>
+              <FormField label="Username" error={loginForm.formState.errors.username?.message}>
                 <Input autoFocus autoComplete="username" {...loginForm.register('username')} />
-              </Field>
-              <Field label="Password" error={loginForm.formState.errors.password?.message}>
+              </FormField>
+              <FormField label="Password" error={loginForm.formState.errors.password?.message}>
                 <Input type="password" autoComplete="current-password" {...loginForm.register('password')} />
-              </Field>
+              </FormField>
               {serverError && <p className="text-sm text-destructive">{serverError}</p>}
               <Button type="submit" className="w-full" disabled={loginForm.formState.isSubmitting}>
                 {loginForm.formState.isSubmitting ? 'Signing in…' : 'Sign in'}
@@ -66,15 +66,15 @@ export default function LoginPage() {
             </form>
           ) : (
             <form className="space-y-4" onSubmit={bootForm.handleSubmit(onBootstrap)}>
-              <Field label="Full name" error={bootForm.formState.errors.fullName?.message}>
+              <FormField label="Full name" error={bootForm.formState.errors.fullName?.message}>
                 <Input autoFocus {...bootForm.register('fullName')} />
-              </Field>
-              <Field label="Username" error={bootForm.formState.errors.username?.message}>
+              </FormField>
+              <FormField label="Username" error={bootForm.formState.errors.username?.message}>
                 <Input {...bootForm.register('username')} />
-              </Field>
-              <Field label="Password" error={bootForm.formState.errors.password?.message}>
+              </FormField>
+              <FormField label="Password" error={bootForm.formState.errors.password?.message}>
                 <Input type="password" {...bootForm.register('password')} />
-              </Field>
+              </FormField>
               {serverError && <p className="text-sm text-destructive">{serverError}</p>}
               <Button type="submit" className="w-full" disabled={bootForm.formState.isSubmitting}>
                 {bootForm.formState.isSubmitting ? 'Creating…' : 'Create administrator'}
@@ -84,16 +84,6 @@ export default function LoginPage() {
         </CardContent>
         <CardFooter className="text-xs text-muted-foreground">v0.1.0</CardFooter>
       </Card>
-    </div>
-  );
-}
-
-function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1">
-      <Label>{label}</Label>
-      {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   );
 }
