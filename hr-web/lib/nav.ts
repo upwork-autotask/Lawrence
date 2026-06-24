@@ -1,6 +1,7 @@
 import {
   Users, CalendarDays, ShieldAlert, FileText, GraduationCap, Gauge, TrendingUp,
-  Network, UserPlus, Receipt, DoorOpen, BarChart3, ListTree, UserCog, ScrollText, Settings,
+  Network, UserPlus, Receipt, DoorOpen, BarChart3, ListTree, UserCog, ScrollText, Settings, Scale,
+  LayoutDashboard,
   type LucideIcon,
 } from 'lucide-react';
 import { Permissions } from './auth/permissions';
@@ -9,6 +10,12 @@ export type NavItem = { label: string; href: string; icon: LucideIcon; permissio
 export type NavGroup = { group: string; items: NavItem[] };
 
 export const NAV: NavGroup[] = [
+  {
+    group: 'Overview',
+    items: [
+      { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, permission: Permissions.ReportsRun },
+    ],
+  },
   {
     group: 'Core HR',
     items: [
@@ -45,6 +52,7 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Reports', href: '/reports', icon: BarChart3, permission: Permissions.ReportsRun },
       { label: 'Lookups', href: '/lookups', icon: ListTree, permission: Permissions.LookupsRead },
+      { label: 'Grading', href: '/grading', icon: Scale, permission: Permissions.LookupsRead },
       { label: 'Users', href: '/users', icon: UserCog, permission: Permissions.UsersManage },
       { label: 'Audit Log', href: '/audit', icon: ScrollText, permission: Permissions.AuditRead },
       { label: 'Settings', href: '/settings', icon: Settings, permission: Permissions.SettingsRead },
