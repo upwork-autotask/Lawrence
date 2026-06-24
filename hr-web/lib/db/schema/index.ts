@@ -7,6 +7,7 @@ export * from './lookups';
 
 // Phase 1 — core HR
 export * from './employees';
+export * from './employee-take-ons';
 export * from './leave';
 export * from './disciplinary';
 
@@ -26,3 +27,4 @@ export * from './exit';
 
 // Phase 5 — cross-cutting
 export * from './settings';
+export * from './grading';
