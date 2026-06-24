@@ -27,7 +27,7 @@ export function Topbar({ me, onMenuClick }: { me: MeResponse; onMenuClick?: () =
         <Button variant="ghost" size="icon" onClick={onMenuClick} aria-label="Open navigation" className="md:hidden">
           <Menu className="h-4 w-4" />
         </Button>
-        <div className="truncate text-sm text-muted-foreground">HR Management</div>
+        <div className="truncate text-sm font-medium">ORICOL Management System</div>
       </div>
       <div className="flex min-w-0 items-center gap-2 md:gap-4">
         <div className="min-w-0 text-right">

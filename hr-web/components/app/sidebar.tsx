@@ -20,7 +20,11 @@ export function Sidebar({
 
   return (
     <aside className={cn('flex w-60 flex-col border-r bg-card', className)}>
-      <div className="flex h-14 items-center border-b px-6 font-semibold tracking-tight">HR&nbsp;System</div>
+      <div className="flex h-14 items-center gap-2 border-b px-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-mark.png" alt="" className="h-8 w-8 shrink-0" />
+        <span className="truncate font-semibold tracking-tight">ORICOL</span>
+      </div>
       <nav className="flex-1 space-y-6 overflow-y-auto p-4">
         {NAV.map((group) => {
           const items = group.items.filter((i) => perms.has(i.permission));

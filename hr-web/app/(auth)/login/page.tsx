@@ -42,12 +42,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-6">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 p-6">
+      <div className="mb-6 flex flex-col items-center gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-mark.png" alt="ORICOL" className="h-16 w-16" />
+        <h1 className="text-xl font-semibold tracking-tight">ORICOL Management System</h1>
+      </div>
       <Card className="w-[400px]">
         <CardHeader>
           <CardTitle>{mode === 'login' ? 'Sign in' : 'Create administrator'}</CardTitle>
           <CardDescription>
-            {mode === 'login' ? 'HR Management System' : 'First-run setup — this account has full access.'}
+            {mode === 'login' ? 'Sign in to continue' : 'First-run setup — this account has full access.'}
           </CardDescription>
         </CardHeader>
         <CardContent>

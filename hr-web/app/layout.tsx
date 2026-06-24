@@ -3,8 +3,8 @@ import './globals.css';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'HR Management',
-  description: 'Human resources management system',
+  title: 'ORICOL Management System',
+  description: 'ORICOL Management System',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
