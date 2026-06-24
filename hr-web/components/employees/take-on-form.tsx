@@ -7,6 +7,8 @@ import { TakeOnCreate } from '@/lib/api/contracts/take-ons';
 import type { TakeOnRow } from '@/lib/api/contracts/take-ons';
 import type { LookupRow } from '@/lib/api/contracts/lookups';
 import { takeOnsApi } from '@/lib/api/take-ons-client';
+import { takeOnAttachmentsApi } from '@/lib/api/attachments-client';
+import { EntityAttachments } from '@/components/employees/entity-attachments';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
@@ -127,6 +129,18 @@ export function TakeOnForm({
             </label>
           ))}
         </div>
+      </section>
+
+      {/* Upload the actual documents (only once the take-on exists). */}
+      <section>
+        <h3 className="mb-2 text-sm font-semibold text-muted-foreground">Uploaded documents</h3>
+        {takeOn ? (
+          <EntityAttachments api={takeOnAttachmentsApi} parentId={takeOn.id} queryScope="take-on" />
+        ) : (
+          <p className="rounded-md border bg-muted/30 p-3 text-sm text-muted-foreground">
+            Save this take-on first, then re-open it to upload the onboarding documents.
+          </p>
+        )}
       </section>
 
       <div className="flex items-center justify-between gap-2">

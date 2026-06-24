@@ -7,7 +7,8 @@ import { EmployeeCreate } from '@/lib/api/contracts/employees';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import type { LookupRow } from '@/lib/api/contracts/lookups';
 import { employeesApi } from '@/lib/api/resources';
-import { EmployeeAttachments } from '@/components/employees/employee-attachments';
+import { EntityAttachments } from '@/components/employees/entity-attachments';
+import { employeeAttachmentsApi } from '@/lib/api/attachments-client';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
@@ -282,7 +283,7 @@ export function EmployeeDetailForm({
 
       {/* Attachments is a self-contained uploader (not part of this form). */}
       <div className={cn(tab !== 'Attachments' && 'hidden')}>
-        <EmployeeAttachments employeeId={employee.id} />
+        <EntityAttachments api={employeeAttachmentsApi} parentId={employee.id} queryScope="employee" />
       </div>
 
       <div className={cn(tab !== 'Others' && 'hidden', 'space-y-4')}>

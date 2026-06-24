@@ -3,31 +3,41 @@
 import * as React from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Upload, Download, Trash2, FileText } from 'lucide-react';
-import { employeeAttachmentsApi } from '@/lib/api/attachments-client';
+import type { AttachmentsApi } from '@/lib/api/attachments-client';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
-// Mirrors the Access "Documents" tab attachment fields, plus a catch-all.
-const DOC_TYPES = [
+// Mirrors the Access onboarding/employee document types, plus a catch-all.
+const DEFAULT_DOC_TYPES = [
   'Criminal check', 'Contract', 'Job description', 'SARS document',
-  'Sage form', 'Bank confirmation', 'ID / passport', 'Other',
+  'Sage form', 'Bank confirmation', 'ID / passport', "Driver's licence",
+  'Medical', 'Work permit', 'PrDP', 'Other',
 ];
 
 const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '—');
 const fmtSize = (n: number) => (n < 1024 ? `${n} B` : n < 1024 * 1024 ? `${(n / 1024).toFixed(0)} KB` : `${(n / 1024 / 1024).toFixed(1)} MB`);
 
-export function EmployeeAttachments({ employeeId }: { employeeId: string }) {
+/** Reusable upload/list/download/delete panel for any entity's attachments. */
+export function EntityAttachments({
+  api, parentId, queryScope, docTypes = DEFAULT_DOC_TYPES,
+}: {
+  api: AttachmentsApi;
+  parentId: string;
+  queryScope: string;
+  docTypes?: string[];
+}) {
   const qc = useQueryClient();
   const fileRef = React.useRef<HTMLInputElement>(null);
-  const [category, setCategory] = React.useState(DOC_TYPES[0]);
+  const [category, setCategory] = React.useState(docTypes[0]);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const key = [queryScope, 'attachments', parentId];
 
   const list = useQuery({
-    queryKey: ['employee-attachments', employeeId],
+    queryKey: key,
     queryFn: async () => {
-      const r = await employeeAttachmentsApi.list(employeeId);
+      const r = await api.list(parentId);
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
@@ -38,30 +48,29 @@ export function EmployeeAttachments({ employeeId }: { employeeId: string }) {
     if (!file) { setError('Choose a file first.'); return; }
     setError(null);
     setBusy(true);
-    const r = await employeeAttachmentsApi.upload(employeeId, file, category);
+    const r = await api.upload(parentId, file, category);
     setBusy(false);
     if (!r.ok) { setError(r.error.message); return; }
     if (fileRef.current) fileRef.current.value = '';
-    qc.invalidateQueries({ queryKey: ['employee-attachments', employeeId] });
+    qc.invalidateQueries({ queryKey: key });
   }
 
   async function onDelete(id: string, name: string) {
     if (!confirm(`Delete "${name}"?`)) return;
-    const r = await employeeAttachmentsApi.remove(id);
+    const r = await api.remove(id);
     if (!r.ok) { alert(r.error.message); return; }
-    qc.invalidateQueries({ queryKey: ['employee-attachments', employeeId] });
+    qc.invalidateQueries({ queryKey: key });
   }
 
   const items = list.data?.items ?? [];
 
   return (
     <div className="space-y-4">
-      {/* Uploader */}
       <div className="flex flex-wrap items-end gap-3 rounded-md border bg-muted/30 p-3">
         <div className="space-y-1">
           <label className="text-xs font-medium text-muted-foreground">Document type</label>
           <Select value={category} onChange={(e) => setCategory(e.target.value)} className="w-48">
-            {DOC_TYPES.map((d) => <option key={d} value={d}>{d}</option>)}
+            {docTypes.map((d) => <option key={d} value={d}>{d}</option>)}
           </Select>
         </div>
         <div className="space-y-1">
@@ -79,7 +88,6 @@ export function EmployeeAttachments({ employeeId }: { employeeId: string }) {
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      {/* List */}
       <div className="rounded-lg border bg-card">
         <Table>
           <THead>
@@ -102,7 +110,7 @@ export function EmployeeAttachments({ employeeId }: { employeeId: string }) {
                 <TD>
                   <div className="flex justify-end gap-1">
                     <a
-                      href={employeeAttachmentsApi.downloadUrl(a.id)}
+                      href={api.downloadUrl(a.id)}
                       className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-accent"
                       aria-label="Download"
                       download={a.filename}
