@@ -26,6 +26,7 @@ import {
   // lookups
   regions, departments, jobTitles, depots, tiers, patersonGrades,
   eeGroups, taxStatuses, successionSchemes,
+  costOfSale, activities, overheads, sites, grading,
   // core
   employees,
   // leave
@@ -155,6 +156,9 @@ const kpiCategoryMap: IdMap = new Map();
 const kpiMap: IdMap = new Map();
 const schemeMap: IdMap = new Map();
 const expenseCategoryMap: IdMap = new Map();
+const costOfSaleMap: IdMap = new Map();
+const activitiesMap: IdMap = new Map();
+const overheadsMap: IdMap = new Map();
 const nonRecruitReasonMap: IdMap = new Map();
 const trainingMap: IdMap = new Map();
 const employeeMap: IdMap = new Map();    // EmployeeID → uuid
@@ -461,6 +465,109 @@ async function main() {
     log('expense_categories', inserted);
   }
 
+  // 1m-ii. Cost of sale (TblCostOfSale → cost_of_sale)
+  {
+    const rows = readCSV('TblCostOfSale.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const lid = toInt(r['CostofSaleID']);
+      const name = str(r['CostOfSale']);
+      const code = str(r['Code']);
+      if (!lid || !name) continue;
+      const [row] = await db.insert(costOfSale).values({
+        name: name.trim(), code, legacyId: lid, sortOrder: lid,
+      }).onConflictDoNothing().returning();
+      if (row) { costOfSaleMap.set(lid, row.id); inserted++; }
+      else {
+        const [existing] = await db.select().from(costOfSale).where(eq(costOfSale.name, name.trim())).limit(1);
+        if (existing) costOfSaleMap.set(lid, existing.id);
+      }
+    }
+    log('cost_of_sale', inserted);
+  }
+
+  // 1m-iii. Activities (tblActivities → activities)
+  {
+    const rows = readCSV('tblActivities.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const lid = toInt(r['ActivitiesID']);
+      const name = str(r['Activities']);
+      const code = str(r['Code']);
+      if (!lid || !name) continue;
+      const [row] = await db.insert(activities).values({
+        name: name.trim(), code, legacyId: lid, sortOrder: lid,
+      }).onConflictDoNothing().returning();
+      if (row) { activitiesMap.set(lid, row.id); inserted++; }
+      else {
+        const [existing] = await db.select().from(activities).where(eq(activities.name, name.trim())).limit(1);
+        if (existing) activitiesMap.set(lid, existing.id);
+      }
+    }
+    log('activities', inserted);
+  }
+
+  // 1m-iv. Overheads (tblOverheads → overheads)
+  {
+    const rows = readCSV('tblOverheads.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const lid = toInt(r['OverheadsID']);
+      const name = str(r['Overheads']);
+      const code = str(r['Code']);
+      if (!lid || !name) continue;
+      const [row] = await db.insert(overheads).values({
+        name: name.trim(), code, legacyId: lid, sortOrder: lid,
+      }).onConflictDoNothing().returning();
+      if (row) { overheadsMap.set(lid, row.id); inserted++; }
+      else {
+        const [existing] = await db.select().from(overheads).where(eq(overheads.name, name.trim())).limit(1);
+        if (existing) overheadsMap.set(lid, existing.id);
+      }
+    }
+    log('overheads', inserted);
+  }
+
+  // 1m-v. Sites (tblSites → sites)
+  {
+    const rows = readCSV('tblSites.csv');
+    let inserted = 0;
+    const seen = new Set<string>();
+    for (const r of rows) {
+      const name = str(r['Site']);
+      if (!name || seen.has(name)) continue; // tblSites has duplicate site names
+      seen.add(name);
+      const [row] = await db.insert(sites).values({
+        name: name.trim(), legacyId: toInt(r['ID']),
+      }).onConflictDoNothing().returning();
+      if (row) inserted++;
+    }
+    log('sites', inserted);
+  }
+
+  // 1m-vi. Salary grading scale (tblGrading → grading)
+  {
+    const rows = readCSV('tblGrading.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const patersonGrade = str(r['PatersonGrade']);
+      const jobTitle = str(r['JobTitle']);
+      if (!patersonGrade && !jobTitle) continue;
+      await db.insert(grading).values({
+        scale: str(r['Scale']),
+        occLevel: str(r['OccLevel']),
+        jobTitle,
+        code: str(r['Code']),
+        patersonGrade,
+        patersonBand: str(r['PatersonBand']),
+        minRate: toFloat(r['MinRate']),
+        maxRate: toFloat(r['MaxRate']),
+      });
+      inserted++;
+    }
+    log('grading', inserted);
+  }
+
   // 1n. Non-recruitment Reasons
   {
     const rows = readCSV('tblNonRecruitmentReason.csv');
@@ -577,28 +684,98 @@ async function main() {
       try {
         const [row] = await db.insert(employees).values({
           employeeNumber: empCode,
+          // Personal
+          title: str(r['Title']),
+          initials: str(r['Intials']),
           firstName,
           surname,
           middleNames: str(r['Last Name']),
+          maidenName: str(r['MadienName']),
           knownAs: str(r['AlsoKnownAS']),
+          spouseName: str(r['SpouseName']),
           email: str(r['E-mail Address']),
           phoneMobile: phone(r['CellNumber']),
           phoneHome: phone(r['HomeNumber']),
+          phoneWork: phone(r['WorkNumber']),
           idNumber: str(r['ID Number']),
+          passportNumber: str(r['PassportNumber']),
+          passportCountry: str(r['PassportCountry']),
           dateOfBirth: toDate(r['DOB']),
           gender: str(r['Gender']),
           maritalStatus: str(r['MaritalStatus']),
           nationality: str(r['PassportCountry']),
           ethnicity: str(r['Ethnicity']),
+          language: str(r['Language']),
+          taxNumber: str(r['IncomeTaxNumber']),
+          taxDirective: str(r['Directive']),
+          skillLevel: str(r['SkillLevel']),
+          criticalSkills: str(r['CriticalSkills']),
+          // Emergency
+          emergencyName: str(r['EmergencyNameAndSurname']),
+          emergencyCell: phone(r['EmergencyCellNumber']),
+          emergencyWork: phone(r['EmergencyWorkNumber']),
+          // Address — residential
           physicalAddress: resParts.length ? resParts.join(', ') : null,
           postalAddress: postParts.length ? postParts.join(', ') : null,
+          resUnitNumber: str(r['ResUnitNumber']),
+          resStreetNumber: str(r['ResStreetNumber']),
+          resStreetName: str(r['ResStreetName']),
+          resComplex: str(r['ResComplex']),
+          resSuburb: str(r['ResSuburb']),
+          resCity: str(r['ResCity']),
+          resPostalCode: str(r['ResPostalCode']),
+          // Address — postal
+          postUnitNumber: str(r['PostUnitNumber']),
+          postStreetNumber: str(r['PostStreetNumber']),
+          postStreetName: str(r['PostStreetName']),
+          postComplex: str(r['PostComplex']),
+          postSuburb: str(r['PostSuburb']),
+          postCity: str(r['PostCity']),
+          postPostalCode: str(r['PostPostalCode']),
+          // Banking
+          paymentMethod: str(r['PaymentMethod']),
+          bankName: str(r['BankName']),
+          branchCode: str(r['BranchCode']),
+          accountHolderName: str(r['AccountHolderName']),
+          accountNumber: str(r['AccountNumber']),
+          accountType: str(r['TypeOfAccount']),
+          accountRelationship: str(r['AccountRelationship']),
+          // Appointment & payroll
           hireDate: toDate(r['DateEmployed']),
           employmentStatus: 'active',
+          jobGradeNbc: str(r['JobGradeasPerNBC']),
+          categoryNbc: str(r['CategoryAsPerNBC']),
+          account: str(r['Account']),
+          costDepartment: str(r['CostDepartment']),
+          costCenter: str(r['CostCenter']),
+          ratePerHour: toFloat(r['RatePerHour']),
+          monthlySalary: toFloat(r['MonthlySalary']),
+          remunerationPerAnnum: toFloat(r['RemunerationPerAnunm']),
+          uifStatus: str(r['UIFStatus']),
+          medicalAidPlan: str(r['MedicalAidPlan']),
+          medicalAidAmount: toFloat(r['MedicalAidAmount']),
+          vitalityAmount: toFloat(r['VitalityAmount']),
+          site: str(r['Site']),
+          jobFunctionalityEquity: str(r['JobFunctionalityEquity']),
+          occupationalLevelEquity: str(r['OccupationalyLevelEquity']),
+          hoursPerMonth: toFloat(r['HoursPerMonth']),
+          hoursPerDay: toFloat(r['HoursPerDay']),
+          annualLeaveEntitlement: toFloat(r['AnnualLeaveEntitlement']),
+          momentum: str(r['Momentum']),
+          momentumDate: toDate(r['Momentum_Date']),
+          momentumAmount: toFloat(r['Momentum_a']),
+          // Org FKs
           regionId,
           departmentId,
           jobTitleId,
           depotId,
           taxStatusId,
+          // Compliance & admin (document-flag columns hold junk legacy ids; skipped)
+          compliance: str(r['Compliance']),
+          excoApproval: str(r['EXCOapproval']),
+          eeCommitteeRep: str(r['EEcommitteeRep']),
+          approval: str(r['Approval']),
+          currentPosition: str(r['CurrentPosition']),
           notes: str(r['Notes']),
           legacyId: lid,
         }).onConflictDoNothing().returning();
@@ -1027,21 +1204,45 @@ async function main() {
       if (!empUuid) { errors.push(`expense: no employee ${empLid}`); continue; }
       const catLid = toInt(r['ExpenseCategory']);
       const catUuid = catLid ? expenseCategoryMap.get(catLid) : undefined;
-      const amount = toFloat(r['CostExVAT']) ?? 0;
       const expDate = toDate(r['DateOfClaim']);
       if (!expDate) { errors.push(`expense: no date ${r['ExpenseID']}`); continue; }
+
+      // Cost allocation (legacy ids → uuids)
+      const depotLid = toInt(r['DepotID']);
+      const cosLid = toInt(r['CostOfSaleID']);
+      const actLid = toInt(r['ActivitiesID']);
+      const ovhLid = toInt(r['OverheadsID']);
+
+      // VAT breakdown — Access stores VAT as a fraction (0.15 = 15%).
+      const costExVat = toFloat(r['CostExVAT']);
+      const vatFraction = toFloat(r['VAT']);
+      const vatRate = vatFraction != null ? vatFraction * 100 : null;
+      const vatAmount = toFloat(r['VATAmount']);
+      // TotalAmount is the source of truth where present; otherwise derive.
+      const total = toFloat(r['TotalAmount']) ?? ((costExVat ?? 0) + (vatAmount ?? 0));
 
       const managerStatus = r['MangerApproval']?.toLowerCase().includes('approv') ? 'approved' : 'pending';
       try {
         await db.insert(expenses).values({
           employeeId: empUuid,
           categoryId: catUuid ?? null,
+          depotId: (depotLid ? depotMap.get(depotLid) : undefined) ?? null,
+          costOfSaleId: (cosLid ? costOfSaleMap.get(cosLid) : undefined) ?? null,
+          activitiesId: (actLid ? activitiesMap.get(actLid) : undefined) ?? null,
+          overheadsId: (ovhLid ? overheadsMap.get(ovhLid) : undefined) ?? null,
           expenseDate: expDate,
-          amount,
+          periodStart: toDate(r['PeriodClaimStartDate']),
+          periodEnd: toDate(r['PeriodClaimEndDate']),
+          costExVat,
+          vatRate,
+          vatAmount,
+          amount: total,
           description: str(r['ListTextItems']),
           claimNumber: str(r['RefNo']),
           status: managerStatus === 'approved' ? 'approved' : 'draft',
           managerStatus,
+          approvedBy: str(r['ApprovedBy']),
+          signedOn: managerStatus === 'approved' ? toDate(r['SignedOn']) : null,
           legacyId: toInt(r['ExpenseID']),
         });
         inserted++;

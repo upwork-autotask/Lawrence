@@ -26,6 +26,10 @@ const TABLES: { key: string; label: string }[] = [
   { key: 'eeGroups', label: 'EE groups' },
   { key: 'nbcCouncils', label: 'NBC councils' },
   { key: 'taxStatuses', label: 'Tax statuses' },
+  { key: 'costOfSale', label: 'Cost of sale' },
+  { key: 'activities', label: 'Activities' },
+  { key: 'overheads', label: 'Overheads' },
+  { key: 'sites', label: 'Sites' },
 ];
 
 export default function LookupsPage() {

@@ -30,6 +30,22 @@ export const taxStatuses = pgTable('tax_statuses', lookupColumns, (t) => ({
   nameIdx: uniqueIndex('tax_statuses_name_unique').on(t.name),
 }));
 
+// Expense cost-allocation lookups (TblCostOfSale, tblActivities, tblOverheads).
+export const costOfSale = pgTable('cost_of_sale', lookupColumns, (t) => ({
+  nameIdx: uniqueIndex('cost_of_sale_name_unique').on(t.name),
+}));
+export const activities = pgTable('activities', lookupColumns, (t) => ({
+  nameIdx: uniqueIndex('activities_name_unique').on(t.name),
+}));
+export const overheads = pgTable('overheads', lookupColumns, (t) => ({
+  nameIdx: uniqueIndex('overheads_name_unique').on(t.name),
+}));
+
+// Operating sites (tblSites) — the employee "Site" field references this.
+export const sites = pgTable('sites', lookupColumns, (t) => ({
+  nameIdx: uniqueIndex('sites_name_unique').on(t.name),
+}));
+
 /** The set of lookup tables exposed generically through the lookups API. */
 export const lookupTables = {
   regions,
@@ -41,6 +57,10 @@ export const lookupTables = {
   eeGroups,
   nbcCouncils,
   taxStatuses,
+  costOfSale,
+  activities,
+  overheads,
+  sites,
 } as const;
 
 export type LookupKey = keyof typeof lookupTables;
