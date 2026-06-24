@@ -10,7 +10,15 @@ export const developmentPlans = pgTable(
     id: pk(),
     employeeId: uuid('employee_id').notNull().references(() => employees.id),
     planYear: integer('plan_year').notNull(),
+    dateInitiated: timestamp('date_initiated', { withTimezone: true }),
     summary: text('summary'),
+    // IDP gap analysis (Access tblDevelopement main tab)
+    requiredStandard: text('required_standard'),
+    currentLevel: text('current_level'),
+    gapIdentified: text('gap_identified'),
+    actionRequired: text('action_required'),
+    milestone: text('milestone'),
+    measurementCriteria: text('measurement_criteria'),
     status: text('status').notNull().default('draft'), // draft|submitted|approved|in_progress|completed|cancelled
 
     lineManagerId: uuid('line_manager_id'),

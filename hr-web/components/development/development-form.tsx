@@ -20,7 +20,9 @@ const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 /** Form values are all strings (HTML inputs); Zod coerces dates/numbers/uuids on submit. */
 type FormValues = {
   employeeId: string; planYear: string; status: string;
-  targetCompletionDate: string; summary: string;
+  targetCompletionDate: string; dateInitiated: string; summary: string;
+  requiredStandard: string; currentLevel: string; gapIdentified: string;
+  actionRequired: string; milestone: string; measurementCriteria: string;
 };
 
 const STATUSES = ['draft', 'submitted', 'approved', 'in_progress', 'completed', 'cancelled'];
@@ -41,7 +43,14 @@ export function DevelopmentForm({
       planYear: plan?.planYear != null ? String(plan.planYear) : String(new Date().getFullYear()),
       status: plan?.status ?? 'draft',
       targetCompletionDate: day(plan?.targetCompletionDate),
+      dateInitiated: day(plan?.dateInitiated),
       summary: plan?.summary ?? '',
+      requiredStandard: plan?.requiredStandard ?? '',
+      currentLevel: plan?.currentLevel ?? '',
+      gapIdentified: plan?.gapIdentified ?? '',
+      actionRequired: plan?.actionRequired ?? '',
+      milestone: plan?.milestone ?? '',
+      measurementCriteria: plan?.measurementCriteria ?? '',
     },
   });
 
@@ -78,11 +87,28 @@ export function DevelopmentForm({
             {STATUSES.map((s) => <option key={s} value={s}>{titleCase(s)}</option>)}
           </Select>
         </F>
+        <F label="Date initiated" error={err.dateInitiated?.message}>
+          <Input type="date" {...form.register('dateInitiated')} />
+        </F>
         <F label="Target completion date" error={err.targetCompletionDate?.message}>
           <Input type="date" {...form.register('targetCompletionDate')} />
         </F>
       </div>
-      <F label="Summary" error={err.summary?.message}><Textarea {...form.register('summary')} /></F>
+
+      {/* IDP gap analysis (Access main tab) */}
+      <fieldset className="space-y-4 rounded-md border p-3">
+        <legend className="px-1 text-xs font-medium text-muted-foreground">Gap analysis</legend>
+        <div className="grid grid-cols-2 gap-4">
+          <F label="Required standard" error={err.requiredStandard?.message}><Textarea rows={2} {...form.register('requiredStandard')} /></F>
+          <F label="Current level" error={err.currentLevel?.message}><Textarea rows={2} {...form.register('currentLevel')} /></F>
+          <F label="Gap identified" error={err.gapIdentified?.message}><Textarea rows={2} {...form.register('gapIdentified')} /></F>
+          <F label="Action required" error={err.actionRequired?.message}><Textarea rows={2} {...form.register('actionRequired')} /></F>
+          <F label="Milestone" error={err.milestone?.message}><Textarea rows={2} {...form.register('milestone')} /></F>
+          <F label="Measurement criteria" error={err.measurementCriteria?.message}><Textarea rows={2} {...form.register('measurementCriteria')} /></F>
+        </div>
+      </fieldset>
+
+      <F label="Summary / notes" error={err.summary?.message}><Textarea {...form.register('summary')} /></F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">
         <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>

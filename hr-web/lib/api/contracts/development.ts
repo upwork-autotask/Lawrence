@@ -4,7 +4,15 @@ import { optStr, optDate, optNum, expectedUpdatedAt, ListQuery } from './common'
 export const PlanCreate = z.object({
   employeeId: z.string().uuid('Employee is required'),
   planYear: z.coerce.number({ required_error: 'Plan year is required', invalid_type_error: 'Plan year is required' }).int(),
+  dateInitiated: optDate,
   summary: optStr,
+  // IDP gap analysis (Access main tab)
+  requiredStandard: optStr,
+  currentLevel: optStr,
+  gapIdentified: optStr,
+  actionRequired: optStr,
+  milestone: optStr,
+  measurementCriteria: optStr,
   status: z.string().default('draft'), // draft|submitted|approved|in_progress|completed|cancelled
   targetCompletionDate: optDate,
 });
@@ -80,7 +88,14 @@ export type DevelopmentPlanRow = {
   id: string;
   employeeId: string;
   planYear: number;
+  dateInitiated: string | null;
   summary: string | null;
+  requiredStandard: string | null;
+  currentLevel: string | null;
+  gapIdentified: string | null;
+  actionRequired: string | null;
+  milestone: string | null;
+  measurementCriteria: string | null;
   status: string;
   targetCompletionDate: string | null;
   completedAt: string | null;

@@ -137,12 +137,40 @@ export default function DevelopmentDetailPage() {
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
               <div>
+                <dt className="text-muted-foreground">Date initiated</dt>
+                <dd>{day(plan.data.dateInitiated)}</dd>
+              </div>
+              <div>
                 <dt className="text-muted-foreground">Target completion date</dt>
                 <dd>{day(plan.data.targetCompletionDate)}</dd>
               </div>
+              <div>
+                <dt className="text-muted-foreground">Required standard</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.requiredStandard)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Current level</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.currentLevel)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Gap identified</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.gapIdentified)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Action required</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.actionRequired)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Milestone</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.milestone)}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Measurement criteria</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.measurementCriteria)}</dd>
+              </div>
               <div className="col-span-2 sm:col-span-3">
-                <dt className="text-muted-foreground">Summary</dt>
-                <dd>{txt(plan.data.summary)}</dd>
+                <dt className="text-muted-foreground">Summary / notes</dt>
+                <dd className="whitespace-pre-line">{txt(plan.data.summary)}</dd>
               </div>
             </dl>
           </div>

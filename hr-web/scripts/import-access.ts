@@ -1502,7 +1502,13 @@ async function main() {
         await db.insert(developmentPlans).values({
           employeeId: empUuid,
           planYear: dateInit ? dateInit.getFullYear() : 2026,
-          summary: [str(r['Gap Identified']), str(r['Action Required'])].filter(Boolean).join('\n') || null,
+          dateInitiated: dateInit,
+          requiredStandard: str(r['Required Standard']),
+          currentLevel: str(r['Current Level']),
+          gapIdentified: str(r['Gap Identified']),
+          actionRequired: str(r['Action Required']),
+          milestone: str(r['Milestone']),
+          measurementCriteria: str(r['Measurement Criteria']),
           status: 'draft',
           legacyId: toInt(r['DevID']),
         });
