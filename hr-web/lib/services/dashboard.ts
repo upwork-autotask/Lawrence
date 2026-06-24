@@ -2,6 +2,7 @@ import { and, eq, gte, isNull, sql, desc, type SQL } from 'drizzle-orm';
 import {
   employees, depots, regions, leaveForms, disciplinaryCases,
   expenses, recruitmentRequests, employeeTakeOns,
+  candidates, recruitmentTargets, trainingInternal, trainingExternal, employeePerformance,
 } from '../db/schema';
 import type { Ctx } from '../api/handler';
 import type { Db } from '../db/client';
@@ -34,6 +35,17 @@ async function groupActive(
   return rows.map((r: { label: string | null; count: number }) => ({ label: r.label ?? 'Unassigned', count: r.count }));
 }
 
+/** Group any soft-deletable table by a column into labelled counts. */
+async function groupBy(tx: Db, table: any, col: any, extra: SQL[] = []): Promise<Bucket[]> {
+  const rows = await (tx as any)
+    .select({ label: col, count: sql<number>`count(*)::int` })
+    .from(table)
+    .where(and(isNull(table.deletedAt), ...extra))
+    .groupBy(col)
+    .orderBy(desc(sql`count(*)`));
+  return rows.map((r: { label: string | null; count: number }) => ({ label: r.label ?? 'Unknown', count: r.count }));
+}
+
 export type DashboardAlert = { key: string; severity: 'high' | 'medium' | 'low'; label: string; count: number; href: string };
 
 export type HrDashboard = {
@@ -44,6 +56,9 @@ export type HrDashboard = {
   byGender: Bucket[];
   pending: { leave: number; claims: number; disciplinary: number; recruitment: number; takeOns: number };
   alerts: DashboardAlert[];
+  recruitment: { requestsByStatus: Bucket[]; candidatesByStatus: Bucket[]; targets: { year: number; target: number; achieved: number }[] };
+  training: { byStatus: Bucket[]; completed: number; total: number };
+  performance: { byStatus: Bucket[]; avgScore: number; total: number };
 };
 
 export async function hrDashboard(ctx: Ctx): Promise<HrDashboard> {
@@ -95,10 +110,52 @@ export async function hrDashboard(ctx: Ctx): Promise<HrDashboard> {
   ];
   const alerts = allAlerts.filter((a) => a.count > 0);
 
+  // ── Module dashboards (Access frmRecruitmentDash / FrmTrainDash / frmKPIdash) ──
+  const [requestsByStatus, candidatesByStatus, trainInt, trainExt, perfByStatus] = await Promise.all([
+    groupBy(tx, recruitmentRequests, recruitmentRequests.status),
+    groupBy(tx, candidates, candidates.status),
+    groupBy(tx, trainingInternal, trainingInternal.status),
+    groupBy(tx, trainingExternal, trainingExternal.status),
+    groupBy(tx, employeePerformance, employeePerformance.status),
+  ]);
+
+  const targetRows = await (tx as any)
+    .select({
+      year: recruitmentTargets.periodYear,
+      target: sql<number>`coalesce(sum(${recruitmentTargets.targetCount}), 0)::int`,
+      achieved: sql<number>`coalesce(sum(${recruitmentTargets.achievedCount}), 0)::int`,
+    })
+    .from(recruitmentTargets)
+    .where(isNull(recruitmentTargets.deletedAt))
+    .groupBy(recruitmentTargets.periodYear)
+    .orderBy(recruitmentTargets.periodYear);
+
+  // Merge internal + external training by status.
+  const trainMap = new Map<string, number>();
+  for (const b of [...trainInt, ...trainExt]) trainMap.set(b.label, (trainMap.get(b.label) ?? 0) + b.count);
+  const trainingByStatus = [...trainMap].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count);
+  const trainingTotal = [...trainMap.values()].reduce((a, b) => a + b, 0);
+  const trainingCompleted = trainMap.get('completed') ?? 0;
+
+  const [{ avgScore, perfTotal }] = await (tx as any)
+    .select({
+      avgScore: sql<number>`coalesce(round(avg(${employeePerformance.score})::numeric, 1), 0)::float`,
+      perfTotal: sql<number>`count(*)::int`,
+    })
+    .from(employeePerformance)
+    .where(isNull(employeePerformance.deletedAt));
+
   return {
     headcount: { active, total, newHires90d },
     byStatus, byDepot, byRegion, byGender,
     pending: { leave: pendingLeave, claims: pendingClaims, disciplinary: openDisc, recruitment: openRec, takeOns: submittedTakeOns },
     alerts,
+    recruitment: {
+      requestsByStatus,
+      candidatesByStatus,
+      targets: targetRows.map((r: { year: number; target: number; achieved: number }) => r),
+    },
+    training: { byStatus: trainingByStatus, completed: trainingCompleted, total: trainingTotal },
+    performance: { byStatus: perfByStatus, avgScore, total: perfTotal },
   };
 }
