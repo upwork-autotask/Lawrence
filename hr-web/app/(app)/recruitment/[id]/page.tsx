@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Plus, Pencil, Trash2, Users, ClipboardCheck } from 'lucide-react';
+import { ArrowLeft, Plus, Pencil, Trash2, Users, ClipboardCheck, ListChecks } from 'lucide-react';
 import {
   requestsApi,
   candidatesApi,
@@ -18,6 +18,7 @@ import { CandidateForm } from '@/components/recruitment/candidate-form';
 import { InterviewForm } from '@/components/recruitment/interview-form';
 import { PanelDialog } from '@/components/recruitment/panel-dialog';
 import { EvaluationsDialog } from '@/components/recruitment/evaluations-dialog';
+import { ScoreSheetDialog } from '@/components/recruitment/score-sheet-dialog';
 import { titleCase, pluralize } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +53,7 @@ export default function RequisitionDetailPage() {
   const [editingInterview, setEditingInterview] = React.useState<InterviewRow | null | undefined>(undefined);
   const [panelFor, setPanelFor] = React.useState<InterviewRow | null>(null);
   const [evalsFor, setEvalsFor] = React.useState<InterviewRow | null>(null);
+  const [scoreFor, setScoreFor] = React.useState<InterviewRow | null>(null);
 
   const request = useQuery({
     queryKey: ['recruitment-request', id],
@@ -222,6 +224,9 @@ export default function RequisitionDetailPage() {
                   <TD><Badge tone={interviewStatusTone[iv.status] ?? 'gray'}>{titleCase(iv.status)}</Badge></TD>
                   <TD>
                     <div className="flex justify-end gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => setScoreFor(iv)} aria-label="Score sheet" title="Interview score sheet">
+                        <ListChecks className="h-4 w-4" />
+                      </Button>
                       <Button variant="ghost" size="icon" onClick={() => setPanelFor(iv)} aria-label="Panel members">
                         <Users className="h-4 w-4" />
                       </Button>
@@ -283,6 +288,15 @@ export default function RequisitionDetailPage() {
           candidateName={candidateName(evalsFor.candidateId)}
           canWrite={canWrite}
           onClose={() => setEvalsFor(null)}
+        />
+      )}
+
+      {scoreFor && (
+        <ScoreSheetDialog
+          interview={scoreFor}
+          candidateName={candidateName(scoreFor.candidateId)}
+          canWrite={canWrite}
+          onClose={() => setScoreFor(null)}
         />
       )}
     </div>

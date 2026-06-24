@@ -64,6 +64,13 @@
       "when": 1782328974290,
       "tag": "0008_development_idp_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1782332907046,
+      "tag": "0009_interview_scoring",
+      "breakpoints": true
     }
   ]
 }

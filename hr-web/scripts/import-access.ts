@@ -45,7 +45,7 @@ import {
   // succession
   criticalRoles, criticalSkills, successionCandidates, successionCommitments,
   // recruitment
-  nonRecruitmentReasons, recruitmentRequests, recruitmentTargets,
+  nonRecruitmentReasons, recruitmentRequests, recruitmentTargets, interviewQuestions,
   // expenses
   expenseCategories, expenses,
   // exit
@@ -566,6 +566,26 @@ async function main() {
       inserted++;
     }
     log('grading', inserted);
+  }
+
+  // 1m-vii. Interview question bank (tblInterview → interview_questions)
+  {
+    const rows = readCSV('tblInterview.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const question = str(r['Que']);
+      if (!question) continue;
+      await db.insert(interviewQuestions).values({
+        heading: str(r['Head']),
+        question,
+        modelAnswer: str(r['Ans']),
+        maxScore: toFloat(r['Score']) ?? 5,
+        sortOrder: toInt(r['QueID']) ?? 0,
+        legacyId: toInt(r['QueID']),
+      });
+      inserted++;
+    }
+    log('interview_questions', inserted);
   }
 
   // 1n. Non-recruitment Reasons

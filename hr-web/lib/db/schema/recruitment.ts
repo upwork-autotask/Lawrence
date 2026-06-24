@@ -108,6 +108,39 @@ export const evaluations = pgTable(
   (t) => ({ interviewIdx: index('evaluations_interview_idx').on(t.interviewId) }),
 );
 
+/** Interview question bank (tblInterview): scored questions grouped by heading. */
+export const interviewQuestions = pgTable(
+  'interview_questions',
+  {
+    id: pk(),
+    heading: text('heading'),
+    question: text('question').notNull(),
+    modelAnswer: text('model_answer'),
+    maxScore: doublePrecision('max_score').notNull().default(5),
+    sortOrder: integer('sort_order').notNull().default(0),
+    isActive: boolean('is_active').notNull().default(true),
+    ...auditColumns,
+  },
+  (t) => ({ headingIdx: index('interview_questions_heading_idx').on(t.heading) }),
+);
+
+/** Structured interview scoring sheet (tblEmpInterview): one row per question. */
+export const interviewScores = pgTable(
+  'interview_scores',
+  {
+    id: pk(),
+    interviewId: uuid('interview_id').notNull().references(() => interviews.id, { onDelete: 'cascade' }),
+    questionId: uuid('question_id').references(() => interviewQuestions.id),
+    question: text('question'), // snapshot of the question text
+    score: doublePrecision('score'),
+    answer: text('answer'),
+    notes: text('notes'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    ...auditColumns,
+  },
+  (t) => ({ interviewIdx: index('interview_scores_interview_idx').on(t.interviewId) }),
+);
+
 /** EE recruitment targets (tblRecruitmentTarget). */
 export const recruitmentTargets = pgTable(
   'recruitment_targets',
@@ -127,3 +160,5 @@ export type Candidate = typeof candidates.$inferSelect;
 export type Interview = typeof interviews.$inferSelect;
 export type InterviewLead = typeof interviewLeads.$inferSelect;
 export type Evaluation = typeof evaluations.$inferSelect;
+export type InterviewQuestion = typeof interviewQuestions.$inferSelect;
+export type InterviewScore = typeof interviewScores.$inferSelect;
