@@ -7,6 +7,7 @@ build
 *.log
 .DS_Store
 /uploads
+/.uploads
 /.pglite
 coverage
 playwright-report

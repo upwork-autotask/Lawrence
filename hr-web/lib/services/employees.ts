@@ -5,12 +5,20 @@ import type { Ctx } from '../api/handler';
 
 export async function listEmployees(
   ctx: Ctx,
-  input: { q?: string; status?: string; page?: number; pageSize?: number },
+  input: {
+    q?: string; status?: string; page?: number; pageSize?: number;
+    departmentId?: string; regionId?: string; jobTitleId?: string; depotId?: string; skillLevel?: string;
+  },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.status) where.push(eq(employees.employmentStatus, input.status));
+  if (input.departmentId) where.push(eq(employees.departmentId, input.departmentId));
+  if (input.regionId) where.push(eq(employees.regionId, input.regionId));
+  if (input.jobTitleId) where.push(eq(employees.jobTitleId, input.jobTitleId));
+  if (input.depotId) where.push(eq(employees.depotId, input.depotId));
+  if (input.skillLevel) where.push(eq(employees.skillLevel, input.skillLevel));
   if (input.q) {
     const like = `%${input.q}%`;
     where.push(

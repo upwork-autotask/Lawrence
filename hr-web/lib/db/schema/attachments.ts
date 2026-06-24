@@ -12,6 +12,7 @@ export const attachments = pgTable(
     id: pk(),
     entityType: text('entity_type').notNull(),
     entityId: uuid('entity_id').notNull(),
+    category: text('category'), // e.g. document type (Contract, Criminal check, …)
     storageKey: text('storage_key').notNull(),
     filename: text('filename').notNull(),
     mime: text('mime').notNull(),
