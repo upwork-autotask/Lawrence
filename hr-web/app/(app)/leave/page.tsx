@@ -57,6 +57,12 @@ export default function LeavePage() {
     return e ? `${e.firstName} ${e.surname}` : '—';
   };
   const typeName = (id: string) => options.data?.leaveTypes.find((x) => x.id === id)?.name ?? '—';
+  const approverName = (employeeId: string) => {
+    const emp = options.data?.employees.find((x) => x.id === employeeId);
+    if (!emp?.lineManagerId) return '—';
+    const mgr = options.data?.employees.find((x) => x.id === emp.lineManagerId);
+    return mgr ? `${mgr.firstName} ${mgr.surname}` : '—';
+  };
 
   async function onDelete(leave: LeaveFormRow) {
     if (!confirm('Delete this leave application?')) return;
@@ -94,13 +100,13 @@ export default function LeavePage() {
         <Table>
           <THead>
             <TR>
-              <TH>Employee</TH><TH>Type</TH><TH>Start</TH><TH>End</TH><TH>Days</TH><TH>Status</TH><TH className="w-36"></TH>
+              <TH>Employee</TH><TH>Type</TH><TH>Start</TH><TH>End</TH><TH>Days</TH><TH>Approver</TH><TH>Status</TH><TH className="w-36"></TH>
             </TR>
           </THead>
           <TBody>
-            {list.isLoading && <TR><TD colSpan={7} className="text-muted-foreground">Loading…</TD></TR>}
-            {list.isError && <TR><TD colSpan={7} className="text-destructive">Could not load leave applications: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={7} className="text-muted-foreground">No leave applications yet.</TD></TR>}
+            {list.isLoading && <TR><TD colSpan={8} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={8} className="text-destructive">Could not load leave applications: {(list.error as Error).message}</TD></TR>}
+            {list.data?.items.length === 0 && <TR><TD colSpan={8} className="text-muted-foreground">No leave applications yet.</TD></TR>}
             {list.data?.items.map((leave) => (
               <TR key={leave.id}>
                 <TD className="font-medium">{employeeName(leave.employeeId)}</TD>
@@ -108,6 +114,7 @@ export default function LeavePage() {
                 <TD>{day(leave.startDate)}</TD>
                 <TD>{day(leave.endDate)}</TD>
                 <TD>{leave.daysRequested}</TD>
+                <TD>{approverName(leave.employeeId)}</TD>
                 <TD><Badge tone={statusTone[leave.status] ?? 'gray'}>{titleCase(leave.status)}</Badge></TD>
                 <TD>
                   <div className="flex justify-end gap-1">

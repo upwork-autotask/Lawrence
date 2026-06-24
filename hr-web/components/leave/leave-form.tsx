@@ -43,6 +43,33 @@ export function LeaveForm({
     },
   });
 
+  // Auto-populate days requested from the date range (inclusive). Skip the first
+  // run so an existing application's stored value isn't overwritten on open;
+  // recompute whenever the user changes a date thereafter. Still editable.
+  const startDate = form.watch('startDate');
+  const endDate = form.watch('endDate');
+  const didMount = React.useRef(false);
+  React.useEffect(() => {
+    if (!didMount.current) { didMount.current = true; return; }
+    if (startDate && endDate) {
+      const s = new Date(startDate);
+      const e = new Date(endDate);
+      if (!isNaN(s.getTime()) && !isNaN(e.getTime()) && e >= s) {
+        const days = Math.round((e.getTime() - s.getTime()) / 86_400_000) + 1;
+        form.setValue('daysRequested', String(days), { shouldValidate: true });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate, endDate]);
+
+  // Approver = the selected employee's line manager.
+  const selectedEmployeeId = form.watch('employeeId');
+  const approver = React.useMemo(() => {
+    const emp = options.employees.find((e) => e.id === selectedEmployeeId);
+    if (!emp?.lineManagerId) return null;
+    return options.employees.find((e) => e.id === emp.lineManagerId) ?? null;
+  }, [selectedEmployeeId, options.employees]);
+
   async function submit(values: FormValues) {
     setServerError(null);
     const r = leave
@@ -78,7 +105,14 @@ export function LeaveForm({
         <F label="End date" error={err.endDate?.message}><Input type="date" {...form.register('endDate')} /></F>
         <F label="Days requested" error={err.daysRequested?.message}>
           <Input type="number" step="0.5" {...form.register('daysRequested')} />
+          <p className="mt-1 text-xs text-muted-foreground">Auto-calculated from the dates (inclusive) — adjust for half-days if needed.</p>
         </F>
+        <div className="space-y-1">
+          <Label>Approver (line manager)</Label>
+          <div className="flex h-9 items-center rounded-md border bg-muted/40 px-3 text-sm">
+            {approver ? `${approver.firstName} ${approver.surname}` : '— not assigned'}
+          </div>
+        </div>
       </div>
       <F label="Reason" error={err.reason?.message}><Textarea {...form.register('reason')} /></F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
