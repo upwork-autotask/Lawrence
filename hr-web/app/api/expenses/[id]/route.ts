@@ -1,5 +1,6 @@
 import { withHandler } from '@/lib/api/handler';
-import { crudGet, crudUpdate, crudSoftDelete } from '@/lib/api/crud';
+import { crudGet, crudSoftDelete } from '@/lib/api/crud';
+import { updateExpense } from '@/lib/services/expenses';
 import { ExpenseUpdate } from '@/lib/api/contracts/expenses';
 import { expenses } from '@/lib/db/schema';
 import { Permissions } from '@/lib/auth/permissions';
@@ -14,7 +15,7 @@ export const PATCH = withHandler({
   permission: Permissions.ExpenseWrite,
   handler: (input, ctx) => {
     const { expectedUpdatedAt, ...values } = input;
-    return crudUpdate(ctx, expenses, 'expense', ctx.params.id, values, expectedUpdatedAt);
+    return updateExpense(ctx, ctx.params.id, values, expectedUpdatedAt);
   },
 });
 

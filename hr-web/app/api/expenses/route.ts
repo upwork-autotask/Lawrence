@@ -1,8 +1,6 @@
 import { withHandler } from '@/lib/api/handler';
-import { crudCreate } from '@/lib/api/crud';
-import { listExpenses } from '@/lib/services/expenses';
+import { listExpenses, createExpense } from '@/lib/services/expenses';
 import { ExpenseCreate, ExpenseListQuery } from '@/lib/api/contracts/expenses';
-import { expenses } from '@/lib/db/schema';
 import { Permissions } from '@/lib/auth/permissions';
 
 export const GET = withHandler({
@@ -14,5 +12,5 @@ export const GET = withHandler({
 export const POST = withHandler({
   schema: ExpenseCreate,
   permission: Permissions.ExpenseWrite,
-  handler: (input, ctx) => crudCreate(ctx, expenses, 'expense', input),
+  handler: (input, ctx) => createExpense(ctx, input),
 });

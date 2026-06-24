@@ -7,6 +7,7 @@ import { hashPassword } from '@/lib/auth/password';
 import { users, roles, employees, expenseCategories } from '@/lib/db/schema';
 import { GET as listGET, POST as listPOST } from '@/app/api/expenses/route';
 import { PATCH as onePATCH, DELETE as oneDELETE } from '@/app/api/expenses/[id]/route';
+import { POST as approvePOST } from '@/app/api/expenses/[id]/approve/route';
 import { POST as carPOST, GET as carGET } from '@/app/api/car-scheme/route';
 import { DELETE as carDELETE } from '@/app/api/car-scheme/[id]/route';
 import type { Db } from '@/lib/db/client';
@@ -132,6 +133,105 @@ describe('expenses API (full handler stack)', () => {
     const body = await r.json();
     expect(body.error.code).toBe('VALIDATION');
     expect(body.error.fields.employeeId).toBeTruthy();
+  });
+
+  it('computes the VAT breakdown and total from costExVat + vatRate', async () => {
+    const create = await listPOST(
+      req('/api/expenses', {
+        method: 'POST',
+        token,
+        body: { employeeId, categoryId, expenseDate: '2026-07-01', costExVat: 100, vatRate: 15 },
+      }),
+      undefined as never,
+    );
+    expect(create.status).toBe(201);
+    const c = (await create.json()).value;
+    expect(c.costExVat).toBe(100);
+    expect(c.vatRate).toBe(15);
+    expect(c.vatAmount).toBe(15);
+    expect(c.amount).toBe(115); // VAT-inclusive total
+
+    // Patching the rate recomputes the total
+    const upd = await onePATCH(
+      req(`/api/expenses/${c.id}`, {
+        method: 'PATCH',
+        token,
+        body: { vatRate: 0, expectedUpdatedAt: c.updatedAt },
+      }),
+      params(c.id),
+    );
+    expect(upd.status).toBe(200);
+    const u = (await upd.json()).value;
+    expect(u.vatAmount).toBe(0);
+    expect(u.amount).toBe(100);
+  });
+
+  it('approves a claim: sets manager status, signatory and overall status', async () => {
+    const create = await listPOST(
+      req('/api/expenses', {
+        method: 'POST',
+        token,
+        body: { employeeId, categoryId, expenseDate: '2026-07-02', amount: 500, status: 'submitted' },
+      }),
+      undefined as never,
+    );
+    const c = (await create.json()).value;
+    expect(c.managerStatus).toBe('pending');
+
+    const appr = await approvePOST(
+      req(`/api/expenses/${c.id}/approve`, {
+        method: 'POST',
+        token,
+        body: { decision: 'approved', approvedBy: 'Roxanne', expectedUpdatedAt: c.updatedAt },
+      }),
+      params(c.id),
+    );
+    expect(appr.status).toBe(201);
+    const a = (await appr.json()).value;
+    expect(a.managerStatus).toBe('approved');
+    expect(a.status).toBe('approved');
+    expect(a.approvedBy).toBe('Roxanne');
+    expect(a.signedOn).toBeTruthy();
+  });
+
+  it('register: returns totalAmount and filters by manager status + date range', async () => {
+    for (const [date, amount, mgr] of [
+      ['2026-07-01', 100, false],
+      ['2026-08-15', 200, true],
+      ['2026-09-30', 400, true],
+    ] as const) {
+      const cr = await listPOST(
+        req('/api/expenses', { method: 'POST', token, body: { employeeId, expenseDate: date, amount } }),
+        undefined as never,
+      );
+      const row = (await cr.json()).value;
+      if (mgr) {
+        await approvePOST(
+          req(`/api/expenses/${row.id}/approve`, {
+            method: 'POST', token, body: { decision: 'approved', expectedUpdatedAt: row.updatedAt },
+          }),
+          params(row.id),
+        );
+      }
+    }
+
+    // All three
+    const all = await listGET(req('/api/expenses', { token }), undefined as never);
+    const allBody = (await all.json()).value;
+    expect(allBody.total).toBe(3);
+    expect(allBody.totalAmount).toBe(700);
+
+    // Approved only
+    const appr = await listGET(req('/api/expenses?managerStatus=approved', { token }), undefined as never);
+    const apprBody = (await appr.json()).value;
+    expect(apprBody.total).toBe(2);
+    expect(apprBody.totalAmount).toBe(600);
+
+    // Date range Aug–Sep
+    const ranged = await listGET(req('/api/expenses?from=2026-08-01&to=2026-09-01', { token }), undefined as never);
+    const rangedBody = (await ranged.json()).value;
+    expect(rangedBody.total).toBe(1);
+    expect(rangedBody.totalAmount).toBe(200);
   });
 
   it('forbids a viewer (no write permission) with 403', async () => {

@@ -6,44 +6,74 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ExpenseCreate } from '@/lib/api/contracts/expenses';
 import type { ExpenseRow, CategoryRow } from '@/lib/api/contracts/expenses';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
+import type { LookupRow } from '@/lib/api/contracts/lookups';
 import { expensesApi } from '@/lib/api/expenses-client';
 import { titleCase } from '@/lib/format';
+import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
-type Options = { employees: EmployeeRow[]; categories: CategoryRow[] };
-const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
+export type ExpenseFormOptions = {
+  employees: EmployeeRow[];
+  categories: CategoryRow[];
+  depots: LookupRow[];
+  costOfSale: LookupRow[];
+  activities: LookupRow[];
+  overheads: LookupRow[];
+};
 
-/** Form values are all strings (HTML inputs); Zod coerces dates/numbers/uuids on submit. */
+const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
+const num = (n: number | null | undefined) => (n != null ? String(n) : '');
+const money = (n: number) => `R ${n.toFixed(2)}`;
+
+/** Form values are all strings (HTML inputs); Zod coerces on submit. */
 type FormValues = {
-  employeeId: string; categoryId: string; expenseDate: string; amount: string;
-  currency: string; description: string; status: string;
+  employeeId: string; claimNumber: string; categoryId: string;
+  depotId: string; costOfSaleId: string; activitiesId: string; overheadsId: string;
+  expenseDate: string; periodStart: string; periodEnd: string;
+  costExVat: string; vatRate: string;
+  currency: string; description: string; receiptPath: string; status: string;
 };
 
 export function ExpenseForm({
   expense, options, onSaved, onCancel,
 }: {
   expense?: ExpenseRow | null;
-  options: Options;
+  options: ExpenseFormOptions;
   onSaved: () => void;
   onCancel: () => void;
 }) {
   const [serverError, setServerError] = React.useState<string | null>(null);
   const form = useForm<FormValues>({
-    resolver: zodResolver(ExpenseCreate) as never,
+    // costExVat/amount are optional in the contract; the server computes the total.
+    resolver: zodResolver(ExpenseCreate.omit({ amount: true })) as never,
     defaultValues: {
       employeeId: expense?.employeeId ?? '',
+      claimNumber: expense?.claimNumber ?? '',
       categoryId: expense?.categoryId ?? '',
+      depotId: expense?.depotId ?? '',
+      costOfSaleId: expense?.costOfSaleId ?? '',
+      activitiesId: expense?.activitiesId ?? '',
+      overheadsId: expense?.overheadsId ?? '',
       expenseDate: day(expense?.expenseDate),
-      amount: expense?.amount != null ? String(expense.amount) : '',
+      periodStart: day(expense?.periodStart),
+      periodEnd: day(expense?.periodEnd),
+      costExVat: num(expense?.costExVat),
+      vatRate: expense?.vatRate != null ? String(expense.vatRate) : '15',
       currency: expense?.currency ?? 'ZAR',
       description: expense?.description ?? '',
+      receiptPath: expense?.receiptPath ?? '',
       status: expense?.status ?? 'draft',
     },
   });
+
+  // Live VAT breakdown preview (the server is the source of truth on submit).
+  const costExVat = parseFloat(form.watch('costExVat')) || 0;
+  const vatRate = parseFloat(form.watch('vatRate')) || 0;
+  const vatAmount = Math.round(costExVat * (vatRate / 100) * 100) / 100;
+  const total = Math.round((costExVat + vatAmount) * 100) / 100;
 
   async function submit(values: FormValues) {
     setServerError(null);
@@ -60,28 +90,87 @@ export function ExpenseForm({
 
   const err = form.formState.errors as Record<string, { message?: string }>;
   const employeeName = (e: EmployeeRow) => `${e.firstName} ${e.surname}`;
+  const lookupOpts = (rows: LookupRow[]) =>
+    rows.map((l) => <option key={l.id} value={l.id}>{l.name}</option>);
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
       <div className="grid grid-cols-2 gap-4">
-        <F label="Employee" error={err.employeeId?.message}>
+        <FormField label="Employee" error={err.employeeId?.message}>
           <Select {...form.register('employeeId')}>
             <option value="">—</option>
             {options.employees.map((e) => <option key={e.id} value={e.id}>{employeeName(e)}</option>)}
           </Select>
-        </F>
-        <F label="Category" error={err.categoryId?.message}>
+        </FormField>
+        <FormField label="Claim ref. no." error={err.claimNumber?.message}>
+          <Input {...form.register('claimNumber')} placeholder="auto / RefNo" />
+        </FormField>
+
+        <FormField label="Category" error={err.categoryId?.message}>
           <Select {...form.register('categoryId')}>
             <option value="">—</option>
             {options.categories.map((c) => <option key={c.id} value={c.id}>{titleCase(c.name)}</option>)}
           </Select>
-        </F>
-        <F label="Expense date" error={err.expenseDate?.message}><Input type="date" {...form.register('expenseDate')} /></F>
-        <F label="Amount" error={err.amount?.message}>
-          <Input type="number" step="0.01" {...form.register('amount')} />
-        </F>
-        <F label="Currency" error={err.currency?.message}><Input {...form.register('currency')} /></F>
-        <F label="Status" error={err.status?.message}>
+        </FormField>
+        <FormField label="Depot" error={err.depotId?.message}>
+          <Select {...form.register('depotId')}><option value="">—</option>{lookupOpts(options.depots)}</Select>
+        </FormField>
+      </div>
+
+      {/* Cost allocation */}
+      <fieldset className="rounded-md border p-3">
+        <legend className="px-1 text-xs font-medium text-muted-foreground">Cost allocation</legend>
+        <div className="grid grid-cols-3 gap-4">
+          <FormField label="Cost of sale" error={err.costOfSaleId?.message}>
+            <Select {...form.register('costOfSaleId')}><option value="">—</option>{lookupOpts(options.costOfSale)}</Select>
+          </FormField>
+          <FormField label="Activities" error={err.activitiesId?.message}>
+            <Select {...form.register('activitiesId')}><option value="">—</option>{lookupOpts(options.activities)}</Select>
+          </FormField>
+          <FormField label="Overheads" error={err.overheadsId?.message}>
+            <Select {...form.register('overheadsId')}><option value="">—</option>{lookupOpts(options.overheads)}</Select>
+          </FormField>
+        </div>
+      </fieldset>
+
+      <div className="grid grid-cols-3 gap-4">
+        <FormField label="Claim date" error={err.expenseDate?.message}>
+          <Input type="date" {...form.register('expenseDate')} />
+        </FormField>
+        <FormField label="Period start" error={err.periodStart?.message}>
+          <Input type="date" {...form.register('periodStart')} />
+        </FormField>
+        <FormField label="Period end" error={err.periodEnd?.message}>
+          <Input type="date" {...form.register('periodEnd')} />
+        </FormField>
+      </div>
+
+      {/* VAT breakdown */}
+      <fieldset className="rounded-md border p-3">
+        <legend className="px-1 text-xs font-medium text-muted-foreground">Amounts (VAT)</legend>
+        <div className="grid grid-cols-4 items-end gap-4">
+          <FormField label="Cost ex-VAT" error={err.costExVat?.message}>
+            <Input type="number" step="0.01" {...form.register('costExVat')} />
+          </FormField>
+          <FormField label="VAT rate %" error={err.vatRate?.message}>
+            <Input type="number" step="0.01" {...form.register('vatRate')} />
+          </FormField>
+          <div className="space-y-1">
+            <p className="text-sm font-medium">VAT amount</p>
+            <p className="flex h-9 items-center text-sm text-muted-foreground">{money(vatAmount)}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm font-medium">Total (incl.)</p>
+            <p className="flex h-9 items-center text-sm font-semibold">{money(total)}</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField label="Receipt reference / link" error={err.receiptPath?.message}>
+          <Input {...form.register('receiptPath')} placeholder="file path or URL" />
+        </FormField>
+        <FormField label="Status" error={err.status?.message}>
           <Select {...form.register('status')}>
             <option value="draft">Draft</option>
             <option value="submitted">Submitted</option>
@@ -89,9 +178,13 @@ export function ExpenseForm({
             <option value="rejected">Rejected</option>
             <option value="reimbursed">Reimbursed</option>
           </Select>
-        </F>
+        </FormField>
       </div>
-      <F label="Description" error={err.description?.message}><Textarea {...form.register('description')} /></F>
+
+      <FormField label="Description" error={err.description?.message}>
+        <Textarea {...form.register('description')} />
+      </FormField>
+
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">
         <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
@@ -100,25 +193,5 @@ export function ExpenseForm({
         </Button>
       </div>
     </form>
-  );
-}
-
-function F({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  const generatedId = React.useId();
-  const errorId = error ? `${generatedId}-error` : undefined;
-  const child = React.isValidElement<{ id?: string; "aria-describedby"?: string; "aria-invalid"?: boolean }>(children)
-    ? React.cloneElement(children, {
-        id: children.props.id ?? generatedId,
-        "aria-describedby": errorId,
-        "aria-invalid": error ? true : undefined,
-      })
-    : children;
-
-  return (
-    <div className="space-y-1">
-      <Label htmlFor={generatedId}>{label}</Label>
-      {child}
-      {error && <p id={errorId} className="text-xs text-destructive">{error}</p>}
-    </div>
   );
 }
