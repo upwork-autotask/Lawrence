@@ -1,0 +1,2907 @@
+TOTAL_FORMS: 103
+
+##### FORM: FrmActivities #####
+RECORDSOURCE: tblActivities
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | Code | src=Code
+FIELD| Label | Label695 | src=
+FIELD| TextBox | ActivitiesID | src=ActivitiesID
+FIELD| Label | Label718 | src=
+FIELD| TextBox | Activities | src=Activities
+FIELD| Label | Label719 | src=
+
+##### FORM: frmActualRecruitmenList #####
+RECORDSOURCE: 
+
+##### FORM: frmActualRecruitment #####
+RECORDSOURCE: 
+
+##### FORM: frmActualRecruitmentReg #####
+RECORDSOURCE: 
+
+##### FORM: FrmCarList #####
+RECORDSOURCE: tblCarScheme
+BUTTON|  &Close
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label365 | src=
+FIELD| Label | Label489 | src=
+FIELD| Label | Label494 | src=
+FIELD| Label | Label544 | src=
+BUTTON|  &Print
+BUTTON| Search
+BUTTON| PDF
+FIELD| TextBox | TASK | src==[Forms]![Login]![Name1]
+FIELD| Label | Label610 | src=
+FIELD| Label | Label611 | src=
+FIELD| Label | Label614 | src=
+FIELD| Label | Label615 | src=
+FIELD| Label | Label616 | src=
+FIELD| Label | Label617 | src=
+FIELD| Label | Label618 | src=
+FIELD| Empty | EmptyCell680 | src=
+FIELD| Empty | EmptyCell682 | src=
+DROPDOWN| cboRegion | bound= | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label700 | src=
+DROPDOWN| cboDept | bound= | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label701 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label705 | src=
+FIELD| Empty | EmptyCell688 | src=
+FIELD| Empty | EmptyCell694 | src=
+FIELD| Empty | EmptyCell695 | src=
+DROPDOWN| cboYr | bound= | rstype=Table/Query | rows=SELECT Format([cMonth],"mmm-yy") AS Expr1 FROM tblCarScheme; 
+FIELD| Label | Label708 | src=
+FIELD| Empty | EmptyCell709 | src=
+DROPDOWN| cboKm | bound= | rstype=Table/Query | rows=SELECT tblCarScheme.Bkm FROM tblCarScheme; 
+FIELD| Label | Label713 | src=
+FIELD| Empty | EmptyCell719 | src=
+FIELD| Empty | EmptyCell720 | src=
+FIELD| Empty | EmptyCell723 | src=
+FIELD| Empty | EmptyCell724 | src=
+BUTTON| Reset
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| TextBox | CarSchemeID | src=CarSchemeID
+DROPDOWN| Combo606 | bound=Status | rstype=Value List | rows="Pending";"Approved";"Rejected"
+DROPDOWN| EmployeeName | bound=EmployeeName | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| TextBox | cMonth | src=cMonth
+FIELD| TextBox | TotalKM | src=TotalKM
+FIELD| TextBox | Pkm | src=Pkm
+FIELD| TextBox | Bkm | src=Bkm
+FIELD| TextBox | RatePerKm | src=RatePerKm
+FIELD| TextBox | TotalAmount | src=TotalAmount
+
+##### FORM: FrmCarScheme #####
+RECORDSOURCE: tblCarScheme
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | CarSchemeID | src=CarSchemeID
+FIELD| Label | Label657 | src=
+DROPDOWN| EmployeeName | bound=EmployeeName | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label658 | src=
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label659 | src=
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label660 | src=
+FIELD| TextBox | cMonth | src=cMonth
+FIELD| Label | Label661 | src=
+FIELD| TextBox | KMStart | src=KMStart
+FIELD| Label | Label662 | src=
+FIELD| TextBox | KMEnd | src=KMEnd
+FIELD| Label | Label663 | src=
+FIELD| TextBox | TotalKM | src=TotalKM
+FIELD| Label | Label664 | src=
+FIELD| TextBox | Pkm | src=Pkm
+FIELD| Label | Label665 | src=
+FIELD| TextBox | Bkm | src=Bkm
+FIELD| Label | Label666 | src=
+FIELD| TextBox | RatePerKm | src=RatePerKm
+FIELD| Label | Label667 | src=
+FIELD| TextBox | TotalAmount | src=TotalAmount
+FIELD| Label | Label668 | src=
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Pending";"Approved";"Rejected"
+FIELD| Label | Label669 | src=
+FIELD| TextBox | Notes | src=Notes
+FIELD| Label | Label670 | src=
+
+##### FORM: frmClaimApproval #####
+RECORDSOURCE: SELECT qryExpReg.*, tblTmpExp.Status FROM qryExpReg INNER JOIN tblTmpExp ON qryExpReg.ExpenseID = tblTmpExp.ExpID; 
+FIELD| Label | Label1 | src=
+FIELD| Label | Label3 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] INNER JOIN TblExpense ON [Employees Employment details].EmployeeID = TblExpense.EmployeeID GROUP BY [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label1190 | src=
+FIELD| Label | Label17 | src=
+FIELD| Label | Label21 | src=
+FIELD| Label | Label22 | src=
+FIELD| Label | Label23 | src=
+FIELD| Label | Label24 | src=
+FIELD| Label | Label25 | src=
+FIELD| Label | Label26 | src=
+FIELD| Label | Label27 | src=
+FIELD| Label | Label28 | src=
+FIELD| Label | Label29 | src=
+FIELD| Label | Label93 | src=
+BUTTON| Go
+FIELD| Empty | EmptyCell154 | src=
+FIELD| Label | Label200 | src=
+FIELD| Label | Label207 | src=
+FIELD| Label | Label210 | src=
+FIELD| TextBox | txtDetails | src=Details
+FIELD| TextBox | Merge | src=Merge
+FIELD| TextBox | VAT | src=VAT
+FIELD| TextBox | VATAmount | src=VATAmount
+FIELD| TextBox | DateOfClaim | src=DateOfClaim
+FIELD| TextBox | txtaccomm | src=Accommodateion
+FIELD| TextBox | Entertainment | src=Entertainment
+FIELD| TextBox | International | src=International
+FIELD| TextBox | Sundry | src=Sundry
+FIELD| TextBox | Text78 | src==Nz([Accommodateion],0)+Nz([Entertainment],0)+Nz([Sundry],0)+Nz([International],0)+Nz([VatAmount],0)
+FIELD| TextBox | Status | src=Status
+DROPDOWN| cboStatus | bound= | rstype=Value List | rows=Approved;Rejected
+FIELD| TextBox | ExpenseID | src=ExpenseID
+FIELD| BoundObjectFrame | FIles | src=FIles
+FIELD| TextBox | Text98 | src==Sum(IIf([Status]="Approved",Nz([Accommodateion],0)+Nz([Entertainment],0)+Nz([Sundry],0)+Nz([International],0),0))+Sum(IIf([Status]="Approved",[VATAmount],0))
+FIELD| TextBox | Text99 | src==Sum(IIf([Status]="Approved",[Accommodateion],0))
+FIELD| Label | Label105 | src=
+FIELD| TextBox | Text100 | src==Sum(IIf([Status]="Approved",[Entertainment],0))
+FIELD| TextBox | Text101 | src==Sum(IIf([Status]="Approved",[International],0))
+FIELD| TextBox | Text102 | src==Sum(IIf([Status]="Approved",[Sundry],0))
+FIELD| Empty | EmptyCell113 | src=
+FIELD| Label | Label125 | src=
+BUTTON| Save
+FIELD| TextBox | Text197 | src==Sum(IIf([Status]="Approved",[VATAmount],0))
+FIELD| Empty | EmptyCell199 | src=
+DROPDOWN| txtApprove | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (((tblRecruitmentAppData.[Responsible Manager]) Is Not Null)); 
+FIELD| Label | Label123 | src=
+
+##### FORM: frmClaimHist #####
+RECORDSOURCE: SELECT qryExpHist.* FROM qryExpHist WHERE (((qryExpHist.RefNo)=[tempvars]![refNo])); 
+FIELD| Label | Label1 | src=
+FIELD| Label | Label3 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] INNER JOIN TblExpense ON [Employees Employment details].EmployeeID = TblExpense.EmployeeID GROUP BY [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label1190 | src=
+FIELD| Label | Label17 | src=
+FIELD| Label | Label21 | src=
+FIELD| Label | Label22 | src=
+FIELD| Label | Label23 | src=
+FIELD| Label | Label24 | src=
+FIELD| Label | Label25 | src=
+FIELD| Label | Label26 | src=
+FIELD| Label | Label27 | src=
+FIELD| Label | Label28 | src=
+FIELD| Label | Label29 | src=
+FIELD| Label | Label93 | src=
+FIELD| Label | Label200 | src=
+FIELD| Label | Label207 | src=
+FIELD| TextBox | txtRefNo | src=RefNo
+FIELD| Label | Label210 | src=
+FIELD| TextBox | txtDetails | src=Details
+FIELD| TextBox | Merge | src=Merge
+FIELD| TextBox | VAT | src=VAT
+FIELD| TextBox | VATAmount | src=VATAmount
+FIELD| TextBox | DateOfClaim | src=DateOfClaim
+FIELD| TextBox | txtaccomm | src=Accommodateion
+FIELD| TextBox | Entertainment | src=Entertainment
+FIELD| TextBox | International | src=International
+FIELD| TextBox | Sundry | src=Sundry
+FIELD| TextBox | Text78 | src==Nz([Accommodateion],0)+Nz([Entertainment],0)+Nz([Sundry],0)+Nz([International],0)+Nz([VatAmount],0)
+FIELD| TextBox | ExpenseID | src=ExpenseID
+FIELD| BoundObjectFrame | FIles | src=FIles
+FIELD| TextBox | MangerApproval | src=MangerApproval
+FIELD| TextBox | Text99 | src==Sum(IIf([MangerApproval]="Approved",[Accommodateion],0))
+FIELD| Label | Label105 | src=
+FIELD| TextBox | txtDt | src=SignedOn
+FIELD| Label | Label125 | src=
+DROPDOWN| txtApprove | bound=ApprovedBy | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (((tblRecruitmentAppData.[Responsible Manager]) Is Not Null)); 
+FIELD| Label | Label123 | src=
+FIELD| TextBox | Text100 | src==Sum(IIf([MangerApproval]="Approved",[Entertainment],0))
+FIELD| TextBox | Text101 | src==Sum(IIf([MangerApproval]="Approved",[International],0))
+FIELD| TextBox | Text102 | src==Sum(IIf([MangerApproval]="Approved",[Sundry],0))
+FIELD| TextBox | Text197 | src==Sum(IIf([MangerApproval]="Approved",[VATAmount],0))
+FIELD| TextBox | Text98 | src==Sum(IIf([MangerApproval]="Approved",Nz([Accommodateion],0)+Nz([Entertainment],0)+Nz([Sundry],0)+Nz([International],0),0))+Sum(IIf([MangerApproval]="Approved",[VATAmount],0))
+FIELD| TextBox | Text272 | src==Sum(IIf([MangerApproval]="Approved",[international],0))
+FIELD| Empty | EmptyCell282 | src=
+
+##### FORM: frmClaimReg #####
+RECORDSOURCE: qryClaimRef
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label93 | src=
+FIELD| Label | Label95 | src=
+FIELD| Label | Label99 | src=
+BUTTON|  &Close
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | DepName_Label | src=
+BUTTON| Search
+BUTTON| Clear
+DROPDOWN| cboRegion | bound= | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label315 | src=
+FIELD| Label | Label392 | src=
+FIELD| Label | Label401 | src=
+FIELD| Label | Label408 | src=
+FIELD| Label | Label411 | src=
+FIELD| Label | Label738 | src=
+FIELD| Label | Label742 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT qryClaimRef.EmployeeID, qryClaimRef.[First Name], Nz([Last Name],[Surname]) AS Expr1 FROM [Employees Employment details] INNER JOIN qryClaimRef ON [Employees Employment details].EmployeeID = qryClaimRef.EmployeeID GROUP BY qryClaimRef.EmployeeID, qryClaimRef.[First Name], Nz([Last Name],[Surname]) HAVING (((qryClaimRef.[First Name]) Is Not Null)) ORDER BY qryClaimRef.[First Name], Nz([Last Name],[Surname]); 
+FIELD| Label | Select Employee_Label | src=
+FIELD| Empty | EmptyCell442 | src=
+FIELD| Empty | EmptyCell443 | src=
+FIELD| Label | Label447 | src=
+FIELD| TextBox | First NameID | src=First Name
+DROPDOWN| Region | bound=Province | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| TextBox | RefNo | src=RefNo
+FIELD| TextBox | PeriodClaimStartDate | src=PeriodClaimStartDate
+FIELD| TextBox | PeriodClaimEndDate | src=PeriodClaimEndDate
+FIELD| TextBox | Tot | src=Tot
+FIELD| TextBox | SignedOn | src=SignedOn
+FIELD| TextBox | Text454 | src==Sum([Tot])
+FIELD| Label | Label456 | src=
+FIELD| Line | Line457 | src=
+
+##### FORM: FrmCostOfSales #####
+RECORDSOURCE: TblCostOfSale
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | Code | src=Code
+FIELD| Label | Label695 | src=
+FIELD| TextBox | CostofSaleID | src=CostofSaleID
+FIELD| Label | Label718 | src=
+FIELD| TextBox | CostOfSale | src=CostOfSale
+FIELD| Label | Label719 | src=
+
+##### FORM: frmCritical #####
+RECORDSOURCE: SELECT tblCriticalSkills.*, [Employees Employment details].* FROM tblCriticalSkills LEFT JOIN [Employees Employment details] ON tblCriticalSkills.SuccessorIdentified = [Employees Employment details].EmployeeID; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | RefNo | src=RefID
+FIELD| Label | Label0 | src=
+FIELD| TextBox | LastReviewDate | src=LastReviewDate
+FIELD| Label | Label24 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| Region | bound=Province | rstype=Table/Query | rows=SELECT TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label6 | src=
+DROPDOWN| CriticalityReason | bound=CriticalityReason | rstype=Value List | rows="Legal / Regulatory accountability";"SHEQ -critical role";"Financial impact";"Operational continuity";"Scarce skill in labour market";"Strategic leadership";"Employment Equity ";"Sales Revenue";"Business Continuity ";"Compliance Critical rol "
+FIELD| Label | Label9 | src=
+DROPDOWN| TierSelection | bound=TierSelection | rstype=Value List | rows=Tier1;Tier2;Tier3
+FIELD| Label | Label12 | src=
+DROPDOWN| SuccessorIdentified | bound=SuccessorIdentified | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label18 | src=
+FIELD| Empty | EmptyCell41 | src=
+FIELD| Empty | EmptyCell42 | src=
+DROPDOWN| Job tilte | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label5 | src=
+DROPDOWN| RiskLevel | bound=RiskLevel | rstype=Value List | rows="High";"Medium";"Low"
+FIELD| Label | Label15 | src=
+DROPDOWN| Combo61 | bound=Department | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | Label69 | src=
+
+##### FORM: frmCriticalReg #####
+RECORDSOURCE: SELECT tblCriticalSkills.*, [Employees Employment details].* FROM tblCriticalSkills LEFT JOIN [Employees Employment details] ON tblCriticalSkills.SuccessorIdentified = [Employees Employment details].EmployeeID; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label0 | src=
+FIELD| Label | Label18 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label12 | src=
+FIELD| Label | Label15 | src=
+FIELD| Label | Label24 | src=
+DROPDOWN| cboRegion | bound= | rstype=Table/Query | rows=SELECT TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label135 | src=
+DROPDOWN| cboRisk | bound= | rstype=Value List | rows="High";"Medium";"Low"
+FIELD| Empty | EmptyCell132 | src=
+FIELD| Empty | EmptyCell136 | src=
+FIELD| Empty | EmptyCell137 | src=
+FIELD| Label | Label140 | src=
+FIELD| Label | Label144 | src=
+FIELD| Label | Label152 | src=
+FIELD| Empty | EmptyCell159 | src=
+FIELD| Empty | EmptyCell160 | src=
+FIELD| Empty | EmptyCell161 | src=
+FIELD| Empty | EmptyCell162 | src=
+FIELD| Empty | EmptyCell163 | src=
+FIELD| Empty | EmptyCell164 | src=
+FIELD| Empty | EmptyCell165 | src=
+FIELD| Empty | EmptyCell166 | src=
+FIELD| Empty | EmptyCell167 | src=
+FIELD| Empty | EmptyCell168 | src=
+FIELD| Label | Label170 | src=
+BUTTON|  &Reset
+DROPDOWN| cboJob | bound= | rstype=Table/Query | rows=SELECT DISTINCT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM (tblCriticalSkills LEFT JOIN [Employees Employment details] ON tblCriticalSkills.SuccessorIdentified = [Employees Employment details].EmployeeID) LEFT JOIN TblJobTitle ON [Employees Employment details].[Job Title] = TblJobTitle.JobTitleID ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label182 | src=
+FIELD| TextBox | RefNo | src=RefID
+FIELD| TextBox | LastReviewDate | src=LastReviewDate
+DROPDOWN| Region | bound=Province | rstype=Table/Query | rows=SELECT TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+DROPDOWN| CriticalityReason | bound=CriticalityReason | rstype=Value List | rows="Legal / Regulatory accountability";"SHEQ -critical role";"Financial impact";"Operational continuity";"Scarce skill in labour market";"Strategic leadership";"Employment Equity ";"Sales Revenue";"Business Continuity ";"Compliance Critical rol "
+DROPDOWN| TierSelection | bound=TierSelection | rstype=Value List | rows=Tier1;Tier2;Tier3
+DROPDOWN| SuccessorIdentified | bound=SuccessorIdentified | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+DROPDOWN| Job tilte | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+DROPDOWN| RiskLevel | bound=RiskLevel | rstype=Value List | rows="High";"Medium";"Low"
+
+##### FORM: FrmDeparment #####
+RECORDSOURCE: TblDeparment
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | DepID | src=DepID
+FIELD| Label | Label617 | src=
+FIELD| TextBox | DepName | src=DepName
+FIELD| Label | Label618 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+
+##### FORM: FrmDepot #####
+RECORDSOURCE: TblDepot
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | DepotID | src=DepotID
+FIELD| Label | Label693 | src=
+FIELD| TextBox | DepotName | src=DepotName
+FIELD| Label | Label694 | src=
+FIELD| TextBox | Code | src=Code
+FIELD| Label | Label695 | src=
+
+##### FORM: frmdevelopement #####
+RECORDSOURCE: 
+
+##### FORM: frmDevelopementReg #####
+RECORDSOURCE: 
+
+##### FORM: frmDisciplinary #####
+RECORDSOURCE: TblDisciplinary
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | ID | src=ID
+FIELD| Label | Label789 | src=
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].[Last Name], [Employees Employment details].Title FROM [Employees Employment details]; 
+FIELD| Label | Label790 | src=
+FIELD| TextBox | Title | src=Title
+FIELD| Label | Label791 | src=
+FIELD| TextBox | Dateofoffence | src=Dateofoffence
+FIELD| Label | Label884 | src=
+FIELD| TextBox | Notes | src=Notes
+FIELD| Label | Label885 | src=
+DROPDOWN| Type of Disciplinary | bound=TypeofDisciplinary | rstype=Value List | rows="Misconduct";"Incapacity"
+FIELD| Label | Label886 | src=
+DROPDOWN| NatureOfOffence | bound=NatureOfOffence | rstype=Table/Query | rows=SELECT [tblNatureOfOffence].[OffenceID], [tblNatureOfOffence].[OffenceName] FROM tblNatureOfOffence; 
+FIELD| Label | Label887 | src=
+FIELD| TextBox | DateOfDisciplianry | src=DateOfDisciplinary
+FIELD| Label | Label888 | src=
+FIELD| TextBox | DateOfEnquiry | src=DateOfEnquiry
+FIELD| Label | Label890 | src=
+DROPDOWN| Who | bound=Who | rstype=Value List | rows="Internal";"Labour Net";"labour broker "
+FIELD| Label | Label891 | src=
+DROPDOWN| DisciplianryAction | bound=DisciplinaryAction | rstype=Table/Query | rows=SELECT [tblDisciplinaryAction].[DAID], [tblDisciplinaryAction].[DA] FROM tblDisciplinaryAction; 
+FIELD| Label | Label956 | src=
+FIELD| TextBox | DisciplinaryActionOpenDate | src=DisciplinaryActionOpenDate
+FIELD| Label | Label969 | src=
+FIELD| TextBox | Disciplinaryaction Closed date | src=Disciplinaryaction Closed date
+FIELD| Label | Label970 | src=
+FIELD| BoundObjectFrame | AttachDocument | src=AttachDocument
+FIELD| Label | Label983 | src=
+
+##### FORM: FrmDisciplinaryAction #####
+RECORDSOURCE: tblDisciplinaryAction
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | DAID | src=DAID
+FIELD| Label | Label675 | src=
+FIELD| TextBox | DA | src=DA
+FIELD| Label | Label676 | src=
+
+##### FORM: frmDisList #####
+RECORDSOURCE: TblDisciplinary
+BUTTON|  &Close
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label544 | src=
+BUTTON|  &Print
+BUTTON| Search
+BUTTON| PDF
+FIELD| TextBox | TASK | src==[Forms]![Login]![Name1]
+FIELD| Label | Label697 | src=
+FIELD| Label | Label698 | src=
+FIELD| Label | Label788 | src=
+FIELD| Label | Label790 | src=
+FIELD| Label | Label791 | src=
+FIELD| Label | Label792 | src=
+FIELD| Label | Label793 | src=
+FIELD| Label | Label794 | src=
+FIELD| Label | Label795 | src=
+FIELD| Label | Label796 | src=
+FIELD| Label | Label797 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT TblDisciplinary.EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].Surname FROM [Employees Employment details] INNER JOIN TblDisciplinary ON [Employees Employment details].EmployeeID = TblDisciplinary.EmployeeID GROUP BY TblDisciplinary.EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].Surname HAVING (((TblDisciplinary.EmployeeID) Is Not Null)); 
+FIELD| Label | Label868 | src=
+DROPDOWN| cboType | bound= | rstype=Value List | rows="Misconduct";"Incapacity"
+FIELD| Label | Label871 | src=
+DROPDOWN| cboNature | bound= | rstype=Table/Query | rows=SELECT [tblNatureOfOffence].[OffenceID], [tblNatureOfOffence].[OffenceName] FROM tblNatureOfOffence; 
+FIELD| Label | Label878 | src=
+FIELD| Empty | EmptyCell874 | src=
+FIELD| Empty | EmptyCell876 | src=
+BUTTON| Reset
+FIELD| TextBox | ID | src=ID
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| TextBox | Title | src=Title
+FIELD| TextBox | Dateofoffence | src=Dateofoffence
+DROPDOWN| TypeofDisciplinary | bound=TypeofDisciplinary | rstype=Value List | rows="Misconduct";"Incapacity"
+DROPDOWN| NatureOfOffence | bound=NatureOfOffence | rstype=Table/Query | rows=SELECT [tblNatureOfOffence].[OffenceID], [tblNatureOfOffence].[OffenceName] FROM tblNatureOfOffence; 
+FIELD| TextBox | DateOfDisciplinary | src=DateOfDisciplinary
+DROPDOWN| DisciplinaryAction | bound=DisciplinaryAction | rstype=Table/Query | rows=SELECT [tblDisciplinaryAction].[DAID], [tblDisciplinaryAction].[DA] FROM tblDisciplinaryAction; 
+FIELD| TextBox | DateOfEnquiry | src=DateOfEnquiry
+DROPDOWN| Who | bound=Who | rstype=Value List | rows="Internal";"Labour Net";"labour broker "
+FIELD| TextBox | DisciplinaryActionOpenDate | src=DisciplinaryActionOpenDate
+FIELD| TextBox | Disciplinaryaction Closed date | src=Disciplinaryaction Closed date
+
+##### FORM: FrmEfORMS #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+BUTTON| Close
+FIELD| Label | Label138 | src=
+FIELD| Label | Label210 | src=
+BUTTON|  Add  Employees Performance
+BUTTON|   Employees Disciplianry Record
+BUTTON|  Leave Form
+BUTTON|   Car Scheme Claim
+BUTTON|   Expense Form
+FIELD| Label | Label198 | src=
+BUTTON|    KPI Category
+BUTTON|   Nature Of Offences
+BUTTON|   Disciplianry Action
+BUTTON|   Expense Category
+BUTTON|   Depot Code
+BUTTON|   Cost Of Sale
+BUTTON|  All Employees Performances
+BUTTON|  All Employees Disciplianry Record
+BUTTON|   Leave List
+BUTTON|    Car Scheme Claim Record 
+BUTTON|   Activities
+BUTTON|   Overheads
+FIELD| T101 | Box81 | src=
+BUTTON|     Sucession Plan List
+BUTTON|   Claim Form
+BUTTON|   Claim History
+
+##### FORM: frmEmpInterview #####
+RECORDSOURCE: SELECT tblEmpInterview.*, tblInterview.Que, tblInterview.Head, tblInterview.Score AS Marks FROM tblEmpInterview INNER JOIN tblInterview ON tblEmpInterview.QueNo = tblInterview.QueID; 
+FIELD| Label | Label0 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Auto_Header0 | src=
+FIELD| Empty | EmptyCell27 | src=
+DROPDOWN| cboHead | bound= | rstype=Table/Query | rows=SELECT tblInterview.Head, Min(tblInterview.QueID) AS MinOfQueID FROM tblInterview GROUP BY tblInterview.Head ORDER BY Min(tblInterview.QueID); 
+FIELD| Label | cboHead_Label | src=
+FIELD| Label | Label65 | src=
+FIELD| TextBox | Text76 | src==IIf(IsNull([Forms]![frmInterview]![EMPID]),"New",Nz([Forms]![frmInterview]![Name],"") & " " & Nz([Forms]![frmInterview]![Surname],""))
+FIELD| Label | Label77 | src=
+BUTTON|  &Save
+FIELD| Empty | EmptyCell26 | src=
+FIELD| TextBox | ID | src=ID
+FIELD| TextBox | Que | src=Que
+FIELD| TextBox | Ans | src=Ans
+DROPDOWN| Score | bound=Score | rstype=Value List | rows=0;5;10
+FIELD| BoundObjectFrame | Upload | src=Upload
+FIELD| TextBox | Notes | src=Notes
+FIELD| TextBox | Text72 | src==Sum([Score])
+FIELD| Label | Label74 | src=
+
+##### FORM: FrmEmployeeDetails #####
+RECORDSOURCE: SELECT [Employees Employment details].*, tblCriticalSkills.RefID FROM [Employees Employment details] LEFT JOIN tblCriticalSkills ON [Employees Employment details].EmployeeID = tblCriticalSkills.SuccessorIdentified; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | Saved | src=Saved
+FIELD| TextBox | EmployeeID | src=EmployeeID
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TabControl | tabContacts | src= Title Intials Surname MadienName First Name Last Name AlsoKnownAS SpouseName DOB ID Number PassportNumber PassportCountry Language E-mail Address HomeNumber WorkNumber CellNumber Ethnicity Gender MaritalStatus IncomeTaxNumber Directive SkillLevel CriticalSkills RefID EmergencyNameAndSurname EmergencyCellNumber EmergencyWorkNumber ResUnitNumber ResStreetNumber ResSuburb ResComplex ResStreetName ResCity ResPostalCode PostUnitNumber PostStreetNumber PostSuburb PostComplex PostStreetName PostCity PostPostalCode PaymentMethod BankName BranchCode AccountHolderName AccountNumber TypeOfAccount AccountRelationship EmployeeCode DateEmployed Job Title JobGradeasPerNBC CategoryAsPerNBC Province Depo Account CostDepartment CostCenter RatePerHour MonthlySalary RemunerationPerAnunm UIFStatus TaxStatus MedicalAidPlan MedicalAidAmount VitalityAmount Site JobFunctionalityEquity OccupationalyLevelEquity ConcilNBC HoursPerMonth HoursPerDay AnnualLeaveEntitlement Momentum Momentum_Date Momentum_a id Criminalcheck SageForm BankConfirmation SAR Contract JobDescription LineManager Compliance EXCOapproval EEcommitteeRep Approval CurrentPosition
+FIELD| Page |  Employee Details | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].Surname FROM [Employees Employment details] ORDER BY [Employees Employment details].[First Name], [Employees Employment details].Surname; 
+FIELD| Label | Text56 | src=
+FIELD| Label | Label1359 | src=
+DROPDOWN| Title | bound=Title | rstype=Value List | rows="MR";"MS";"MRS";"DR";"PROF"
+FIELD| Label | Label1027 | src=
+FIELD| TextBox | Intials | src=Intials
+FIELD| Label | Label1028 | src=
+FIELD| TextBox | Surname | src=Surname
+FIELD| Label | Label1029 | src=
+FIELD| TextBox | MadienName | src=MadienName
+FIELD| Label | Label1030 | src=
+FIELD| TextBox | Text1031 | src=First Name
+FIELD| Label | Label1032 | src=
+FIELD| TextBox | Text1033 | src=Last Name
+FIELD| Label | Label1034 | src=
+FIELD| TextBox | AlsoKnownAS | src=AlsoKnownAS
+FIELD| Label | Label1035 | src=
+FIELD| TextBox | SpouseName | src=SpouseName
+FIELD| Label | Label1036 | src=
+FIELD| TextBox | DOB | src=DOB
+FIELD| Label | Label1037 | src=
+FIELD| TextBox | ID Number | src=ID Number
+FIELD| Label | Label1038 | src=
+FIELD| TextBox | PassportNumber | src=PassportNumber
+FIELD| Label | Label1039 | src=
+FIELD| TextBox | PassportCountry | src=PassportCountry
+FIELD| Label | Label1040 | src=
+FIELD| TextBox | Language | src=Language
+FIELD| Label | Label1041 | src=
+FIELD| TextBox | E-mail Address | src=E-mail Address
+FIELD| Label | Label1042 | src=
+FIELD| TextBox | HomeNumber | src=HomeNumber
+FIELD| Label | Label1043 | src=
+FIELD| TextBox | WorkNumber | src=WorkNumber
+FIELD| Label | Label1044 | src=
+FIELD| TextBox | CellNumber | src=CellNumber
+FIELD| Label | Label1045 | src=
+DROPDOWN| Ethnicity | bound=Ethnicity | rstype=Value List | rows="African";"Coloured";"White";"Indian"
+FIELD| Label | Label1160 | src=
+DROPDOWN| Gender | bound=Gender | rstype=Value List | rows="Male";"Female";"Trust";"Company or CC"
+FIELD| Label | Label1161 | src=
+DROPDOWN| MaritalStatus | bound=MaritalStatus | rstype=Value List | rows="Single";"Married";"Divorced"
+FIELD| Label | Label1686 | src=
+FIELD| TextBox | IncomeTaxNumber | src=IncomeTaxNumber
+FIELD| Label | Label1163 | src=
+FIELD| TextBox | Directive | src=Directive
+FIELD| Label | Label1164 | src=
+DROPDOWN| SkillLevel | bound=SkillLevel | rstype=Value List | rows="Skilled";"Unskilled";"Semi-skilled";"Professional"
+FIELD| Label | Label1767 | src=
+DROPDOWN| CriticalSkills | bound=CriticalSkills | rstype=Value List | rows="High";"Medium";"Low";"Insignificant"
+FIELD| Label | Label1768 | src=
+FIELD| TextBox | RefID | src=RefID
+FIELD| Label | Label1885 | src=
+FIELD| Page | Emergency Contact && Address Details | src=
+FIELD| Label | Label1204 | src=
+FIELD| Empty | EmptyCell1207 | src=
+FIELD| TextBox | EmergencyNameAndSurname | src=EmergencyNameAndSurname
+FIELD| Label | Label1208 | src=
+FIELD| TextBox | EmergencyCellNumber | src=EmergencyCellNumber
+FIELD| Label | Label1209 | src=
+FIELD| TextBox | EmergencyWorkNumber | src=EmergencyWorkNumber
+FIELD| Label | Label1210 | src=
+FIELD| Label | Label1233 | src=
+FIELD| Empty | EmptyCell1236 | src=
+FIELD| TextBox | ResUnitNumber | src=ResUnitNumber
+FIELD| Label | Label1245 | src=
+FIELD| TextBox | ResStreetNumber | src=ResStreetNumber
+FIELD| Label | Label1246 | src=
+FIELD| TextBox | ResSuburb | src=ResSuburb
+FIELD| Label | Label1247 | src=
+FIELD| TextBox | ResComplex | src=ResComplex
+FIELD| Label | Label1248 | src=
+FIELD| TextBox | ResStreetName | src=ResStreetName
+FIELD| Label | Label1249 | src=
+FIELD| TextBox | ResCity | src=ResCity
+FIELD| Label | Label1250 | src=
+FIELD| TextBox | ResPostalCode | src=ResPostalCode
+FIELD| Label | Label1251 | src=
+FIELD| Label | Label1296 | src=
+FIELD| Empty | EmptyCell1299 | src=
+FIELD| TextBox | PostUnitNumber | src=PostUnitNumber
+FIELD| Label | Label1308 | src=
+FIELD| TextBox | PostStreetNumber | src=PostStreetNumber
+FIELD| Label | Label1309 | src=
+FIELD| TextBox | PostSuburb | src=PostSuburb
+FIELD| Label | Label1310 | src=
+FIELD| TextBox | PostComplex | src=PostComplex
+FIELD| Label | Label1311 | src=
+FIELD| TextBox | PostStreetName | src=PostStreetName
+FIELD| Label | Label1312 | src=
+FIELD| TextBox | PostCity | src=PostCity
+FIELD| Label | Label1313 | src=
+FIELD| TextBox | PostPostalCode | src=PostPostalCode
+FIELD| Label | Label1314 | src=
+FIELD| Page | Banking Details | src=
+FIELD| Label | Label1367 | src=
+FIELD| Empty | EmptyCell1370 | src=
+DROPDOWN| PaymentMethod | bound=PaymentMethod | rstype=Value List | rows="Cash"
+FIELD| Label | Label1371 | src=
+FIELD| TextBox | BankName | src=BankName
+FIELD| Label | Label1372 | src=
+FIELD| TextBox | BranchCode | src=BranchCode
+FIELD| Label | Label1373 | src=
+FIELD| TextBox | AccountHolderName | src=AccountHolderName
+FIELD| Label | Label1374 | src=
+FIELD| TextBox | AccountNumber | src=AccountNumber
+FIELD| Label | Label1375 | src=
+DROPDOWN| TypeOfAccount | bound=TypeOfAccount | rstype=Value List | rows="Savings";"Cheque";"Transmission"
+FIELD| Label | Label1376 | src=
+DROPDOWN| AccountRelationship | bound=AccountRelationship | rstype=Value List | rows="Own";"Joint";"Third Party"
+FIELD| Label | Label1377 | src=
+FIELD| Page | Appointment Details | src=
+FIELD| Label | Label1422 | src=
+FIELD| Empty | EmptyCell1425 | src=
+FIELD| Empty | EmptyCell1820 | src=
+FIELD| TextBox | EmployeeCode | src=EmployeeCode
+FIELD| Label | Label1426 | src=
+FIELD| Empty | EmptyCell1821 | src=
+FIELD| TextBox | DateEngaged | src=DateEmployed
+FIELD| Label | Label1427 | src=
+FIELD| Empty | EmptyCell1822 | src=
+DROPDOWN| Job Title | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+FIELD| Label | Label1428 | src=
+FIELD| Empty | EmptyCell1823 | src=
+DROPDOWN| JobGradeasPerNBC | bound=JobGradeasPerNBC | rstype=Value List | rows="GRADE 1";"GRADE 2";"GRADE 3";"GRADE 4";"GRADE 5";"GRADE 8";"GRADE 10";"GRADE 14";"SECURITY OFFICER - GRADE I";"SECURITY OFFICER - GRADE II";"SECURITY OFFICER - GRADE III"
+FIELD| Label | Label1429 | src=
+FIELD| Empty | EmptyCell1824 | src=
+DROPDOWN| CategoryAsPerNBC | bound=CategoryAsPerNBC | rstype=Value List | rows="GENERAL WORKER";"CHECKER GRADE 1";"PACKER / LOAD1";"MOTOR CYCLE";"LIGHT MOTOR VEHICLE";"MED MOTOR VEHICLE DRIVER-ARTICULATE";"MED MOTOR VEHICLE DRIVER-RIGID";"GENERAL WORKER";"HVY MOTOR VEHICLE DRVR - ARTICULATE";"HVY MOTOR VEHICLE DRVR - RIGID";"EXTRA-HVY MOTOR VEHICLE - ARTICULAT";"EXTRA-HVY MOTOR VEHICLE - RIGID";"ULTRA-HVY MOTOR VEHICLE DRIVER";"TEAM LEADER";"DESPATCH CLERK";"GANTRY CRANE OPERATOR GRADE I";"CHECKER GRADE I";"GANTRY CRANE OPERATOR GRADE II";"LOADER/OPERATOR GRADE I";"LOADER/OPERATOR GRADE II";"MOBILE HOIST OPERATOR GRADE I";"MOBILE HOIST OPERATOR GRADE II";"STOREMAN (WORKSHOP)";"SECURITY GUARD";"PACKER/LOADER GRADE I";"SECURITY OFFICER - GRADE I";"SECURITY OFFICE - GRADE II";"SECURITY OFFICER - GRADE III";"GENERAL WORKER - REPAIR SHOP";"ARTISAN ASSISTANT";"SEMI-SKILLED ARTISAN";"PACKER/LOADER GRADE II";"CHECKER GRADE II";"STOREMAN (WAREHOUSE)";"MOTOR CYCLE/MOTOR TRICYCLE DRIVER";"VEHICLE GUARD";"CUSTODIAN";"LIGHT MOTOR VEHICLE DRIVER";"MED MOTOR VEHICLE DRVR - ARTICULATE";"MED MOTOR VEHICLE DRVR - RIGID"
+FIELD| Label | Label1430 | src=
+FIELD| Empty | EmptyCell1825 | src=
+DROPDOWN| Province | bound=Province | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label1431 | src=
+FIELD| Empty | EmptyCell1826 | src=
+DROPDOWN| Depo | bound=Depo | rstype=Value List | rows="10";"16";"20";"25";"26";"27";"28";"30";"31";"40";"45";"47";"50";"60"
+FIELD| Label | Label1432 | src=
+FIELD| Empty | EmptyCell1827 | src=
+DROPDOWN| Account | bound=Account | rstype=Value List | rows="Labour";"Supervisor";"Sales";"Office Assistant";"Management"
+FIELD| Label | Label1433 | src=
+FIELD| Empty | EmptyCell1828 | src=
+DROPDOWN| CostDepartment | bound=CostDepartment | rstype=Value List | rows="General";"Integrated Contracts";"Office";"SALES";"FEL";"SKIP";"RORO";"REL";"LDV";"Outside Hire";"Recycling";"Disposal";"Treatment";"Ind Services";"Int Con";"Containers";"Crane";"Tipper"
+FIELD| Label | Label1434 | src=
+FIELD| Empty | EmptyCell1829 | src=
+DROPDOWN| CostCenter | bound=CostCenter | rstype=Value List | rows="BARNABAS";"DANE";"ANDRIES";"HARRY";"INNOCENT";"LUKAS";"MARTIN";"QUENTIN";"RHULANI";"RISHEN";"ROBYN";"ROSS";"SHAWN";"SIVIWE"
+FIELD| Label | Label1435 | src=
+FIELD| Empty | EmptyCell1830 | src=
+FIELD| TextBox | RatePerHour | src=RatePerHour
+FIELD| Label | Label1436 | src=
+FIELD| Empty | EmptyCell1831 | src=
+FIELD| TextBox | MonthlySalary | src=MonthlySalary
+FIELD| Label | Label1437 | src=
+FIELD| Empty | EmptyCell1832 | src=
+FIELD| TextBox | RemunerationPerAnunm | src=RemunerationPerAnunm
+FIELD| Label | Label1438 | src=
+FIELD| Empty | EmptyCell1833 | src=
+DROPDOWN| UIFStatus | bound=UIFStatus | rstype=Value List | rows="UIF";"Government";"Learner (N/A March 2018)";"Repatriated (N/A March 2018)";"Temporary";"Independent Contractor";"Legal Entity";""
+FIELD| Label | Label1439 | src=
+FIELD| Empty | EmptyCell1834 | src=
+DROPDOWN| TaxStatus | bound=TaxStatus | rstype=Table/Query | rows=SELECT tblTaxStatus.Status FROM tblTaxStatus WHERE (((tblTaxStatus.Status) Is Not Null)) ORDER BY tblTaxStatus.Status; 
+FIELD| Label | Label1440 | src=
+BUTTON| Command1819
+FIELD| TextBox | MedicalAidPlan | src=MedicalAidPlan
+FIELD| Label | Label1441 | src=
+FIELD| Empty | EmptyCell1836 | src=
+FIELD| TextBox | MedicalAidAmount | src=MedicalAidAmount
+FIELD| Label | Label1442 | src=
+FIELD| Empty | EmptyCell1837 | src=
+FIELD| TextBox | VitalityAmount | src=VitalityAmount
+FIELD| Label | Label1443 | src=
+FIELD| Empty | EmptyCell1838 | src=
+DROPDOWN| Site | bound=Site | rstype=Table/Query | rows=SELECT tblSites.Site FROM tblSites GROUP BY tblSites.Site; 
+FIELD| Label | Label1626 | src=
+BUTTON| Command1819
+DROPDOWN| JobFunctionalityEquity | bound=JobFunctionalityEquity | rstype=Value List | rows="Core";"Support"
+FIELD| Label | Label1627 | src=
+FIELD| Empty | EmptyCell1840 | src=
+DROPDOWN| OccupationalyLevelEquity | bound=OccupationalyLevelEquity | rstype=Value List | rows="Top Mgmt";"Senior Mgmt";"Middle Mgmt";"Junior Mgmt";"Semi-Skilled";"Unskilled"
+FIELD| Label | Label1628 | src=
+FIELD| Empty | EmptyCell1841 | src=
+DROPDOWN| ConcilNBC | bound=ConcilNBC | rstype=Value List | rows="Yes";"No"
+FIELD| Label | Label1629 | src=
+FIELD| Empty | EmptyCell1842 | src=
+FIELD| TextBox | HoursPerMonth | src=HoursPerMonth
+FIELD| Label | Label1630 | src=
+FIELD| Empty | EmptyCell1843 | src=
+FIELD| TextBox | HoursPerDay | src=HoursPerDay
+FIELD| Label | Label1631 | src=
+FIELD| Empty | EmptyCell1844 | src=
+FIELD| TextBox | AnnualLeaveEntitlement | src=AnnualLeaveEntitlement
+FIELD| Label | Label1632 | src=
+FIELD| Empty | EmptyCell1845 | src=
+FIELD| TextBox | Momentum | src=Momentum
+FIELD| Label | Label1633 | src=
+FIELD| Empty | EmptyCell1846 | src=
+FIELD| TextBox | Momentum_Date | src=Momentum_Date
+FIELD| Label | Label1693 | src=
+FIELD| Empty | EmptyCell1847 | src=
+FIELD| BoundObjectFrame | Momentum_a | src=Momentum_a
+FIELD| Label | Label1694 | src=
+FIELD| Empty | EmptyCell1848 | src=
+FIELD| Page | Trainings | src=
+FIELD| SubForm | TblEmployeeTrainingDetails subform | src=
+FIELD| Page | External Trainings | src=
+FIELD| SubForm | Child1692 | src=
+FIELD| Page | Attachment | src=
+FIELD| BoundObjectFrame | id | src=id
+FIELD| Label | Label1708 | src=
+FIELD| BoundObjectFrame | Criminalcheck | src=Criminalcheck
+FIELD| Label | Label1709 | src=
+FIELD| BoundObjectFrame | SageForm | src=SageForm
+FIELD| Label | Label1710 | src=
+FIELD| BoundObjectFrame | BankConfirmation | src=BankConfirmation
+FIELD| Label | Label1783 | src=
+FIELD| BoundObjectFrame | SAR | src=SAR
+FIELD| Label | Label1784 | src=
+FIELD| BoundObjectFrame | Contract | src=Contract
+FIELD| Label | Label1785 | src=
+FIELD| BoundObjectFrame | JobDescription | src=JobDescription
+FIELD| Label | Label1786 | src=
+FIELD| Page | Page1853 | src=
+FIELD| TextBox | LineManager | src=LineManager
+FIELD| Label | Label1854 | src=
+FIELD| TextBox | Compliance | src=Compliance
+FIELD| Label | Label1855 | src=
+FIELD| TextBox | EXCOapproval | src=EXCOapproval
+FIELD| Label | Label1856 | src=
+FIELD| TextBox | EEcommitteeRep | src=EEcommitteeRep
+FIELD| Label | Label1857 | src=
+FIELD| TextBox | Approval | src=Approval
+FIELD| Label | Label1858 | src=
+FIELD| TextBox | CurrentPosition | src=CurrentPosition
+FIELD| Label | Label1869 | src=
+
+##### FORM: FrmEmployeeList #####
+RECORDSOURCE: SELECT [Employees Employment details].*, TblEmployeePerformence.Status, tblExit.Reason, tblExit.[Reason Code(drop down)] FROM ([Employees Employment details] LEFT JOIN TblEmployeePerformence ON [Employees Employment details].EmployeeID = TblEmployeePerformence.EmployeeID) LEFT JOIN tblExit ON [Employees Employment details].EmployeeID = tblExit.EmpNo; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label92 | src=
+FIELD| Label | Label93 | src=
+FIELD| Label | Label94 | src=
+FIELD| Label | Label95 | src=
+FIELD| Label | Label96 | src=
+FIELD| Label | Label99 | src=
+FIELD| Label | Label101 | src=
+BUTTON|  &Close
+FIELD| Label | Label276 | src=
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | DepName_Label | src=
+BUTTON| Search
+BUTTON| Clear
+DROPDOWN| cbj | bound= | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+FIELD| Label | Label293 | src=
+FIELD| Label | Label300 | src=
+FIELD| Label | Label307 | src=
+DROPDOWN| cboRegion | bound= | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label315 | src=
+DROPDOWN| cboCritical | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].CriticalSkills FROM [Employees Employment details] GROUP BY [Employees Employment details].CriticalSkills HAVING ((([Employees Employment details].CriticalSkills) Is Not Null)); 
+FIELD| Label | Label321 | src=
+DROPDOWN| cboSkill | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].SkillLevel FROM [Employees Employment details] GROUP BY [Employees Employment details].SkillLevel HAVING ((([Employees Employment details].SkillLevel) Is Not Null)); 
+FIELD| Label | Label327 | src=
+FIELD| Label | Label346 | src=
+FIELD| Label | Label355 | src=
+DROPDOWN| cboHR | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].HR FROM [Employees Employment details] GROUP BY [Employees Employment details].HR HAVING ((([Employees Employment details].HR) Is Not Null)); 
+FIELD| Label | Label363 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name] FROM [Employees Employment details] GROUP BY [Employees Employment details].EmployeeID, [Employees Employment details].[First Name] HAVING ((([Employees Employment details].[First Name]) Is Not Null)); 
+FIELD| Label | Label367 | src=
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| TextBox | First NameID | src=First Name
+FIELD| TextBox | Last Name | src=Surname
+FIELD| TextBox | E-mail Address | src=E-mail Address
+DROPDOWN| Region | bound=Province | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+DROPDOWN| Job Title | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+DROPDOWN| SkillLevel | bound=SkillLevel | rstype=Value List | rows="Skilled";"Unskilled";"Semi-skilled";"Professional"
+DROPDOWN| Reason | bound=Reason | rstype=Value List | rows="Deceased";"Terminated";"Retired ";"Resigned"
+FIELD| TextBox | Reason Code(drop down) | src=Reason Code(drop down)
+FIELD| TextBox | CKR | src=CKR
+FIELD| TextBox | HR | src=HR
+
+##### FORM: frmEmpPer #####
+RECORDSOURCE: TblEmployeePerformence
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | EmpPerID | src=EmpPerID
+FIELD| Label | Label789 | src=
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].[Last Name], [Employees Employment details].Title FROM [Employees Employment details]; 
+FIELD| Label | Label790 | src=
+FIELD| TextBox | Title | src=Title
+FIELD| Label | Label791 | src=
+FIELD| TextBox | DateOfPA Setting | src=DateOfPA Setting
+FIELD| Label | Label792 | src=
+DROPDOWN| KPICatogory | bound=KPICatogory | rstype=Value List | rows=" Production";"Revenue target";"SHEQ (IOD etc)";" Project";"Training";" Customer complain";" ISO compliance";"Employee training";" Peer review"
+FIELD| Label | Label793 | src=
+FIELD| TextBox | KPINOTES | src=KPINOTES
+FIELD| Label | Label794 | src=
+FIELD| TextBox | Target% | src=Target%
+FIELD| Label | Label795 | src=
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Not achieved ";"Partially achieved ";"Fully Achieved";"Above Achiever"
+FIELD| Label | Label796 | src=
+FIELD| TextBox | Percentage | src=Percentage
+FIELD| Label | Label797 | src=
+DROPDOWN| ReviewedBy | bound=ReviewedBy | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label798 | src=
+FIELD| TextBox | ReviewDate | src=ReviewDate
+FIELD| Label | Label799 | src=
+
+##### FORM: frmEmpPerList #####
+RECORDSOURCE: TblEmployeePerformence
+BUTTON|  &Close
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label544 | src=
+BUTTON|  &Print
+BUTTON| Search
+BUTTON| PDF
+FIELD| TextBox | TASK | src==[Forms]![Login]![Name1]
+FIELD| Label | Label697 | src=
+FIELD| Label | Label698 | src=
+FIELD| Label | Label699 | src=
+FIELD| Label | Label700 | src=
+FIELD| Label | Label702 | src=
+FIELD| Label | Label703 | src=
+FIELD| Label | Label704 | src=
+FIELD| Label | Label705 | src=
+FIELD| Label | Label706 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label782 | src=
+DROPDOWN| cbocat | bound= | rstype=Value List | rows=" Production";"Revenue target";"SHEQ (IOD etc)";" Project";"Training";" Customer complain";" ISO compliance";"Employee training";" Peer review"
+FIELD| Label | Label785 | src=
+BUTTON| Reset
+FIELD| TextBox | EmpPerID | src=EmpPerID
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| TextBox | Title | src=Title
+FIELD| TextBox | DateOfPA Setting | src=DateOfPA Setting
+DROPDOWN| KPICatogory | bound=KPICatogory | rstype=Value List | rows=" Production";"Revenue target";"SHEQ (IOD etc)";" Project";"Training";" Customer complain";" ISO compliance";"Employee training";" Peer review"
+FIELD| TextBox | Target% | src=Target%
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Not achieved ";"Partially achieved ";"Fully Achieved";"Above Achiever"
+FIELD| TextBox | Percentage | src=Percentage
+DROPDOWN| ReviewedBy | bound=ReviewedBy | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| TextBox | ReviewDate | src=ReviewDate
+
+##### FORM: frmEmpTake #####
+RECORDSOURCE: tblEmpTake
+FIELD| Label | Auto_Header0 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | FirstName | src=FirstName
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Surname | src=Surname
+FIELD| Label | Label6 | src=
+FIELD| TextBox | IDNumber | src=IDNumber
+FIELD| Label | Label9 | src=
+FIELD| TextBox | DateEngaged | src=DateEngaged
+FIELD| Label | Label12 | src=
+FIELD| TextBox | CellNumber | src=CellNumber
+FIELD| Label | Label24 | src=
+FIELD| TextBox | Emergencycontact | src=Emergencycontact
+FIELD| Label | Label27 | src=
+FIELD| TextBox | EmergencyCellnumber | src=EmergencyCellnumber
+FIELD| Label | Label30 | src=
+FIELD| TextBox | UnitNumber | src=UnitNumber
+FIELD| Label | Label33 | src=
+FIELD| TextBox | StreetNumber | src=StreetNumber
+FIELD| Label | Label36 | src=
+FIELD| TextBox | Suburb | src=Suburb
+FIELD| Label | Label39 | src=
+FIELD| TextBox | Complex | src=Complex
+FIELD| Label | Label42 | src=
+FIELD| TextBox | StreetName | src=StreetName
+FIELD| Label | Label45 | src=
+FIELD| TextBox | City | src=City
+FIELD| Label | Label48 | src=
+FIELD| BoundObjectFrame | IDcard | src=IDcard
+FIELD| Label | Label57 | src=
+FIELD| BoundObjectFrame | DrivingLicense | src=DrivingLicense
+FIELD| Label | Label60 | src=
+FIELD| BoundObjectFrame | CriminalCheck | src=CriminalCheck
+FIELD| Label | Label63 | src=
+FIELD| BoundObjectFrame | SageForm | src=SageForm
+FIELD| Label | Label66 | src=
+FIELD| BoundObjectFrame | BankConfirmation | src=BankConfirmation
+FIELD| Label | Label69 | src=
+FIELD| BoundObjectFrame | SARreg | src=SARreg
+FIELD| Label | Label72 | src=
+FIELD| BoundObjectFrame | ContractOfEmp | src=ContractOfEmp
+FIELD| Label | Label75 | src=
+FIELD| BoundObjectFrame | PRDP | src=PRDP
+FIELD| Label | Label78 | src=
+FIELD| BoundObjectFrame | Medical | src=Medical
+FIELD| Label | Label81 | src=
+FIELD| BoundObjectFrame | WorkPermit | src=WorkPermit
+FIELD| Label | Label84 | src=
+FIELD| Empty | EmptyCell101 | src=
+FIELD| Empty | EmptyCell170 | src=
+FIELD| Empty | EmptyCell171 | src=
+FIELD| Label | Label174 | src=
+DROPDOWN| RequesterName | bound=RequesterName | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData ORDER BY tblRecruitmentAppData.[Responsible Manager]; 
+FIELD| Label | Label0 | src=
+DROPDOWN| Province | bound=Province | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label15 | src=
+DROPDOWN| Dpartment | bound=Dpartment | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | Label18 | src=
+DROPDOWN| Jobtitle | bound=Jobtitle | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+FIELD| Label | Label21 | src=
+BUTTON| Submit
+FIELD| Empty | EmptyCell180 | src=
+FIELD| Empty | EmptyCell181 | src=
+FIELD| Empty | EmptyCell189 | src=
+FIELD| Empty | EmptyCell190 | src=
+FIELD| Empty | EmptyCell191 | src=
+FIELD| Empty | EmptyCell192 | src=
+FIELD| Empty | EmptyCell194 | src=
+FIELD| Empty | EmptyCell196 | src=
+FIELD| Empty | EmptyCell201 | src=
+FIELD| Empty | EmptyCell210 | src=
+FIELD| Empty | EmptyCell211 | src=
+FIELD| Empty | EmptyCell212 | src=
+FIELD| Empty | EmptyCell214 | src=
+FIELD| Empty | EmptyCell216 | src=
+FIELD| Empty | EmptyCell221 | src=
+FIELD| Empty | EmptyCell222 | src=
+FIELD| Empty | EmptyCell225 | src=
+FIELD| Empty | EmptyCell226 | src=
+FIELD| Empty | EmptyCell229 | src=
+FIELD| Empty | EmptyCell230 | src=
+FIELD| Empty | EmptyCell233 | src=
+FIELD| Empty | EmptyCell238 | src=
+FIELD| Empty | EmptyCell239 | src=
+FIELD| Empty | EmptyCell245 | src=
+FIELD| Empty | EmptyCell246 | src=
+FIELD| Empty | EmptyCell247 | src=
+FIELD| Empty | EmptyCell248 | src=
+FIELD| BoundObjectFrame | Attachment | src=Attachment
+FIELD| Label | Label253 | src=
+FIELD| Empty | EmptyCell258 | src=
+FIELD| Empty | EmptyCell259 | src=
+
+##### FORM: frmEval #####
+RECORDSOURCE: tblEvaluation
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | Assessment | src=Assessment
+FIELD| Label | Label6 | src=
+FIELD| TextBox | Justification from JD | src=Justification from JD
+FIELD| Label | Label9 | src=
+FIELD| TextBox | Additional Portfolios / Expanded Scope | src=Additional Portfolios / Expanded Scope
+FIELD| Label | Label12 | src=
+FIELD| TextBox | Grade Impact Review | src=Grade Impact Review
+FIELD| Label | Label15 | src=
+FIELD| TextBox | Recommended JD Grading | src=Recommended JD Grading
+FIELD| Label | Label18 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| JobTitle | bound=JobTitle | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitle FROM TblJobTitle WHERE (((TblJobTitle.JobTitle) Is Not Null)) ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label25 | src=
+DROPDOWN| Factor | bound=Factor | rstype=Value List | rows=Decision Making;Problem Solving;Financial Impact;People Management;Compliance & Risk;Planning Horizon
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Text64 | src=Notes
+FIELD| Label | Label65 | src=
+DROPDOWN| Text62 | bound=CEOapproval | rstype=Value List | rows=Yes;No
+FIELD| Label | Label63 | src=
+FIELD| Empty | EmptyCell74 | src=
+DROPDOWN| Occuational Level | bound=Occuational Level | rstype=Table/Query | rows=SELECT tblOccLevel.[Occupational Level] FROM tblOccLevel; 
+FIELD| Label | Label0 | src=
+FIELD| TextBox | ID | src=ID
+FIELD| Label | Label75 | src=
+FIELD| Empty | EmptyCell83 | src=
+BUTTON|  &LIST
+
+##### FORM: frmEvalReg #####
+RECORDSOURCE: tblEvaluation
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label0 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label12 | src=
+FIELD| Label | Label15 | src=
+FIELD| Label | Label18 | src=
+FIELD| Label | Label60 | src=
+DROPDOWN| cboJob | bound= | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitle FROM TblJobTitle GROUP BY TblJobTitle.JobTitle HAVING (((TblJobTitle.JobTitle) Is Not Null)) ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label62 | src=
+DROPDOWN| cboOccLevel | bound= | rstype=Table/Query | rows=SELECT tblOccLevel.[Occupational Level] FROM tblOccLevel GROUP BY tblOccLevel.[Occupational Level] ORDER BY tblOccLevel.[Occupational Level]; 
+FIELD| Label | Label74 | src=
+BUTTON| Reset
+FIELD| Empty | EmptyCell76 | src=
+FIELD| Empty | EmptyCell80 | src=
+FIELD| Label | Label82 | src=
+FIELD| Label | Label87 | src=
+FIELD| Empty | EmptyCell94 | src=
+FIELD| Label | Label103 | src=
+FIELD| Label | Label106 | src=
+FIELD| TextBox | Occuational Level | src=Occuational Level
+FIELD| TextBox | Factor | src=Factor
+FIELD| TextBox | Assessment | src=Assessment
+FIELD| TextBox | Justification from JD | src=Justification from JD
+FIELD| TextBox | Additional Portfolios / Expanded Scope | src=Additional Portfolios / Expanded Scope
+FIELD| TextBox | Grade Impact Review | src=Grade Impact Review
+FIELD| TextBox | Recommended JD Grading | src=Recommended JD Grading
+DROPDOWN| JobTitle | bound=JobTitle | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitle FROM TblJobTitle WHERE (((TblJobTitle.JobTitle) Is Not Null)) ORDER BY TblJobTitle.JobTitle; 
+BUTTON| &Edit
+FIELD| TextBox | ID | src=ID
+
+##### FORM: frmExit #####
+RECORDSOURCE: SELECT tblExit.*, [Employees Employment details].* FROM tblExit LEFT JOIN [Employees Employment details] ON tblExit.EmpNo = [Employees Employment details].EmployeeID; 
+FIELD| Label | Label46 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label76 | src=
+BUTTON| Reset
+DROPDOWN| txtName | bound= | rstype=Table/Query | rows=SELECT tblExit.EmpNo, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM tblExit INNER JOIN [Employees Employment details] ON tblExit.EmpNo = [Employees Employment details].EmployeeID GROUP BY tblExit.EmpNo, [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label61 | src=
+BUTTON|  &Close
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | DepName_Label | src=
+DROPDOWN| cboRegion | bound= | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+FIELD| Label | Label315 | src=
+DROPDOWN| cboReason | bound= | rstype=Value List | rows="Deceased";"Terminated";"Retired ";"Resigned"
+FIELD| Label | Label111 | src=
+DROPDOWN| cboJobTitle | bound= | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label127 | src=
+DROPDOWN| cboOcc | bound= | rstype=Table/Query | rows=SELECT tblOccLevel.[Occupational Level] FROM tblOccLevel ORDER BY tblOccLevel.[Occupational Level]; 
+FIELD| Label | Label131 | src=
+FIELD| Empty | EmptyCell134 | src=
+BUTTON| &Delete
+FIELD| Image | Image38 | src=
+FIELD| TextBox | First Name | src=First Name
+FIELD| Label | Label0 | src=
+FIELD| TextBox | Surname | src=Surname
+FIELD| Label | Label1 | src=
+FIELD| TextBox | Company number | src=Company number
+FIELD| Label | Label2 | src=
+FIELD| TextBox | OccupationalyLevelEquity | src=OccupationalyLevelEquity
+FIELD| Label | Label6 | src=
+FIELD| TextBox | Reason Code(drop down) | src=Reason Code(drop down)
+FIELD| Label | Label7 | src=
+DROPDOWN| Reason | bound=Reason | rstype=Value List | rows="Deceased";"Terminated";"Retired ";"Resigned"
+FIELD| Label | Label8 | src=
+DROPDOWN| Interviewed by | bound=Interviewed by | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Executive] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Executive] HAVING (((tblRecruitmentAppData.[Responsible Executive]) Is Not Null)); 
+FIELD| Label | Label9 | src=
+DROPDOWN| Province | bound=Province | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion; 
+FIELD| Label | Label3 | src=
+DROPDOWN| EmpNo | bound=EmpNo | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1, [Employees Employment details].[Company Number], [Employees Employment details].Department, [Employees Employment details].[Job Title], [Employees Employment details].OccupationalyLevelEquity FROM [Employees Employment details] WHERE ((([Employees Employment details].[First Name]) Is Not Null)) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label91 | src=
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+FIELD| Label | Label4 | src=
+DROPDOWN| Job tilte | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label5 | src=
+
+##### FORM: frmExitList #####
+RECORDSOURCE: 
+
+##### FORM: FrmExpenseCategory #####
+RECORDSOURCE: TblExpenseCategory
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | ExpenseCategoryID | src=ExpenseCategoryID
+FIELD| Label | Label675 | src=
+FIELD| TextBox | ExpenseCategory | src=ExpenseCategory
+FIELD| Label | Label676 | src=
+
+##### FORM: frmExpenseForm #####
+RECORDSOURCE: TblExpense
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | ExpenseID | src=ExpenseID
+FIELD| Label | Label999 | src=
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label1000 | src=
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label1001 | src=
+FIELD| TextBox | DateOfClaim | src=DateOfClaim
+FIELD| Label | Label1002 | src=
+FIELD| TextBox | ListTextItems | src=ListTextItems
+FIELD| Label | Label1005 | src=
+DROPDOWN| ExpenseCategory | bound=ExpenseCategory | rstype=Table/Query | rows=SELECT [TblExpenseCategory].[ExpenseCategoryID], [TblExpenseCategory].[ExpenseCategory] FROM TblExpenseCategory; 
+FIELD| Label | Label1006 | src=
+DROPDOWN| DepotID | bound=DepotID | rstype=Table/Query | rows=SELECT [TblDepot].[DepotID], [TblDepot].[DepotName], [TblDepot].[Code] FROM TblDepot; 
+FIELD| Label | Label1007 | src=
+DROPDOWN| CostOfSaleID | bound=CostOfSaleID | rstype=Table/Query | rows=SELECT [TblCostOfSale].[CostofSaleID], [TblCostOfSale].[CostOfSale], [TblCostOfSale].[Code] FROM TblCostOfSale; 
+FIELD| Label | Label1008 | src=
+DROPDOWN| ActivitiesID | bound=ActivitiesID | rstype=Table/Query | rows=SELECT [tblActivities].[ActivitiesID], [tblActivities].[Activities], [tblActivities].[Code] FROM tblActivities; 
+FIELD| Label | Label1009 | src=
+DROPDOWN| OverheadsID | bound=OverheadsID | rstype=Table/Query | rows=SELECT [tblOverheads].[OverheadsID], [tblOverheads].[Overheads], [tblOverheads].[Code] FROM tblOverheads; 
+FIELD| Label | Label1010 | src=
+FIELD| TextBox | Merge | src=Merge
+FIELD| Label | Label1011 | src=
+DROPDOWN| MangerApproval | bound=MangerApproval | rstype=Value List | rows="Pending";"Approved";"Rejected"
+FIELD| Label | Label1016 | src=
+BUTTON| Merge Code
+FIELD| Empty | EmptyCell1130 | src=
+FIELD| Empty | EmptyCell1136 | src=
+FIELD| Empty | EmptyCell1137 | src=
+FIELD| Empty | EmptyCell1138 | src=
+FIELD| Empty | EmptyCell1139 | src=
+FIELD| Empty | EmptyCell1140 | src=
+FIELD| Empty | EmptyCell1141 | src=
+FIELD| TextBox | CostExVAT | src=CostExVAT
+FIELD| Label | Label1156 | src=
+FIELD| TextBox | VAT | src=VAT
+FIELD| Label | Label1157 | src=
+FIELD| TextBox | VATAmount | src=VATAmount
+FIELD| Label | Label1158 | src=
+FIELD| TextBox | TotalAmount | src=TotalAmount
+FIELD| Label | Label1159 | src=
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label1190 | src=
+FIELD| Empty | EmptyCell1198 | src=
+FIELD| Empty | EmptyCell1205 | src=
+FIELD| Empty | EmptyCell1206 | src=
+FIELD| Empty | EmptyCell1207 | src=
+FIELD| Empty | EmptyCell1208 | src=
+FIELD| Empty | EmptyCell1209 | src=
+FIELD| Empty | EmptyCell1227 | src=
+FIELD| Empty | EmptyCell1234 | src=
+FIELD| Empty | EmptyCell1235 | src=
+FIELD| Empty | EmptyCell1236 | src=
+FIELD| Empty | EmptyCell1237 | src=
+FIELD| Empty | EmptyCell1238 | src=
+FIELD| Empty | EmptyCell1247 | src=
+FIELD| Empty | EmptyCell1251 | src=
+FIELD| Empty | EmptyCell1253 | src=
+FIELD| Empty | EmptyCell1255 | src=
+FIELD| BoundObjectFrame | FIles | src=FIles
+FIELD| Label | Label1258 | src=
+
+##### FORM: FrmExpenseList #####
+RECORDSOURCE: TblExpense
+FIELD| Image | Image38 | src=
+FIELD| TextBox | TASK | src==[Forms]![Login]![Name1]
+FIELD| Label | Label8 | src=
+BUTTON|  &Close
+FIELD| Label | Label44 | src=
+BUTTON|  &Print
+FIELD| Label | Label738 | src=
+FIELD| Label | Label742 | src=
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | DepName_Label | src=
+DROPDOWN| cbR | bound= | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Region1_Label | src=
+BUTTON| Excel
+BUTTON| Search
+FIELD| Label | Label544 | src=
+FIELD| Label | Label365 | src=
+BUTTON| Clear
+FIELD| Label | Label807 | src=
+FIELD| Label | Label814 | src=
+FIELD| Label | Label815 | src=
+FIELD| Label | Label816 | src=
+FIELD| Label | Label817 | src=
+FIELD| Label | Label846 | src=
+FIELD| Label | Label887 | src=
+FIELD| Label | Label894 | src=
+FIELD| Label | Label901 | src=
+FIELD| Empty | EmptyCell920 | src=
+FIELD| Empty | EmptyCell921 | src=
+DROPDOWN| cb1 | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Select Employee_Label | src=
+FIELD| TextBox | ExpenseID | src=ExpenseID
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| TextBox | DateOfClaim | src=DateOfClaim
+FIELD| TextBox | PeriodClaimStartDate | src=PeriodClaimStartDate
+FIELD| TextBox | PeriodClaimEndDate | src=PeriodClaimEndDate
+DROPDOWN| MangerApproval | bound=MangerApproval | rstype=Value List | rows="Pending";"Approved";"Rejected"
+FIELD| TextBox | CostExVAT | src=CostExVAT
+FIELD| TextBox | VAT | src=VAT
+FIELD| TextBox | TotalAmount | src=TotalAmount
+FIELD| TextBox | Text910 | src==Sum([TotalAmount])
+FIELD| Label | Label911 | src=
+
+##### FORM: frmExtra #####
+RECORDSOURCE: 
+BUTTON| Target
+BUTTON|  All Employees
+FIELD| Label | Label138 | src=
+BUTTON|  All Employees For This Month  Excel
+BUTTON|  All Employees
+FIELD| Label | Label3 | src=
+BUTTON|  All Training List
+
+##### FORM: frmGrading #####
+RECORDSOURCE: tblGrading
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | OccLevel | src=OccLevel
+FIELD| Label | Label0 | src=
+FIELD| TextBox | Code | src=Code
+FIELD| Label | Label6 | src=
+FIELD| TextBox | PatersonGrade | src=PatersonGrade
+FIELD| Label | Label9 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| Scale | bound=Scale | rstype=Value List | rows="1";"2";"3";"4";"5";"6";"7";"8";"9";"10"
+FIELD| Label | Label15 | src=
+DROPDOWN| PatersonBand | bound=PatersonBand | rstype=Value List | rows="A";"B";"C";"D";"E";"F"
+FIELD| Label | Label12 | src=
+DROPDOWN| JobTitle | bound=JobTitle | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitle, TblJobTitle.Job_code FROM TblJobTitle WHERE (((TblJobTitle.JobTitle) Is Not Null)) ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Text24 | src=MinRate
+FIELD| Label | Label25 | src=
+FIELD| TextBox | Text41 | src=MaxRate
+FIELD| Label | Label42 | src=
+
+##### FORM: frmGradingReg #####
+RECORDSOURCE: tblGrading
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label0 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label12 | src=
+FIELD| Label | Label15 | src=
+BUTTON|  &Close
+FIELD| Label | Label81 | src=
+DROPDOWN| cboJob | bound= | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, tblGrading.JobTitle FROM tblGrading LEFT JOIN TblJobTitle ON tblGrading.JobTitle = TblJobTitle.JobTitle GROUP BY TblJobTitle.JobTitleID, tblGrading.JobTitle ORDER BY tblGrading.JobTitle; 
+FIELD| Label | Label62 | src=
+DROPDOWN| cboOccLevel | bound= | rstype=Table/Query | rows=SELECT tblGrading.OccLevel FROM tblGrading GROUP BY tblGrading.OccLevel HAVING (((tblGrading.OccLevel) Is Not Null)); 
+FIELD| Label | Label74 | src=
+BUTTON| Reset
+FIELD| Empty | EmptyCell76 | src=
+FIELD| Label | Label56 | src=
+FIELD| Label | Label63 | src=
+FIELD| TextBox | OccLevel | src=OccLevel
+FIELD| TextBox | JobTitle | src=JobTitle
+FIELD| TextBox | Code | src=Code
+FIELD| TextBox | PatersonGrade | src=PatersonGrade
+DROPDOWN| Scale | bound=Scale | rstype=Value List | rows="1";"2";"3";"4";"5";"6";"7";"8";"9";"10"
+DROPDOWN| PatersonBand | bound=PatersonBand | rstype=Value List | rows="A";"B";"C";"D";"E";"F"
+FIELD| TextBox | MinRate | src=MinRate
+FIELD| TextBox | MaxRate | src=MaxRate
+
+##### FORM: FrmHRAlerts #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON|  New Recur Employee
+FIELD| Label | Label138 | src=
+
+##### FORM: FrmHRDash #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON|  Add  Employees Details
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+BUTTON|  Add  Regions
+BUTTON| eForms( leave , expenses)
+BUTTON| JD & KPI-Roles & Responsibilites
+BUTTON| Add Department
+BUTTON| Employees Register
+BUTTON| New Employee Take On
+BUTTON| New Employee Take On Register
+
+##### FORM: frmInterview #####
+RECORDSOURCE: 
+
+##### FORM: frmInterviewLeads_Edit #####
+RECORDSOURCE: 
+
+##### FORM: frmInterviewReg #####
+RECORDSOURCE: 
+
+##### FORM: frmIntTrainingReg #####
+RECORDSOURCE: qryFinalResult
+FIELD| Label | Label0 | src=
+FIELD| Label | Label1 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Label7 | src=
+BUTTON|  &Close
+FIELD| Image | Image38 | src=
+FIELD| Label | Label34 | src=
+FIELD| Label | Label44 | src=
+FIELD| Empty | EmptyCell74 | src=
+FIELD| Empty | EmptyCell75 | src=
+FIELD| Label | Label76 | src=
+BUTTON| Reset
+FIELD| Empty | EmptyCell87 | src=
+DROPDOWN| txtTraining | bound= | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training FROM TblAllTrainings ORDER BY TblAllTrainings.Training; 
+FIELD| Label | Label63 | src=
+FIELD| Label | Label91 | src=
+DROPDOWN| txtName | bound= | rstype=Table/Query | rows=SELECT qryFinalResult.EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM qryFinalResult GROUP BY qryFinalResult.EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label61 | src=
+FIELD| Label | Label98 | src=
+FIELD| Label | Label105 | src=
+FIELD| Empty | EmptyCell117 | src=
+FIELD| Empty | EmptyCell134 | src=
+FIELD| Label | Label137 | src=
+FIELD| TextBox | Tot | src=Obtained
+DROPDOWN| Skills | bound=Skills | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training, TblAllTrainings.TrainingType FROM TblAllTrainings; 
+FIELD| TextBox | txtTotQue | src=Attempted
+DROPDOWN| Title | bound=Title | rstype=Value List | rows="MR";"MS";"MRS";"DR";"PROF"
+FIELD| TextBox | Surname | src=Surname
+FIELD| TextBox | First Name | src=First Name
+FIELD| TextBox | OutOf | src=TotPoints
+DROPDOWN| TypeOfTraining | bound=TypeOfTraining | rstype=Value List | rows="Internal Training";"External Training"
+FIELD| TextBox | TotQue | src=TotQue
+BUTTON| Test
+BUTTON| Certificate
+FIELD| TextBox | ID | src=ID
+
+##### FORM: FrmJD-KPI #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON| Job Description
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+BUTTON|   Add  Job Title
+
+##### FORM: FrmJobDescription #####
+RECORDSOURCE: TblJobdescriptionDetailRecord
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Print
+BUTTON| Download PDF
+FIELD| TabControl | tabContacts | src=
+FIELD| Page |  KPI  . | src=
+FIELD| SubForm | TbJobDescriptionlKPIEntry subform | src=
+FIELD| Page |  Job Description | src=
+FIELD| SubForm | TblJobDesKpa subform | src=
+FIELD| Page |  Roles && Responsibilities | src=
+FIELD| SubForm | TblJobDesRolesAndResponsibility subform | src=
+FIELD| Page |  Trainings | src=
+FIELD| SubForm | TblSpecification subform | src=
+FIELD| SubForm | Child953 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | JobID | src=JoBID
+FIELD| Label | Label764 | src=
+FIELD| TextBox | Skill level | src=Skill level
+FIELD| Label | Label766 | src=
+FIELD| TextBox | Qualification | src=Qualification
+FIELD| Label | Label777 | src=
+DROPDOWN| Job Title | bound=Job Title | rstype=Table/Query | rows=SELECT [TblJobTitle].[JobTitleID], [TblJobTitle].[JobTitle] FROM TblJobTitle; 
+FIELD| Label | Label944 | src=
+
+##### FORM: FrmJobDescriptionEntry #####
+RECORDSOURCE: TblJobTitle
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+BUTTON| &Save
+FIELD| TextBox | JobTitleID | src=JobTitleID
+FIELD| Label | Label624 | src=
+FIELD| TextBox | Text625 | src=JobTitle
+FIELD| Label | Label626 | src=
+FIELD| TabControl | tabContacts | src=
+FIELD| Page |  KPI  . | src=
+FIELD| SubForm | TbJobDescriptionlKPIEntry subform | src=
+FIELD| Page |  Job Description | src=
+FIELD| SubForm | TblJobDescription subform | src=
+FIELD| Page | Page646 | src=
+FIELD| SubForm | TblJobDesRolesAndResponsibility subform | src=
+
+##### FORM: FrmKpICategory #####
+RECORDSOURCE: TblKPICategory
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | KPICateID | src=KPICateID
+FIELD| Label | Label657 | src=
+FIELD| TextBox | KPICatrgory | src=KPICatrgory
+FIELD| Label | Label658 | src=
+
+##### FORM: frmKPIdash #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON| Job descrition 
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+BUTTON| Add job title
+BUTTON| Evaluation and Grading
+
+##### FORM: FrmLeaveForm #####
+RECORDSOURCE: TblLeaveForm
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label659 | src=
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label660 | src=
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].[Last Name], [Employees Employment details].[E-mail Address] FROM [Employees Employment details]; 
+FIELD| Label | Label765 | src=
+FIELD| TextBox | LeaveID | src=LeaveID
+FIELD| Label | Label792 | src=
+FIELD| TextBox | DateOFEngagement | src=DateOFEngagement
+FIELD| Label | Label803 | src=
+DROPDOWN| TypeOfLeave | bound=TypeOfLeave | rstype=Table/Query | rows=SELECT [TblTypeofLeave].[TypeOfLeaveID], [TblTypeofLeave].[TypeOfLeave] FROM TblTypeofLeave; 
+FIELD| Label | Label804 | src=
+FIELD| TextBox | StartDate | src=StartDate
+FIELD| Label | Label805 | src=
+FIELD| TextBox | ToDate | src=ToDate
+FIELD| Label | Label806 | src=
+FIELD| TextBox | TotalDays | src=TotalDays
+FIELD| Label | Label807 | src=
+FIELD| TextBox | TotalHoildays | src=TotalHoildays
+FIELD| Label | Label855 | src=
+DROPDOWN| Approver | bound=Approver | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | Label862 | src=
+BUTTON|  Generate Email
+
+##### FORM: FrmLeaveList #####
+RECORDSOURCE: TblLeaveForm
+FIELD| Image | Image38 | src=
+FIELD| TextBox | TASK | src==[Forms]![Login]![Name1]
+FIELD| Label | Label8 | src=
+BUTTON|  &Close
+FIELD| Label | Label44 | src=
+BUTTON|  &Print
+FIELD| Label | Label738 | src=
+FIELD| Label | Label742 | src=
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | DepName_Label | src=
+DROPDOWN| cbR | bound= | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Region1_Label | src=
+BUTTON| Excel
+BUTTON| Search
+FIELD| Label | Label544 | src=
+FIELD| Label | Label365 | src=
+FIELD| Label | Label489 | src=
+FIELD| Label | Label725 | src=
+FIELD| Label | Label732 | src=
+FIELD| Label | Label733 | src=
+FIELD| Label | Label734 | src=
+FIELD| Label | Label735 | src=
+FIELD| Label | Label736 | src=
+FIELD| Label | Label709 | src=
+FIELD| Label | Label710 | src=
+BUTTON| Clear
+DROPDOWN| cbE | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| Label | First Name_Label | src=
+FIELD| Empty | EmptyCell789 | src=
+FIELD| Empty | EmptyCell790 | src=
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| TextBox | LeaveID | src=LeaveID
+DROPDOWN| ManagerApprovalStatus | bound=ManagerApprovalStatus | rstype=Value List | rows="Approved";"Rejected";"Pending"
+DROPDOWN| HRApprovalStatus | bound=HRApprovalStatus | rstype=Value List | rows="Approved";"Rejected";"Pending"
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].[EmployeeID], [Employees Employment details].[First Name], [Employees Employment details].[Last Name] FROM [Employees Employment details]; 
+FIELD| TextBox | DateOFEngagement | src=DateOFEngagement
+DROPDOWN| TypeOfLeave | bound=TypeOfLeave | rstype=Table/Query | rows=SELECT [TblTypeofLeave].[TypeOfLeaveID], [TblTypeofLeave].[TypeOfLeave] FROM TblTypeofLeave; 
+FIELD| TextBox | StartDate | src=StartDate
+FIELD| TextBox | ToDate | src=ToDate
+FIELD| TextBox | TotalDays | src=TotalDays
+FIELD| TextBox | Text782 | src==Sum([TotalDays])
+
+##### FORM: frmLoginDetails #####
+RECORDSOURCE: LoginDetails
+FIELD| Label | Label0 | src=
+FIELD| Label | Label1 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label7 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| TextBox | ID | src=ID
+DROPDOWN| EmployeeName | bound=EmployeeName | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Surname] AS Name FROM [Employees Employment details] ORDER BY [First Name] & " " & [Surname]; 
+FIELD| TextBox | UserName | src=UserName
+FIELD| TextBox | Password | src=Password
+DROPDOWN| Level | bound=Level | rstype=Value List | rows="Admin";"Level 1 User";"Level 2 User";"Level 3 User"
+
+##### FORM: FrmMAIN #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON|  HR
+BUTTON| Trainings
+FIELD| T101 | Box81 | src=
+BUTTON| Succession Planner
+BUTTON| JD & KPI-Roles & Responsibilites
+BUTTON| Developement Planner
+BUTTON| EE Target Form
+BUTTON| Recruitment 
+BUTTON| Succession Planner Register
+BUTTON| Developement Planner Register
+BUTTON| EE Target Register
+BUTTON| Critical Skills Form
+BUTTON| Critical Skills Register
+FIELD| Empty | EmptyCell307 | src=
+BUTTON| Gradings
+BUTTON| Grading Register
+BUTTON| Evaluation
+BUTTON| Evaluation Register
+BUTTON| Login Details
+FIELD| TextBox | Combo75 | src==[TempVars]![username]
+FIELD| Label | Label31 | src=
+BUTTON| Permissions
+FIELD| Empty | EmptyCell328 | src=
+FIELD| Empty | EmptyCell329 | src=
+FIELD| Empty | EmptyCell330 | src=
+FIELD| Empty | EmptyCell331 | src=
+FIELD| Empty | EmptyCell332 | src=
+
+##### FORM: FrmNatureOfOffence #####
+RECORDSOURCE: tblNatureOfOffence
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | OffenceID | src=OffenceID
+FIELD| Label | Label657 | src=
+FIELD| TextBox | OffenceName | src=OffenceName
+FIELD| Label | Label658 | src=
+
+##### FORM: FrmNewEmployee #####
+RECORDSOURCE: QryNewRecur
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label613 | src=
+FIELD| Label | Label614 | src=
+FIELD| Label | Label615 | src=
+FIELD| Label | Label616 | src=
+FIELD| Label | Label617 | src=
+BUTTON|  &Close
+FIELD| Label | Label650 | src=
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| TextBox | First NameID | src=First Name
+FIELD| TextBox | Last Name | src=Last Name
+FIELD| TextBox | E-mail Address | src=E-mail Address
+FIELD| TextBox | Department | src=Department
+FIELD| TextBox | Expr1 | src=Expr1
+
+##### FORM: FrmOverheads #####
+RECORDSOURCE: tblOverheads
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | Code | src=Code
+FIELD| Label | Label695 | src=
+FIELD| TextBox | OverheadsID | src=OverheadsID
+FIELD| Label | Label718 | src=
+FIELD| TextBox | Overheads | src=Overheads
+FIELD| Label | Label719 | src=
+
+##### FORM: frmPermissions #####
+RECORDSOURCE: tblPermissions
+FIELD| Label | Label0 | src=
+FIELD| Label | Label1 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Auto_Header0 | src=
+FIELD| Empty | EmptyCell21 | src=
+BUTTON| Close
+FIELD| TextBox | ScreenName | src=ScreenName
+FIELD| CheckBox | Admin | src=Admin
+FIELD| CheckBox | UserLevel1 | src=UserLevel1
+FIELD| CheckBox | UserLevel2 | src=UserLevel2
+FIELD| CheckBox | UserLevel3 | src=UserLevel3
+FIELD| Empty | EmptyCell22 | src=
+
+##### FORM: frmRecruitmentDash #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+BUTTON|  Request for recruitment form
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+BUTTON| Recruitment interview form
+BUTTON| Candidates Actual Recruitment Form
+BUTTON| Employee Exit Form
+BUTTON| Employee Exit Register
+BUTTON|  Request for recruitment Register
+BUTTON| Interview Register
+BUTTON| Recruitment Register
+BUTTON| EE Target Register
+BUTTON| EE Target Form
+
+##### FORM: FrmRecruitmentForm #####
+RECORDSOURCE: Recruitment
+FIELD| TextBox | RecuritmentId | src=RecuritmentId
+BUTTON|  Update
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| SubForm | QryRecScore subform | src=
+FIELD| TabControl | TabCtl1886 | src=What position is Being Applied For Region Department (where will the candidate be placed) This Application Is An First Name Last name Select Gender What is the candidate's Home address What is the Candidate's phone Number Timestamp Is the qualification relevant to the position applied for? How many years of experience does the candidate have in this fie How many years of experience does the candidate have in this Ind What is the candidates strengths and weakness? List and explain How would you rate candidate for the position Does the candidate have any experience in budget control or fina Have you managed other employees before?(for management position Report On Credit Check Report On criminal check Is this an EE target position? Is the person from a previously disadvantaged group? Which Employment Equity Group does the Candidate belong to? What is the Demographic of candidate ? Does the appointment meet the employment equity policy objective Why isn't this an EE appointment ? Explain Is the candidate computer literate? Does the candidate have any SHEQ or ISO knowledge or experience? Does the candidate have any human resources skills ie discipli What is the highest Qualifications that the Candidate has? List Any Other Qualifications Has the candidate been employed before?- How many companies has the candidate worked for in the past 10 y What is the name of the company that the candidate worked/works  Has the reference from the last employer been verified? Please r Overall commitment to the previous employer Score Ability to complete task Attendance at work AssesmentReport
+FIELD| Page | Position Details | src=
+DROPDOWN| What position is Being Applied For | bound=What position is Being Applied For | rstype=Table/Query | rows=SELECT [TblJobTitle].[JobTitleID], [TblJobTitle].[JobTitle] FROM TblJobTitle; 
+FIELD| Label | Label2103 | src=
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Label1867 | src=
+DROPDOWN| Department (where will the candidate be placed) | bound=Department (where will the candidate be placed) | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label1860 | src=
+FIELD| Page | Candidate Details | src=
+DROPDOWN| This Application Is An | bound=This Application Is An | rstype=Value List | rows="Internal Applicant";"For Promotion";"External Candidate"
+FIELD| Label | Label1874 | src=
+FIELD| TextBox | First Name | src=First Name
+FIELD| Label | Label1053 | src=
+FIELD| TextBox | Last name | src=Last name
+FIELD| Label | Label1054 | src=
+DROPDOWN| Select Gender | bound=Select Gender | rstype=Value List | rows="Male";"Female"
+FIELD| Label | Label1881 | src=
+FIELD| TextBox | What is the candidate's Home address | src=What is the candidate's Home address
+FIELD| Label | Label1325 | src=
+FIELD| TextBox | What is the Candidate's phone Number | src=What is the Candidate's phone Number
+FIELD| Label | Label1326 | src=
+FIELD| TextBox | Timestamp | src=Timestamp
+FIELD| Label | Label756 | src=
+FIELD| Page | Experience | src=
+DROPDOWN| Is the qualification relevant to the position applied for? | bound=Is the qualification relevant to the position applied for? | rstype=Value List | rows=3;"Yes";2;"It has some concept that are Common";1;"No"
+FIELD| Label | Label1331 | src=
+DROPDOWN| How many years of experience does the candidate have in this fie | bound=How many years of experience does the candidate have in this fie | rstype=Value List | rows=1;"0-1 Years";2;"2-3";3;"4-6";4;"7-10";5;"More than 10 years"
+FIELD| Label | Label1328 | src=
+DROPDOWN| How many years of experience does the candidate have in this Ind | bound=How many years of experience does the candidate have in this Ind | rstype=Value List | rows=1;"0-1 Years";2;"2-3";3;"4-6";4;"7-10";5;"More than 10 years"
+FIELD| Label | Label1329 | src=
+FIELD| Page | Interview Question | src=
+FIELD| TextBox | What is the candidates strengths and weakness? List and explain | src=What is the candidates strengths and weakness? List and explain
+FIELD| Label | Label1342 | src=
+DROPDOWN| How would you rate candidate for the position | bound=How would you rate candidate for the position | rstype=Table/Query | rows=SELECT [TblSPosition].[Number], [TblSPosition].[Answer] FROM TblSPosition; 
+FIELD| Label | Label1348 | src=
+DROPDOWN| Does the candidate have any experience in budget control or fina | bound=Does the candidate have any experience in budget control or fina | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1343 | src=
+DROPDOWN| Have you managed other employees before?(for management position | bound=Have you managed other employees before?(for management position | rstype=Value List | rows=3;"Yes";2;"Indirectly";1;"No"
+FIELD| Label | Label1341 | src=
+FIELD| Page | External Checks | src=
+DROPDOWN| Report On Credit Check | bound=Report On Credit Check | rstype=Value List | rows=3;"Passed";2;"Had Some Problem in the PAST";1;"Failed"
+FIELD| Label | Label1339 | src=
+DROPDOWN| Report On criminal check | bound=Report On criminal check | rstype=Value List | rows=SELECT TblCriminalReport.N, TblCriminalReport.CriminalReport FROM TblCriminalReport; 
+FIELD| Label | Label1340 | src=
+FIELD| Page | Employment Equity | src=
+FIELD| TextBox | Is this an EE target position? | src=Is this an EE target position?
+FIELD| Label | Label1349 | src=
+FIELD| TextBox | Is the person from a previously disadvantaged group? | src=Is the person from a previously disadvantaged group?
+FIELD| Label | Label1350 | src=
+DROPDOWN| Which Employment Equity Group does the Candidate belong to? | bound=Which Employment Equity Group does the Candidate belong to? | rstype=Value List | rows=3;"Black People (black people,coloureds or indians)";2;"Women";1;"People with Disabilities";0;"Priviously Avantaged Group (i.e White Male)"
+FIELD| Label | Label1351 | src=
+DROPDOWN| What is the Demographic of candidate ? | bound=What is the Demographic of candidate ? | rstype=Value List | rows=6;"Black Female";5;"Black Male &  Female (Indian, Coloured,)";4;"White Female & Coloured /Indian Male";3;"White Male";2;"Disabled";1;"Foreigner"
+FIELD| Label | Label1352 | src=
+DROPDOWN| Does the appointment meet the employment equity policy objective | bound=Does the appointment meet the employment equity policy objective | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1353 | src=
+FIELD| TextBox | Why isn't this an EE appointment ? Explain | src=Why isn't this an EE appointment ? Explain
+FIELD| Label | Label1354 | src=
+FIELD| Page | Qualification | src=
+DROPDOWN| Is the candidate computer literate? | bound=Is the candidate computer literate? | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1344 | src=
+DROPDOWN| Does the candidate have any SHEQ or ISO knowledge or experience? | bound=Does the candidate have any SHEQ or ISO knowledge or experience? | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1345 | src=
+DROPDOWN| Does the candidate have any human resources skills ie discipli | bound=Does the candidate have any human resources skills ie discipli | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1346 | src=
+DROPDOWN| What is the highest Qualifications that the Candidate has? | bound=What is the highest Qualifications that the Candidate has? | rstype=Value List | rows=1;"Grade 10 standard 8";2;"Matric NQF 4";3;"Certificate NQF 5";4;"Diploma NQF 6";5;"Degree NQF 7";6;"Master NQF 8";7;"Honors NQF 9"
+FIELD| Label | Label1330 | src=
+FIELD| TextBox | List Any Other Qualifications | src=List Any Other Qualifications
+FIELD| Label | Label1347 | src=
+FIELD| Page | Reference Check | src=
+DROPDOWN| Has the candidate been employed before?- | bound=Has the candidate been employed before?- | rstype=Value List | rows=2;"Yes";1;"No"
+FIELD| Label | Label1332 | src=
+FIELD| TextBox | How many companies has the candidate worked for in the past 10 y | src=How many companies has the candidate worked for in the past 10 y
+FIELD| Label | Label1333 | src=
+FIELD| TextBox | What is the name of the company that the candidate worked/works  | src=What is the name of the company that the candidate worked/works 
+FIELD| Label | Label1334 | src=
+FIELD| TextBox | Has the reference from the last employer been verified? Please r | src=Has the reference from the last employer been verified? Please r
+FIELD| Label | Label1335 | src=
+DROPDOWN| Overall commitment to the previous employer Score | bound=Overall commitment to the previous employer Score | rstype=Table/Query | rows=SELECT [TblScommitment].[Number], [TblScommitment].[Answer] FROM TblScommitment; 
+FIELD| Label | Label1336 | src=
+DROPDOWN| Ability to complete task | bound=Ability to complete task | rstype=Value List | rows=1;1;2;2;3;3;4;4;5;5
+FIELD| Label | Label1337 | src=
+DROPDOWN| Attendance at work | bound=Attendance at work | rstype=Value List | rows=1;1;2;2;3;3;4;4;5;5
+FIELD| Label | Label1338 | src=
+FIELD| Page | Page2108 | src=
+FIELD| BoundObjectFrame | AssesmentReport | src=AssesmentReport
+FIELD| Label | Label2111 | src=
+
+##### FORM: frmRecTarget #####
+RECORDSOURCE: tblRecruitmentTarget
+FIELD| Label | Label0 | src=
+FIELD| Label | Label1 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label5 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label114 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label76 | src=
+DROPDOWN| cboRace | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.Race FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.Race HAVING (((tblRecruitmentTarget.Race) Is Not Null)); 
+FIELD| Label | Label206 | src=
+DROPDOWN| cboOcc | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.[Occupational Level] FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.[Occupational Level] HAVING (((tblRecruitmentTarget.[Occupational Level]) Is Not Null)); 
+FIELD| Label | Label210 | src=
+FIELD| Empty | EmptyCell25 | src=
+FIELD| Empty | EmptyCell26 | src=
+DROPDOWN| cboEmpT | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.[Employment Type] FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.[Employment Type] HAVING (((tblRecruitmentTarget.[Employment Type]) Is Not Null)); 
+FIELD| Label | Label41 | src=
+DROPDOWN| cboYear | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.[Due Date] FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.[Due Date] HAVING (((tblRecruitmentTarget.[Due Date]) Is Not Null)); 
+FIELD| Label | Label43 | src=
+DROPDOWN| cboGen | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.Gender FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.Gender HAVING (((tblRecruitmentTarget.Gender) Is Not Null)); 
+FIELD| Label | Label45 | src=
+FIELD| Empty | EmptyCell57 | src=
+FIELD| Empty | EmptyCell58 | src=
+FIELD| Empty | EmptyCell59 | src=
+FIELD| Empty | EmptyCell65 | src=
+BUTTON| Reset
+FIELD| TextBox | Due Date | src=Due Date
+FIELD| TextBox | Value | src=Value
+DROPDOWN| Occupational Level | bound=Occupational Level | rstype=Table/Query | rows=SELECT tblOccLevel.[Occupational Level] FROM tblOccLevel GROUP BY tblOccLevel.[Occupational Level]; 
+DROPDOWN| Employment Type | bound=Employment Type | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Employment Type] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Employment Type] HAVING (((tblRecruitmentAppData.[Employment Type]) Is Not Null)); 
+DROPDOWN| Gender | bound=Gender | rstype=Value List | rows=Female;Male
+DROPDOWN| Race | bound=Race | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.Race FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.Race HAVING (((tblRecruitmentAppData.Race) Is Not Null)); 
+FIELD| TextBox | Text37 | src==Sum([Value])
+FIELD| Label | Label39 | src=
+
+##### FORM: frmRecTargetDetails #####
+RECORDSOURCE: tblRecruitmentTarget
+FIELD| Image | Image38 | src=
+FIELD| Label | Label114 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label76 | src=
+BUTTON| Reset
+DROPDOWN| cboRace | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.Race FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.Race HAVING (((tblRecruitmentTarget.Race) Is Not Null)); 
+FIELD| Label | Label206 | src=
+DROPDOWN| cboOcc | bound= | rstype=Table/Query | rows=SELECT tblRecruitmentTarget.[Occupational Level] FROM tblRecruitmentTarget GROUP BY tblRecruitmentTarget.[Occupational Level] HAVING (((tblRecruitmentTarget.[Occupational Level]) Is Not Null)); 
+FIELD| Label | Label210 | src=
+FIELD| Empty | EmptyCell25 | src=
+FIELD| Empty | EmptyCell26 | src=
+FIELD| Empty | EmptyCell36 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+FIELD| TextBox | Due Date | src=Due Date
+FIELD| Label | Label0 | src=
+FIELD| TextBox | Value | src=Value
+FIELD| Label | Label5 | src=
+DROPDOWN| Occupational Level | bound=Occupational Level | rstype=Table/Query | rows=SELECT tblOccLevel.[Occupational Level] FROM tblOccLevel GROUP BY tblOccLevel.[Occupational Level]; 
+FIELD| Label | Label1 | src=
+DROPDOWN| Employment Type | bound=Employment Type | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Employment Type] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Employment Type] HAVING (((tblRecruitmentAppData.[Employment Type]) Is Not Null)); 
+FIELD| Label | Label2 | src=
+DROPDOWN| Gender | bound=Gender | rstype=Value List | rows=Femaile;Male
+FIELD| Label | Label3 | src=
+DROPDOWN| Race | bound=Race | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.Race FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.Race HAVING (((tblRecruitmentAppData.Race) Is Not Null)); 
+FIELD| Label | Label4 | src=
+
+##### FORM: FrmRecuriutmentList #####
+RECORDSOURCE: 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label738 | src=
+FIELD| Label | Label742 | src=
+DROPDOWN| cbDep | bound= | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | DepName_Label | src=
+DROPDOWN| cbR | bound= | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+FIELD| Label | Region1_Label | src=
+BUTTON| Search
+BUTTON| Clear
+DROPDOWN| cbj | bound= | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label293 | src=
+FIELD| Empty | EmptyCell266 | src=
+FIELD| Empty | EmptyCell267 | src=
+FIELD| SubForm | sub | src=
+
+##### FORM: FrmRegion #####
+RECORDSOURCE: TbRegion
+FIELD| Image | Image38 | src=
+FIELD| Label | Label635 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | RegionID | src=RegionID
+FIELD| Label | Label617 | src=
+FIELD| TextBox | Region | src=Region
+FIELD| Label | Label618 | src=
+BUTTON| &Save
+BUTTON| &First Record
+BUTTON| &Previous Record
+BUTTON| Next Record
+BUTTON| &Last  Record
+BUTTON| &Delete
+BUTTON|  &Close
+BUTTON| &New
+
+
+##### FORM: frmRequest #####
+RECORDSOURCE: 
+
+##### FORM: frmRequestReg #####
+RECORDSOURCE: 
+
+##### FORM: frmResult #####
+RECORDSOURCE: qryResult
+FIELD| Label | Label0 | src=
+FIELD| Label | Label1 | src=
+FIELD| Label | Auto_Header0 | src=
+FIELD| Label | Label10 | src=
+FIELD| Label | Label11 | src=
+BUTTON| Close
+FIELD| TextBox | Training | src=Training
+FIELD| TextBox | txtTotal | src==IIf([TotQue]=0,"No Question Setup for this training",IIf([TotQue]=[TotAttempt],[Total],"You have not attempted all the questions of this training"))
+FIELD| TextBox | TotQue | src=TotQue
+FIELD| TextBox | TotAttempt | src=TotAttempt
+
+##### FORM: frmSites #####
+RECORDSOURCE: tblSites
+FIELD| Label | Label0 | src=
+FIELD| Label | Auto_Header0 | src=
+BUTTON| Close
+FIELD| TextBox | Site | src=Site
+
+##### FORM: frmSuccession #####
+RECORDSOURCE: SELECT tblSuccession.*, [Employees Employment details].* FROM tblSuccession LEFT JOIN [Employees Employment details] ON tblSuccession.EmpNo = [Employees Employment details].EmployeeID; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label114 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | Name: | src=Name:
+FIELD| Label | Label0 | src=
+FIELD| TextBox | Employee Number: | src=Employee Number:
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Current Position: | src=Current Position:
+FIELD| Label | Label6 | src=
+FIELD| TextBox | Department: | src=Department:
+FIELD| Label | Label9 | src=
+FIELD| TextBox | Identified Succession Position: | src=Identified Succession Position:
+FIELD| Label | Label12 | src=
+FIELD| TextBox | Line Manager: | src=Line Manager:
+FIELD| Label | Label15 | src=
+FIELD| TextBox | Date Initiated: | src=Date Initiated:
+FIELD| Label | Label18 | src=
+FIELD| TextBox | Which Assessment Tier | src=WHI
+FIELD| Label | Label21 | src=
+FIELD| TextBox | Sub tier | src=SUB T
+FIELD| Label | Label24 | src=
+FIELD| TextBox | Qualification/ Requirement | src=Qualification/ Requirement
+FIELD| Label | Label27 | src=
+FIELD| TextBox | Experience / Requirement | src=Experience / Requirement
+FIELD| Label | Label33 | src=
+FIELD| TextBox | Physchological / Requirement | src=Physchological / Requirement
+FIELD| Label | Label36 | src=
+FIELD| TextBox | Cultural & Value Fit / Requirement | src=Cultural & Value Fit / Requirement
+FIELD| Label | Label39 | src=
+FIELD| TextBox | Compliance / Requirement | src=Compliance / Requirement
+FIELD| Label | Label42 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+
+##### FORM: frmSuccessionReg #####
+RECORDSOURCE: tblSuccession
+FIELD| Image | Image38 | src=
+FIELD| Label | Label114 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label0 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label12 | src=
+FIELD| Label | Label15 | src=
+FIELD| Label | Label18 | src=
+FIELD| Label | Label21 | src=
+FIELD| Label | Label24 | src=
+FIELD| Label | Label27 | src=
+FIELD| Label | Label33 | src=
+FIELD| Label | Label36 | src=
+FIELD| Label | Label39 | src=
+FIELD| Label | Label42 | src=
+FIELD| TextBox | Name: | src=Name:
+FIELD| TextBox | Employee Number: | src=Employee Number:
+FIELD| TextBox | Current Position: | src=Current Position:
+FIELD| TextBox | Department: | src=Department:
+FIELD| TextBox | Identified Succession Position: | src=Identified Succession Position:
+FIELD| TextBox | Line Manager: | src=Line Manager:
+FIELD| TextBox | Date Initiated: | src=Date Initiated:
+FIELD| TextBox | Which Assessment Tier | src=Which Assessment Tier
+FIELD| TextBox | Sub tier | src=Sub tier
+FIELD| TextBox | Qualification/ Requirement | src=Qualification/ Requirement
+FIELD| TextBox | Experience / Requirement | src=Experience / Requirement
+FIELD| TextBox | Physchological / Requirement | src=Physchological / Requirement
+FIELD| TextBox | Cultural & Value Fit / Requirement | src=Cultural & Value Fit / Requirement
+FIELD| TextBox | Compliance / Requirement | src=Compliance / Requirement
+
+##### FORM: FrmSucessionPlan #####
+RECORDSOURCE: SELECT tblSuccession.*, [Employees Employment details].* FROM tblSuccession LEFT JOIN [Employees Employment details] ON tblSuccession.EmpNo = [Employees Employment details].EmployeeID; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+FIELD| Label | Label92 | src=
+FIELD| Label | Label368 | src=
+FIELD| Label | Label346 | src=
+FIELD| Label | Label99 | src=
+FIELD| Label | Label377 | src=
+FIELD| Label | Label353 | src=
+FIELD| Label | Label309 | src=
+FIELD| Label | Label316 | src=
+FIELD| Label | Label323 | src=
+FIELD| Label | Label330 | src=
+FIELD| Label | Label337 | src=
+DROPDOWN| cboEmp | bound= | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label355 | src=
+DROPDOWN| cboPos | bound= | rstype=Table/Query | rows=SELECT TblJobDescription.JobDescription FROM TblJobDescription WHERE (((TblJobDescription.JobDescription) Is Not Null)) ORDER BY TblJobDescription.JobDescription; 
+FIELD| Label | Label360 | src=
+FIELD| Label | Label367 | src=
+FIELD| Empty | EmptyCell363 | src=
+FIELD| Empty | EmptyCell365 | src=
+BUTTON| Search
+BUTTON| Reset
+FIELD| Empty | EmptyCell389 | src=
+FIELD| Empty | EmptyCell390 | src=
+FIELD| Empty | EmptyCell393 | src=
+FIELD| Empty | EmptyCell395 | src=
+DROPDOWN| tblSuccession.CurrentPosition | bound=tblSuccession.CurrentPosition | rstype=Table/Query | rows=SELECT TblJobDescription.JobDescription FROM TblJobDescription WHERE (((TblJobDescription.JobDescription) Is Not Null)) ORDER BY TblJobDescription.JobDescription; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+DROPDOWN| EmpNo | bound=EmpNo | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| TextBox | DateInitiated | src=DateInitiated
+FIELD| TextBox | SubTierRoleType | src=SubTierRoleType
+FIELD| TextBox | FocusArea | src=FocusArea
+FIELD| TextBox | LineManager | src=LineManager
+DROPDOWN| CKR | bound=CKR | rstype=Table/Query | rows=SELECT tblCritical.CriticalSkills FROM tblCritical ORDER BY tblCritical.CriticalSkills; 
+DROPDOWN| AssessmentTier | bound=AssessmentTier | rstype=Table/Query | rows=SELECT tblTiers.Tier FROM tblTiers ORDER BY tblTiers.Tier; 
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| TextBox | IdentifiedSuccessionPosition | src=IdentifiedSuccessionPosition
+
+##### FORM: FrmSucessionPlanDetails #####
+RECORDSOURCE: SELECT [Employees Employment details].*, tblSuccession.* FROM [Employees Employment details] RIGHT JOIN tblSuccession ON [Employees Employment details].EmployeeID = tblSuccession.EmpNo; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| EmpNo | bound=EmpNo | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| Label | Label92 | src=
+FIELD| TextBox | DateInitiated | src=DateInitiated
+FIELD| Label | Label309 | src=
+DROPDOWN| tblSuccession.CurrentPosition | bound=tblSuccession.CurrentPosition | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitle FROM TblJobTitle ORDER BY TblJobTitle.JobTitle; 
+FIELD| Label | Label346 | src=
+FIELD| TextBox | LineManager | src=LineManager
+FIELD| Label | Label353 | src=
+DROPDOWN| AssessmentTier | bound=AssessmentTier | rstype=Value List | rows=Tier1;Tier2;Tier3
+FIELD| Label | Label323 | src=
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| Label | Label368 | src=
+DROPDOWN| SubTierRoleType | bound=SubTierRoleType | rstype=Table/Query | rows=SELECT tblSuccAppData.[Sub-Tier / Role Type] FROM tblSuccAppData GROUP BY tblSuccAppData.[Sub-Tier / Role Type] HAVING (((tblSuccAppData.[Sub-Tier / Role Type]) Is Not Null)); 
+FIELD| Label | Label330 | src=
+DROPDOWN| FocusArea | bound=FocusArea | rstype=Table/Query | rows=SELECT tblSuccAppData.Focus FROM tblSuccAppData GROUP BY tblSuccAppData.Focus HAVING (((tblSuccAppData.Focus) Is Not Null)) ORDER BY tblSuccAppData.Focus; 
+FIELD| Label | Label337 | src=
+DROPDOWN| Combo416 | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+FIELD| Label | Label417 | src=
+DROPDOWN| IdentifiedSuccessionPosition | bound=IdentifiedSuccessionPosition | rstype=Table/Query | rows=TblJobTitle
+FIELD| Label | Label377 | src=
+FIELD| TextBox | CKR | src=CKR
+FIELD| Label | Label316 | src=
+
+##### FORM: FrmSucessionPlanReg #####
+RECORDSOURCE: SELECT [Employees Employment details].*, tblSuccession.* FROM [Employees Employment details] RIGHT JOIN tblSuccession ON [Employees Employment details].EmployeeID = tblSuccession.EmpNo; 
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label92 | src=
+FIELD| Label | Label93 | src=
+FIELD| Label | Label94 | src=
+FIELD| Label | Label95 | src=
+FIELD| Label | Label96 | src=
+FIELD| Label | Label99 | src=
+FIELD| Label | Label101 | src=
+FIELD| Label | Label309 | src=
+FIELD| Label | Label346 | src=
+FIELD| Label | Label353 | src=
+FIELD| Label | Label316 | src=
+FIELD| Label | Label323 | src=
+FIELD| Label | Label330 | src=
+FIELD| Label | Label337 | src=
+FIELD| Label | Label259 | src=
+BUTTON|  &Close
+FIELD| TextBox | First NameID | src=First Name
+FIELD| TextBox | Last Name | src=Last Name
+FIELD| TextBox | E-mail Address | src=E-mail Address
+DROPDOWN| Region | bound=Province | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| Department | bound=Department | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+DROPDOWN| PossibleTargetPlanSuccession | bound=PossibleTargetPlanSuccession | rstype=Value List | rows="Promotion";"Sucession";"Recruitment (Ext)"
+DROPDOWN| Job Title | bound=Job Title | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+DROPDOWN| EmpNo | bound=EmpNo | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & Nz([Surname],Nz([Last Name],"")) AS Expr1 FROM [Employees Employment details] WHERE ((([First Name] & " " & Nz([Surname],Nz([Last Name],"")))<>"")) ORDER BY [First Name] & " " & Nz([Surname],Nz([Last Name],"")); 
+FIELD| TextBox | DateInitiated | src=DateInitiated
+FIELD| TextBox | SubTierRoleType | src=SubTierRoleType
+FIELD| TextBox | FocusArea | src=FocusArea
+DROPDOWN| tblSuccession.CurrentPosition | bound=tblSuccession.CurrentPosition | rstype=Table/Query | rows=SELECT TblJobDescription.JobDescription FROM TblJobDescription WHERE (((TblJobDescription.JobDescription) Is Not Null)) ORDER BY TblJobDescription.JobDescription; 
+FIELD| TextBox | LineManager | src=LineManager
+DROPDOWN| CKR | bound=CKR | rstype=Table/Query | rows=SELECT tblCritical.CriticalSkills FROM tblCritical ORDER BY tblCritical.CriticalSkills; 
+DROPDOWN| AssessmentTier | bound=AssessmentTier | rstype=Table/Query | rows=SELECT tblTiers.Tier FROM tblTiers ORDER BY tblTiers.Tier; 
+
+##### FORM: frmTakeReg #####
+RECORDSOURCE: tblEmpTake
+FIELD| Label | Auto_Header0 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label0 | src=
+FIELD| Label | Label57 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label60 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label63 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label66 | src=
+FIELD| Label | Label12 | src=
+FIELD| Label | Label69 | src=
+FIELD| Label | Label15 | src=
+FIELD| Label | Label72 | src=
+FIELD| Label | Label18 | src=
+FIELD| Label | Label75 | src=
+FIELD| Label | Label21 | src=
+FIELD| Label | Label78 | src=
+FIELD| Label | Label24 | src=
+FIELD| Label | Label81 | src=
+FIELD| Label | Label27 | src=
+FIELD| Label | Label84 | src=
+FIELD| Label | Label30 | src=
+FIELD| Label | Label33 | src=
+FIELD| Label | Label36 | src=
+FIELD| Label | Label39 | src=
+FIELD| Label | Label42 | src=
+FIELD| Label | Label45 | src=
+FIELD| Label | Label48 | src=
+FIELD| Label | Label51 | src=
+BUTTON|  &Close
+FIELD| Label | Label358 | src=
+FIELD| TextBox | FirstName | src=FirstName
+FIELD| TextBox | Surname | src=Surname
+FIELD| TextBox | IDNumber | src=IDNumber
+FIELD| TextBox | DateEngaged | src=DateEngaged
+FIELD| TextBox | CellNumber | src=CellNumber
+FIELD| TextBox | Emergencycontact | src=Emergencycontact
+FIELD| TextBox | EmergencyCellnumber | src=EmergencyCellnumber
+FIELD| TextBox | UnitNumber | src=UnitNumber
+FIELD| TextBox | StreetNumber | src=StreetNumber
+FIELD| TextBox | Suburb | src=Suburb
+FIELD| TextBox | Complex | src=Complex
+FIELD| TextBox | StreetName | src=StreetName
+FIELD| TextBox | City | src=City
+FIELD| TextBox | Attachments | src=Attachments
+FIELD| BoundObjectFrame | IDcard | src=IDcard
+FIELD| BoundObjectFrame | DrivingLicense | src=DrivingLicense
+FIELD| BoundObjectFrame | CriminalCheck | src=CriminalCheck
+FIELD| BoundObjectFrame | SageForm | src=SageForm
+FIELD| BoundObjectFrame | BankConfirmation | src=BankConfirmation
+FIELD| BoundObjectFrame | SARreg | src=SARreg
+FIELD| BoundObjectFrame | ContractOfEmp | src=ContractOfEmp
+FIELD| BoundObjectFrame | PRDP | src=PRDP
+FIELD| BoundObjectFrame | Medical | src=Medical
+FIELD| BoundObjectFrame | WorkPermit | src=WorkPermit
+DROPDOWN| RequesterName | bound=RequesterName | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData ORDER BY tblRecruitmentAppData.[Responsible Manager]; 
+DROPDOWN| Province | bound=Province | rstype=Table/Query | rows=SELECT TbRegion.RegionID, TbRegion.Region FROM TbRegion ORDER BY TbRegion.Region; 
+DROPDOWN| Dpartment | bound=Dpartment | rstype=Table/Query | rows=SELECT TblDeparment.DepID, TblDeparment.DepName FROM TblDeparment ORDER BY TblDeparment.DepName; 
+DROPDOWN| Jobtitle | bound=Jobtitle | rstype=Table/Query | rows=SELECT TblJobTitle.JobTitleID, TblJobTitle.JobTitle FROM TblJobTitle; 
+BUTTON| Upload
+
+##### FORM: frmTaxStatus #####
+RECORDSOURCE: tblTaxStatus
+FIELD| Label | Label0 | src=
+FIELD| Label | Auto_Header0 | src=
+BUTTON| Close
+FIELD| TextBox | Status | src=Status
+
+##### FORM: frmTest #####
+RECORDSOURCE: SELECT ComboTraining.EmployeeID, ComboTraining.Skills, TblAllTrainings.Attach FROM ComboTraining INNER JOIN TblAllTrainings ON ComboTraining.Skills = TblAllTrainings.TrainingID WHERE (((ComboTraining.EmployeeID)=[TempVars]![UserID])); 
+DROPDOWN| cboTraining | bound= | rstype=Table/Query | rows=SELECT ComboTraining.Skills, TblAllTrainings.Training FROM ComboTraining INNER JOIN TblAllTrainings ON ComboTraining.Skills = TblAllTrainings.TrainingID WHERE (((ComboTraining.EmployeeID)=[TempVars]![UserID])) GROUP BY ComboTraining.Skills, TblAllTrainings.Training; 
+FIELD| Label | Label1 | src=
+FIELD| BoundObjectFrame | Attach | src=Attach
+FIELD| Label | Label3 | src=
+FIELD| SubForm | subfrmQuestions | src=
+FIELD| Label | Label6 | src=
+BUTTON| Go
+
+##### FORM: FrmTrainDash #####
+RECORDSOURCE: 
+FIELD| Line | Line151 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label152 | src=
+BUTTON|  Add  Internal/External  Trainings
+BUTTON|   Book Training
+BUTTON| Close
+FIELD| Label | Label153 | src=
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+BUTTON| Take Up Test
+BUTTON| Your Results
+FIELD| Empty | EmptyCell175 | src=
+FIELD| Empty | EmptyCell176 | src=
+FIELD| Empty | EmptyCell177 | src=
+FIELD| Empty | EmptyCell178 | src=
+FIELD| Empty | EmptyCell179 | src=
+FIELD| Empty | EmptyCell182 | src=
+BUTTON| Register of  Trainings and Results
+BUTTON| Register of  Trainings
+
+##### FORM: FrmTraining #####
+RECORDSOURCE: TblAnalysisSkils
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | ID | src=ID
+FIELD| Label | Label343 | src=
+FIELD| TextBox | BookingDate | src=BookingDate
+FIELD| Label | Label558 | src=
+FIELD| TextBox | Educational Institute Name | src=Educational Institute Name
+FIELD| Label | Label561 | src=
+FIELD| TextBox | Registration | src=Registration
+FIELD| Label | Label562 | src=
+FIELD| TextBox | NQF Rating | src=NQF Rating
+FIELD| Label | Label563 | src=
+FIELD| TextBox | Notes | src=Notes
+FIELD| Label | Label564 | src=
+FIELD| TextBox | Approvers Email | src=Approvers Email
+FIELD| Label | Label565 | src=
+FIELD| TextBox | Finance | src=Finance
+FIELD| Label | Label566 | src=
+FIELD| TextBox | Purchase Order | src=Purchase Order
+FIELD| Label | Label567 | src=
+FIELD| TextBox | TrainingStartDate | src=TrainingStartDate
+FIELD| Label | Label568 | src=
+FIELD| TextBox | TrainingEndDate | src=TrainingEndDate
+FIELD| Label | Label569 | src=
+BUTTON|  Email for Approval
+BUTTON|  Email To Employee
+FIELD| TextBox | TrainingLocation | src=TrainingLocation
+FIELD| Label | Label677 | src=
+FIELD| TextBox | ApproversName | src=ApproversName
+FIELD| Label | Label684 | src=
+FIELD| TextBox | ename | src==[Forms]![FrmSkill&Training]![First Name] & "  " & [Forms]![FrmSkill&Training]![Last Name]
+FIELD| Label | Label692 | src=
+FIELD| TextBox | eEmail | src==[Forms]![FrmSkill&Training]![E-mail Address]
+FIELD| Label | Label694 | src=
+BUTTON|  &Close
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Completed";"Pending";"Approved";"Incomplete"
+FIELD| Label | Label750 | src=
+DROPDOWN| Skills | bound=Skills | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.[Training], TblAllTrainings.TrainingType FROM TblAllTrainings; 
+FIELD| Label | Label732 | src=
+DROPDOWN| Name of training program | bound=Name of training program | rstype=Table/Query | rows=
+FIELD| Label | Label560 | src=
+
+##### FORM: FrmTrainingEntrY #####
+RECORDSOURCE: TblAllTrainings
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | TrainingID | src=TrainingID
+FIELD| Label | Label574 | src=
+DROPDOWN| TrainingType | bound=TrainingType | rstype=Value List | rows="Internal Training";"External Training"
+FIELD| Label | Label576 | src=
+FIELD| TextBox | Training | src=Training
+FIELD| Label | Label610 | src=
+FIELD| BoundObjectFrame | Attach | src=Attach
+FIELD| Label | Label615 | src=
+FIELD| SubForm | chdQue | src=
+FIELD| Label | chdQue Label | src=
+
+##### FORM: FrmTrainingEntrY1 #####
+RECORDSOURCE: TblAllTrainings
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | TrainingID | src=TrainingID
+FIELD| Label | Label574 | src=
+DROPDOWN| TrainingType | bound=TrainingType | rstype=Value List | rows="Internal Training";"External Training"
+FIELD| Label | Label576 | src=
+FIELD| TextBox | Training | src=Training
+FIELD| Label | Label610 | src=
+
+##### FORM: FrmTrainingList #####
+RECORDSOURCE: QryExportExcelTrainings
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label93 | src=
+BUTTON|  &Close
+FIELD| Label | Label250 | src=
+FIELD| Label | Label259 | src=
+FIELD| Label | Label260 | src=
+FIELD| Label | Label261 | src=
+FIELD| Label | Label262 | src=
+FIELD| Label | Label263 | src=
+FIELD| Label | Label264 | src=
+BUTTON| Export Excel
+FIELD| TextBox | First NameID | src=First Name
+FIELD| TextBox | ID | src=ID
+FIELD| TextBox | Last Name | src=Last Name
+DROPDOWN| Skills | bound=Skills | rstype=Table/Query | rows=
+FIELD| TextBox | BookingDate | src=BookingDate
+FIELD| TextBox | TrainingStartDate | src=TrainingStartDate
+FIELD| TextBox | TrainingEndDate | src=TrainingEndDate
+DROPDOWN| Combo301 | bound=Status | rstype=Value List | rows="Completed";"Pending";"Approved";"Incomplete"
+
+##### FORM: FrmTrainingManual #####
+RECORDSOURCE: TblAnalysisSkils
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| TextBox | ID | src=ID
+FIELD| Label | Label343 | src=
+FIELD| TextBox | BookingDate | src=BookingDate
+FIELD| Label | Label558 | src=
+FIELD| TextBox | Name of training program | src=Name of training program
+FIELD| Label | Label560 | src=
+FIELD| TextBox | Educational Institute Name | src=Educational Institute Name
+FIELD| Label | Label561 | src=
+FIELD| TextBox | Registration | src=Registration
+FIELD| Label | Label562 | src=
+FIELD| TextBox | NQF Rating | src=NQF Rating
+FIELD| Label | Label563 | src=
+FIELD| TextBox | Notes | src=Notes
+FIELD| Label | Label564 | src=
+FIELD| TextBox | Approvers Email | src=Approvers Email
+FIELD| Label | Label565 | src=
+FIELD| TextBox | Finance | src=Finance
+FIELD| Label | Label566 | src=
+FIELD| TextBox | Purchase Order | src=Purchase Order
+FIELD| Label | Label567 | src=
+FIELD| TextBox | TrainingStartDate | src=TrainingStartDate
+FIELD| Label | Label568 | src=
+FIELD| TextBox | TrainingEndDate | src=TrainingEndDate
+FIELD| Label | Label569 | src=
+FIELD| TextBox | TrainingLocation | src=TrainingLocation
+FIELD| Label | Label677 | src=
+FIELD| TextBox | ApproversName | src=ApproversName
+FIELD| Label | Label684 | src=
+BUTTON|  &Close
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].[Last Name], [Employees Employment details].[E-mail Address] FROM [Employees Employment details] ORDER BY [Employees Employment details].[First Name]; 
+FIELD| Label | Label730 | src=
+FIELD| TextBox | EmployeeEmail | src=EmployeeEmail
+FIELD| Label | Label731 | src=
+DROPDOWN| Skills | bound=Skills | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training, TblAllTrainings.TrainingType FROM TblAllTrainings WHERE (((TblAllTrainings.TrainingType)=[Forms]![FrmTrainingManual]![TypeOfTraining])); 
+FIELD| Label | Label742 | src=
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Completed";"Pending";"Approved";"Incomplete"
+FIELD| Label | Label750 | src=
+DROPDOWN| TypeOfTraining | bound=TypeOfTraining | rstype=Value List | rows="Internal Training";"External Training"
+FIELD| Label | Label752 | src=
+FIELD| BoundObjectFrame | Quote | src=Quote
+FIELD| Label | Label766 | src=
+FIELD| BoundObjectFrame | PP | src=PP
+FIELD| Label | Label773 | src=
+FIELD| BoundObjectFrame | Certificate | src=Certificate
+FIELD| Label | Label780 | src=
+BUTTON|  Email for Approval
+BUTTON|  Email To Employee
+
+##### FORM: frmTrainingReg #####
+RECORDSOURCE: TblAnalysisSkils
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+FIELD| Label | Label730 | src=
+FIELD| Label | Label731 | src=
+FIELD| Label | Label752 | src=
+FIELD| Label | Label742 | src=
+FIELD| Label | Label558 | src=
+FIELD| Label | Label750 | src=
+FIELD| Label | Label560 | src=
+FIELD| Label | Label561 | src=
+FIELD| Label | Label677 | src=
+FIELD| Label | Label562 | src=
+FIELD| Label | Label563 | src=
+FIELD| Label | Label564 | src=
+FIELD| Label | Label565 | src=
+FIELD| Label | Label684 | src=
+FIELD| Label | Label566 | src=
+FIELD| Label | Label567 | src=
+FIELD| Label | Label568 | src=
+FIELD| Label | Label569 | src=
+BUTTON|  &Close
+FIELD| Empty | EmptyCell74 | src=
+FIELD| Empty | EmptyCell75 | src=
+FIELD| Label | Label76 | src=
+BUTTON| Reset
+FIELD| Empty | EmptyCell87 | src=
+DROPDOWN| txtTraining | bound= | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training FROM TblAllTrainings ORDER BY TblAllTrainings.Training; 
+FIELD| Label | Label63 | src=
+DROPDOWN| txtName | bound= | rstype=Table/Query | rows=SELECT TblAnalysisSkils.EmployeeID, [Employees Employment details].[First Name] FROM TblAnalysisSkils INNER JOIN [Employees Employment details] ON TblAnalysisSkils.EmployeeID = [Employees Employment details].EmployeeID GROUP BY TblAnalysisSkils.EmployeeID, [Employees Employment details].[First Name]; 
+FIELD| Label | Label61 | src=
+DROPDOWN| txtType | bound= | rstype=Table/Query | rows=SELECT DISTINCT TblAnalysisSkils.TypeOfTraining FROM TblAnalysisSkils WHERE TblAnalysisSkils.TypeOfTraining Is Not Null ORDER BY TblAnalysisSkils.TypeOfTraining; 
+FIELD| Label | Label839 | src=
+FIELD| Empty | EmptyCell846 | src=
+FIELD| Empty | EmptyCell847 | src=
+FIELD| Empty | EmptyCell848 | src=
+FIELD| TextBox | BookingDate | src=BookingDate
+FIELD| TextBox | Name of training program | src=Name of training program
+FIELD| TextBox | Educational Institute Name | src=Educational Institute Name
+FIELD| TextBox | Registration | src=Registration
+FIELD| TextBox | NQF Rating | src=NQF Rating
+FIELD| TextBox | Notes | src=Notes
+FIELD| TextBox | Approvers Email | src=Approvers Email
+FIELD| TextBox | Finance | src=Finance
+FIELD| TextBox | Purchase Order | src=Purchase Order
+FIELD| TextBox | TrainingStartDate | src=TrainingStartDate
+FIELD| TextBox | TrainingEndDate | src=TrainingEndDate
+FIELD| TextBox | TrainingLocation | src=TrainingLocation
+FIELD| TextBox | ApproversName | src=ApproversName
+DROPDOWN| EmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [Employees Employment details].[First Name], [Employees Employment details].[Last Name], [Employees Employment details].[E-mail Address] FROM [Employees Employment details]; 
+FIELD| TextBox | EmployeeEmail | src=EmployeeEmail
+DROPDOWN| Skills | bound=Skills | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training FROM TblAllTrainings; 
+DROPDOWN| Status | bound=Status | rstype=Value List | rows="Completed";"Pending";"Approved";"Incomplete"
+DROPDOWN| TypeOfTraining | bound=TypeOfTraining | rstype=Value List | rows="Internal Training";"External Training"
+
+##### FORM: FrmTypeOfLeave #####
+RECORDSOURCE: TblTypeofLeave
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+
+BUTTON| &Save
+FIELD| TextBox | TypeOfLeaveID | src=TypeOfLeaveID
+FIELD| Label | Label657 | src=
+FIELD| TextBox | TypeOfLeave | src=TypeOfLeave
+FIELD| Label | Label658 | src=
+
+##### FORM: frmUser #####
+RECORDSOURCE: LoginDetails
+FIELD| Image | Image497 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label496 | src=
+FIELD| TextBox | ID | src=ID
+FIELD| Label | Label343 | src=
+FIELD| TextBox | Username | src=Username
+FIELD| Label | Label450 | src=
+FIELD| TextBox | Password | src=Password
+FIELD| Label | Label451 | src=
+BUTTON|  &Close
+BUTTON| &Delete
+BUTTON| &Last  Record
+BUTTON| Next Record
+BUTTON| &Previous Record
+BUTTON| &First Record
+BUTTON| &New
+Activity
+BUTTON| &Save
+FIELD| CheckBox | Admin | src=Admin
+FIELD| Label | Label481 | src=
+FIELD| CheckBox | User | src=User
+FIELD| Label | Label506 | src=
+DROPDOWN| EmployeeName | bound=EmployeeName | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label552 | src=
+
+##### FORM: fsubInterviewLeads #####
+RECORDSOURCE: tblInterviewLeads
+DROPDOWN| cboEmployeeID | bound=EmployeeID | rstype=Table/Query | rows=SELECT EmployeeID, Trim(Nz([First Name],'') & ' ' & Nz(Surname,'')) AS FullName FROM [Employees Employment details] ORDER BY Surname, [First Name]; 
+DROPDOWN| cboRoleOnPanel | bound=RoleOnPanel | rstype=Value List | rows="Lead";"Co-lead";"HR";"Technical Assessor";"Observer"
+FIELD| CheckBox | chkIsPrimary | src=IsPrimary
+FIELD| TextBox | txtNotes | src=Notes
+
+##### FORM: KSFDash #####
+RECORDSOURCE: 
+FIELD| Line | Line28 | src=
+FIELD| Image | Image38 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label44 | src=
+BUTTON| Close
+FIELD| Label | Label68 | src=
+BUTTON|  Add SHEQ
+DROPDOWN| Combo75 | bound==[Forms]![Login]![Name1] | rstype=Table/Query | rows=SELECT [Employees Employment details].EmployeeID, [First Name ] & " " & [Last Name] AS Name FROM [Employees Employment details]; 
+FIELD| Label | Label31 | src=
+FIELD| T101 | Box81 | src=
+FIELD| Label | Label138 | src=
+BUTTON|   SHEQ Register
+BUTTON|   SHEQ Statistics
+BUTTON|  Add Department
+BUTTON|  Add Region
+BUTTON|  Add Site
+BUTTON|  Add Employee
+BUTTON|  Add Login Users
+FIELD| TextBox | TaskAssign | src==[Forms]![Login]![Name1]
+FIELD| Option | admin | src==[Forms]![Login]![user]
+FIELD| Label | Label238 | src=
+
+##### FORM: Login #####
+RECORDSOURCE: 
+FIELD| Label | Label5 | src=
+FIELD| Label | Label6 | src=
+FIELD| Line | Line28 | src=
+BUTTON| Quit App
+BUTTON| Login
+FIELD| Image | Image497 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label496 | src=
+FIELD| Label | lblLogin | src=
+
+##### FORM: QryRecScore subform #####
+RECORDSOURCE: QryRecScore
+FIELD| Label | Label24 | src=
+FIELD| T101 | Box93 | src=
+FIELD| TextBox | Text94 | src=Score
+FIELD| Label | Label95 | src=
+
+##### FORM: Recruitment subform #####
+RECORDSOURCE: SELECT Recruitment.RecuritmentId, Recruitment.[This Application Is An], Recruitment.[Department (where will the candidate be placed)], Recruitment.[First Name], Recruitment.[Last name], Recruitment.Timestamp, QryRecScore.Score, Recruitment.Recruitmented, Recruitment.Region, Recruitment.[What position is Being Applied For] FROM Recruitment INNER JOIN QryRecScore ON Recruitment.RecuritmentId = QryRecScore.RecuritmentId; 
+FIELD| Label | Label84 | src=
+FIELD| Label | Label85 | src=
+FIELD| Label | Label86 | src=
+FIELD| Label | Label87 | src=
+FIELD| Label | Label88 | src=
+FIELD| Label | Label89 | src=
+FIELD| Label | Label90 | src=
+FIELD| Label | Label91 | src=
+FIELD| Empty | EmptyCell121 | src=
+FIELD| Label | Label130 | src=
+FIELD| Label | Label152 | src=
+FIELD| TextBox | RecuritmentId | src=RecuritmentId
+FIELD| TextBox | This Application Is An | src=This Application Is An
+FIELD| TextBox | First Name | src=First Name
+FIELD| TextBox | Last name | src=Last name
+FIELD| TextBox | Timestamp | src=Timestamp
+FIELD| TextBox | Score | src=Score
+BUTTON| Make Employee
+DROPDOWN| Recruitmented | bound=Recruitmented | rstype=Value List | rows=0;"No";1;"Yes"
+DROPDOWN| Department (where will the candidate be placed) | bound=Department (where will the candidate be placed) | rstype=Table/Query | rows=SELECT [TblDeparment].[DepID], [TblDeparment].[DepName] FROM TblDeparment; 
+DROPDOWN| Region | bound=Region | rstype=Table/Query | rows=SELECT [TbRegion].[RegionID], [TbRegion].[Region] FROM TbRegion; 
+DROPDOWN| What position is Being Applied For | bound=What position is Being Applied For | rstype=Table/Query | rows=SELECT [TblJobTitle].[JobTitleID], [TblJobTitle].[JobTitle] FROM TblJobTitle; 
+
+##### FORM: subfrmAns #####
+RECORDSOURCE: SELECT tblAnswers.* FROM tblAnswers ORDER BY tblAnswers.Sort; 
+FIELD| TextBox | AnswerID | src=AnswerID
+FIELD| Label | Label0 | src=
+FIELD| TextBox | QueNo | src=QueNo
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Answer | src=Answer
+FIELD| Label | Label6 | src=
+FIELD| TextBox | Points | src=Points
+FIELD| Label | Label9 | src=
+FIELD| TextBox | Sort | src=Sort
+FIELD| Label | Label12 | src=
+
+##### FORM: subfrmAnswers #####
+RECORDSOURCE: SELECT tblAnswers.* FROM tblAnswers ORDER BY tblAnswers.Sort; 
+FIELD| Label | Label2 | src=
+FIELD| Label | Label4 | src=
+FIELD| TextBox | Answer | src=Answer
+FIELD| TextBox | Sort | src=Sort
+
+##### FORM: subfrmDevExp #####
+RECORDSOURCE: tblDevExp
+FIELD| Label | Label0 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label74 | src=
+FIELD| Label | Label75 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label7 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label10 | src=
+FIELD| Label | Label11 | src=
+FIELD| Label | Label42 | src=
+FIELD| TextBox | ExperienceID | src=ExperienceID
+DROPDOWN| Experience | bound=Experience | rstype=Value List | rows="KPI -1";"KPI -2";"KPI -3";"KPI -4";"KPI -5";"KPI -6";"KPI -7";"KPI -8";"KPI -9";"KPI -10";"KPI -11";"KPI -12";"KPI -13";"KPI -14";"KPI -15"
+DROPDOWN| Area | bound=Area | rstype=Value List | rows="Finance ";"Compilance to procedures and processes";"Labour Control";"Technical Aspects of the Job";"Legal compliance aspects of the Job";"Operational Aspects of the Job";"Utilisaing Software Programs";"Project"
+FIELD| BoundObjectFrame | Competency | src=Competency
+DROPDOWN| TimeFrame | bound=TimeFrame | rstype=Value List | rows="0-3 Months";"3-6 Months";"3-9 Months";"1 Years";"2 Years";"3 Years";"4 years";"5 years";"6 Years";"7 Years";"8 Years";"9 Years";"10 Years"
+FIELD| TextBox | TargetDate | src=TargetDate
+FIELD| TextBox | Status | src=Status
+FIELD| TextBox | Dt | src=Dt
+FIELD| TextBox | Compliance | src=Compliance
+FIELD| TextBox | EXCO | src=EXCO
+DROPDOWN| Approval | bound=Approval | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| HR | bound=HR | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| LineManager | bound=LineManager | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+FIELD| BoundObjectFrame | Attachment112 | src=Competency
+
+##### FORM: subfrmQualDev #####
+RECORDSOURCE: tblQualDev
+FIELD| Label | Label1 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label7 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label10 | src=
+FIELD| Label | Label11 | src=
+FIELD| Label | Label42 | src=
+FIELD| Label | Label53 | src=
+FIELD| TextBox | QualID | src=QualID
+FIELD| TextBox | TargetDate | src=TargetDate
+FIELD| TextBox | Status | src=Status
+FIELD| TextBox | Dt | src=Dt
+FIELD| TextBox | Compliance | src=Compliance
+FIELD| TextBox | EXCO | src=EXCO
+DROPDOWN| Qualification | bound=Qualification | rstype=Value List | rows="Honors-Phd";"Masters";"Degree";"Diploma";"Certificate";"Proffesional registration "
+DROPDOWN| Approval | bound=Approval | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| HR | bound=HR | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| LineManager | bound=LineManager | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| TimeFrame | bound=TimeFrame | rstype=Value List | rows="0-3 Months";"3-6 Months";"3-9 Months";"1 Years";"2 Years";"3 Years";"4 years";"5 years";"6 Years";"7 Years";"8 Years";"9 Years";"10 Years"
+FIELD| BoundObjectFrame | Competency | src=Competency
+DROPDOWN| Area | bound=Area | rstype=Value List | rows="Operations ";"Sales";"Chemistry ";"Compliance ";"Production ";"Business Administration";"Financial Accounting ";"Safety management ";"Environmental management ";"Law "
+
+##### FORM: subfrmQue #####
+RECORDSOURCE: tblQue
+FIELD| TextBox | TrainNo | src=TrainNo
+FIELD| Label | Label0 | src=
+FIELD| TextBox | QueID | src=QueID
+FIELD| Label | Label3 | src=
+FIELD| TextBox | Question | src=Question
+FIELD| Label | Label6 | src=
+FIELD| SubForm | subfrmAns | src=
+FIELD| Label | Label9 | src=
+
+##### FORM: subfrmQuestions #####
+RECORDSOURCE: SELECT tblQue.* FROM tblQue WHERE (((tblQue.QueID) Not In (SELECT tblEmpTest.QueNo FROM tblEmpTest WHERE (((tblEmpTest.EmpNo)=[TempVars]![userID]) AND ((tblEmpTest.AnsNo)>0));))); 
+FIELD| TextBox | Question | src=Question
+FIELD| Label | Label6 | src=
+FIELD| SubForm | chdAnswers | src=
+BUTTON| Submit
+DROPDOWN| cboAns | bound= | rstype=Table/Query | rows=SELECT tblAnswers.AnswerID, tblAnswers.Sort, tblAnswers.Points FROM tblAnswers WHERE (((tblAnswers.QueNo)=[TempVars]![QueNo])) ORDER BY tblAnswers.Sort; 
+FIELD| Label | Label25 | src=
+
+##### FORM: subfrmSkillDev #####
+RECORDSOURCE: tblSkillsDev
+FIELD| Label | Label0 | src=
+FIELD| Label | Label2 | src=
+FIELD| Label | Label3 | src=
+FIELD| Label | Label4 | src=
+FIELD| Label | Label5 | src=
+FIELD| Label | Label6 | src=
+FIELD| Label | Label7 | src=
+FIELD| Label | Label8 | src=
+FIELD| Label | Label9 | src=
+FIELD| Label | Label10 | src=
+FIELD| Label | Label11 | src=
+FIELD| Label | Label42 | src=
+FIELD| TextBox | SkillID | src=SkillID
+DROPDOWN| Skills | bound=Skills | rstype=Value List | rows="Computer skill";"Negotiation skills";"LRA";"Conflict";"NCR";"Risk Assessment ";"Management reports";"Decision Making ";"Behavioural Skills";"Ethics";"Supervsiory "
+DROPDOWN| TimeFrame | bound=TimeFrame | rstype=Value List | rows="0-3 Months";"3-6 Months";"3-9 Months";"1 Years";"2 Years";"3 Years";"4 years";"5 years"
+FIELD| TextBox | TargetDate | src=TargetDate
+FIELD| TextBox | Status | src=Status
+FIELD| TextBox | Dt | src=Dt
+FIELD| TextBox | Compliance | src=Compliance
+FIELD| TextBox | EXCO | src=EXCO
+DROPDOWN| Approval | bound=Approval | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| HR | bound=HR | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+DROPDOWN| LineManager | bound=LineManager | rstype=Table/Query | rows=SELECT tblRecruitmentAppData.[Responsible Manager] FROM tblRecruitmentAppData GROUP BY tblRecruitmentAppData.[Responsible Manager] HAVING (         (             (tblRecruitmentAppData.[Responsible Manager]) IS NOT NULL         )     ); 
+FIELD| BoundObjectFrame | Competency | src=Competency
+
+##### FORM: TbJobDescriptionlKPIEntry subform #####
+RECORDSOURCE: TbJobDescriptionlKPIEntry
+FIELD| Label | JobDescription_Label | src=
+FIELD| TextBox | JobDescription | src=KPI
+
+##### FORM: TblEmployeeExTrainingDetails subform #####
+RECORDSOURCE: TblEmployeeExternalTrainingDetails
+FIELD| TextBox | JobDescriptionID | src=ExternalTrainingID
+FIELD| Label | JobDescriptionID_Label | src=
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| Label | EmployeeID_Label | src=
+DROPDOWN| Trainings | bound=ExternalTrainings | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training, TblAllTrainings.TrainingType FROM TblAllTrainings WHERE (((TblAllTrainings.TrainingType)="External Training")); 
+FIELD| Label | Trainings_Label | src=
+
+##### FORM: TblEmployeeTrainingDetails subform #####
+RECORDSOURCE: SELECT TblEmployeeInternalTrainingDetails.*, TblAllTrainings.TrainingType FROM TblEmployeeInternalTrainingDetails LEFT JOIN TblAllTrainings ON TblEmployeeInternalTrainingDetails.InternalTraining = TblAllTrainings.TrainingID; 
+FIELD| TextBox | JobDescriptionID | src=InternalTrainingID
+FIELD| Label | JobDescriptionID_Label | src=
+FIELD| TextBox | EmployeeID | src=EmployeeID
+FIELD| Label | EmployeeID_Label | src=
+DROPDOWN| Trainings | bound=InternalTraining | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.Training, TblAllTrainings.TrainingType FROM TblAllTrainings; 
+FIELD| Label | Label6 | src=
+FIELD| TextBox | TrainingType | src=TrainingType
+FIELD| Label | Label7 | src=
+
+##### FORM: TblEmployeJobDescriptionDetails subform #####
+RECORDSOURCE: SELECT TblEmployeJobDescriptionDetails.JobDescriptionID, TblEmployeJobDescriptionDetails.EmployeeID, TblEmployeJobDescriptionDetails.[JobDescription], * FROM TblEmployeJobDescriptionDetails; 
+FIELD| Label | KPA_Label | src=
+FIELD| Empty | EmptyCell55 | src=
+DROPDOWN| Combo19 | bound=JobDescription | rstype=Table/Query | rows=SELECT TblJobDescriptionEntryRecord.JobDescriptionRecordID, TblJobDescriptionEntryRecord.JobDescriptionID, TblJobDescription.JobDescription FROM TblJobDescription INNER JOIN TblJobDescriptionEntryRecord ON TblJobDescription.[JobDescriptionID] = TblJobDescriptionEntryRecord.[JobDescription] WHERE (((TblJobDescriptionEntryRecord.JobDescriptionID)=[Forms]![FrmEmployeeDetails]![Job Title])); 
+DROPDOWN| KPA | bound=JobDescription | rstype=Table/Query | rows=SELECT [TblJobDescriptionEntryRecord].[JobDescriptionRecordID], [TblJobDescriptionEntryRecord].JobDescription, TblJobDescription.[JobDescription] FROM TblJobDescriptionEntryRecord INNER JOIN TblJobDescription ON [TblJobDescriptionEntryRecord].[JobDescription]=TblJobDescription.[JobDescriptionID]; 
+FIELD| T101 | Box49 | src=
+
+##### FORM: TblJobDes subform #####
+RECORDSOURCE: TblJobDescriptionEntryRecord
+DROPDOWN| JobDescription | bound=JobDescription | rstype=Table/Query | rows=SELECT TblJobDescription.JobDescriptionID, TblJobDescription.JobTitleID, TblJobDescription.JobDescription FROM TblJobDescription WHERE (((TblJobDescription.JobTitleID)=[Forms]![FrmJobDescription]![Job Title])); 
+FIELD| Label | Label10 | src=
+
+##### FORM: TblJobDescription subform #####
+RECORDSOURCE: TblJobDescription
+FIELD| Label | JobDescription_Label | src=
+FIELD| TextBox | JobDescription | src=JobDescription
+
+##### FORM: TblJobDescriptionDetailsExTraining subform #####
+RECORDSOURCE: TblJobDesExternalTrainingEntry
+FIELD| Label | Label7 | src=
+DROPDOWN| ExternalTraining | bound=ExternalTraining | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.[Training], TblAllTrainings.TrainingType FROM TblAllTrainings WHERE (((TblAllTrainings.TrainingType)="External Training")); 
+
+##### FORM: TblJobDescriptionDetailsInterTraining subform #####
+RECORDSOURCE: TblJobDesInternalTrainingEntry
+FIELD| Label | Label7 | src=
+DROPDOWN| Training | bound=InternalTraining | rstype=Table/Query | rows=SELECT TblAllTrainings.TrainingID, TblAllTrainings.[Training], TblAllTrainings.TrainingType FROM TblAllTrainings WHERE (((TblAllTrainings.TrainingType)="Internal Training")); 
+
+##### FORM: TblJobDesRolesAndResponsibility subform #####
+RECORDSOURCE: TblJobDesRolesAndResponsibility
+FIELD| Label | Roles And Responsibilities | src=
+FIELD| TextBox | RolesAndRes | src=RolesAndRes
