@@ -10,6 +10,8 @@ export const RequestCreate = z.object({
   jobTitleId: optUuid,
   headcount: z.coerce.number().int().default(1),
   motivation: optStr,
+  employmentType: optStr,
+  targetStartDate: optDate,
   status: z.string().default('draft'),
 });
 
@@ -26,6 +28,12 @@ export const CandidateCreate = z.object({
   firstName: z.string().min(1, 'First name is required'),
   surname: z.string().min(1, 'Surname is required'),
   email: optStr,
+  phone: optStr,
+  idNumber: optStr,
+  source: optStr,
+  cvPath: optStr,
+  eeGroupId: optUuid,
+  rejectionReasonId: optUuid,
   status: z.string().default('applied'),
 });
 
@@ -41,6 +49,8 @@ export const InterviewCreate = z.object({
   requestId: z.string().uuid('Requisition is required'),
   candidateId: z.string().uuid('Candidate is required'),
   scheduledAt: optDate,
+  venue: optStr,
+  notes: optStr,
   stage: z.string().default('first'),
   status: z.string().default('scheduled'),
 });
@@ -57,6 +67,7 @@ export const InterviewLeadCreate = z.object({
   interviewId: z.string().uuid('Interview is required'),
   employeeId: z.string().uuid('Panel member is required'),
   roleOnPanel: optStr,
+  notes: optStr,
   isPrimary: z.coerce.boolean().default(false),
 });
 
@@ -71,7 +82,11 @@ export const InterviewLeadListQuery = ListQuery.extend({
 export const EvaluationCreate = z.object({
   interviewId: z.string().uuid('Interview is required'),
   candidateId: z.string().uuid('Candidate is required'),
+  evaluatorEmployeeId: optUuid,
   score: optNum,
+  maxScore: z.coerce.number().default(100),
+  strengths: optStr,
+  weaknesses: optStr,
   recommendation: optStr,
 });
 
@@ -117,6 +132,8 @@ export type RequestRow = {
   regionId: string | null;
   headcount: number;
   motivation: string | null;
+  employmentType: string | null;
+  targetStartDate: string | null;
   status: string;
   updatedAt: string;
 };
@@ -127,6 +144,12 @@ export type CandidateRow = {
   firstName: string;
   surname: string;
   email: string | null;
+  phone: string | null;
+  idNumber: string | null;
+  source: string | null;
+  cvPath: string | null;
+  eeGroupId: string | null;
+  rejectionReasonId: string | null;
   status: string;
   updatedAt: string;
 };
@@ -136,6 +159,8 @@ export type InterviewRow = {
   requestId: string;
   candidateId: string;
   scheduledAt: string | null;
+  venue: string | null;
+  notes: string | null;
   stage: string;
   status: string;
   updatedAt: string;
@@ -146,6 +171,7 @@ export type InterviewLeadRow = {
   interviewId: string;
   employeeId: string;
   roleOnPanel: string | null;
+  notes: string | null;
   isPrimary: boolean;
   updatedAt: string;
 };
@@ -154,7 +180,11 @@ export type EvaluationRow = {
   id: string;
   interviewId: string;
   candidateId: string;
+  evaluatorEmployeeId: string | null;
   score: number | null;
+  maxScore: number;
+  strengths: string | null;
+  weaknesses: string | null;
   recommendation: string | null;
   updatedAt: string;
 };

@@ -53,6 +53,8 @@ export const NAV: NavGroup[] = [
       { label: 'Reports', href: '/reports', icon: BarChart3, permission: Permissions.ReportsRun },
       { label: 'Lookups', href: '/lookups', icon: ListTree, permission: Permissions.LookupsRead },
       { label: 'Grading', href: '/grading', icon: Scale, permission: Permissions.LookupsRead },
+      { label: 'Leave types', href: '/leave-types', icon: CalendarDays, permission: Permissions.LeaveReadAll },
+      { label: 'KPI categories', href: '/kpi-categories', icon: Gauge, permission: Permissions.PerformanceRead },
       { label: 'Interview questions', href: '/interview-questions', icon: ListChecks, permission: Permissions.RecruitmentRead },
       { label: 'Users', href: '/users', icon: UserCog, permission: Permissions.UsersManage },
       { label: 'Audit Log', href: '/audit', icon: ScrollText, permission: Permissions.AuditRead },

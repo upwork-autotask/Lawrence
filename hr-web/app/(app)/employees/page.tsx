@@ -27,7 +27,7 @@ export default function EmployeesPage() {
   const [q, setQ] = React.useState('');
   const [page, setPage] = React.useState(1);
   const [filters, setFilters] = React.useState({
-    departmentId: '', regionId: '', jobTitleId: '', depotId: '', status: '', skillLevel: '',
+    departmentId: '', regionId: '', jobTitleId: '', depotId: '', status: '', skillLevel: '', criticalSkills: '',
   });
   const [editing, setEditing] = React.useState<EmployeeRow | null | undefined>(undefined); // undefined = closed
 
@@ -56,7 +56,7 @@ export default function EmployeesPage() {
   }
   function clearFilters() {
     setQ('');
-    setFilters({ departmentId: '', regionId: '', jobTitleId: '', depotId: '', status: '', skillLevel: '' });
+    setFilters({ departmentId: '', regionId: '', jobTitleId: '', depotId: '', status: '', skillLevel: '', criticalSkills: '' });
     setPage(1);
   }
 
@@ -136,6 +136,10 @@ export default function EmployeesPage() {
             <option value="">All skill levels</option>
             {['Skilled', 'Semi-skilled', 'Unskilled', 'Professional'].map((s) => <option key={s} value={s}>{s}</option>)}
           </Select>
+          <Select value={filters.criticalSkills} onChange={(e) => setFilter('criticalSkills', e.target.value)} aria-label="Critical skills">
+            <option value="">All critical skills</option>
+            {['High', 'Medium', 'Low', 'Insignificant'].map((s) => <option key={s} value={s}>{s}</option>)}
+          </Select>
           <Select value={filters.status} onChange={(e) => setFilter('status', e.target.value)} aria-label="Status">
             <option value="">All statuses</option>
             {['active', 'on_leave', 'suspended', 'terminated'].map((s) => <option key={s} value={s}>{titleCase(s)}</option>)}
@@ -153,13 +157,13 @@ export default function EmployeesPage() {
         <Table>
           <THead>
             <TR>
-              <TH>No.</TH><TH>Name</TH><TH>Depot</TH><TH>Status</TH><TH className="w-24"></TH>
+              <TH>No.</TH><TH>Name</TH><TH>Email</TH><TH>Depot</TH><TH>Status</TH><TH className="w-24"></TH>
             </TR>
           </THead>
           <TBody>
-            {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
-            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load employees: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No employees yet.</TD></TR>}
+            {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load employees: {(list.error as Error).message}</TD></TR>}
+            {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No employees yet.</TD></TR>}
             {list.data?.items.map((emp) => (
               <TR key={emp.id}>
                 <TD className="font-mono text-xs">{emp.employeeNumber}</TD>
@@ -168,6 +172,7 @@ export default function EmployeesPage() {
                     {emp.firstName} {emp.surname}
                   </Link>
                 </TD>
+                <TD>{emp.email ?? '—'}</TD>
                 <TD>{depotName(emp.depotId)}</TD>
                 <TD><Badge tone={statusTone[emp.employmentStatus] ?? 'gray'}>{titleCase(emp.employmentStatus)}</Badge></TD>
                 <TD>

@@ -8,9 +8,19 @@ import type { GradingRow } from '@/lib/api/contracts/grading';
 import { gradingApi } from '@/lib/api/grading-client';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
 const numStr = (n: number | null | undefined) => (n != null ? String(n) : '');
+
+// Canonical value lists taken verbatim from the Access frmGrading comboboxes.
+const SCALE = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+const PATERSON_BAND = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+// Keep an imported value visible even if it isn't one of the canonical options.
+function withImported(options: string[], current: string | null | undefined): string[] {
+  return current && !options.includes(current) ? [current, ...options] : options;
+}
 
 export function GradingForm({
   row, onSaved, onCancel,
@@ -54,10 +64,20 @@ export function GradingForm({
     <form onSubmit={form.handleSubmit(submit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Paterson grade" error={err.patersonGrade?.message}><Input {...reg('patersonGrade')} /></FormField>
-        <FormField label="Paterson band" error={err.patersonBand?.message}><Input {...reg('patersonBand')} /></FormField>
+        <FormField label="Paterson band" error={err.patersonBand?.message}>
+          <Select {...reg('patersonBand')}>
+            <option value="">—</option>
+            {withImported(PATERSON_BAND, row?.patersonBand).map((v) => <option key={v} value={v}>{v}</option>)}
+          </Select>
+        </FormField>
         <FormField label="Job title" error={err.jobTitle?.message}><Input {...reg('jobTitle')} /></FormField>
         <FormField label="Occupational level" error={err.occLevel?.message}><Input {...reg('occLevel')} /></FormField>
-        <FormField label="Scale" error={err.scale?.message}><Input {...reg('scale')} /></FormField>
+        <FormField label="Scale" error={err.scale?.message}>
+          <Select {...reg('scale')}>
+            <option value="">—</option>
+            {withImported(SCALE, row?.scale).map((v) => <option key={v} value={v}>{v}</option>)}
+          </Select>
+        </FormField>
         <FormField label="Code" error={err.code?.message}><Input {...reg('code')} /></FormField>
         <FormField label="Min rate" error={err.minRate?.message}><Input type="number" step="0.01" {...reg('minRate')} /></FormField>
         <FormField label="Max rate" error={err.maxRate?.message}><Input type="number" step="0.01" {...reg('maxRate')} /></FormField>

@@ -8,8 +8,11 @@ export const ExitCreate = z.object({
   noticeDate: optDate,
   lastWorkingDay: optDate,
   interviewDate: optDate,
+  interviewerId: optUuid,
   interviewNotes: optStr,
   rehireEligible: z.coerce.boolean().optional(),
+  assetsReturned: z.coerce.boolean().optional(),
+  finalSettlementPaid: z.coerce.boolean().optional(),
   status: z.string().default('initiated'),
 });
 
@@ -44,8 +47,11 @@ export type ExitRecordRow = {
   noticeDate: string | null;
   lastWorkingDay: string | null;
   interviewDate: string | null;
+  interviewerId: string | null;
   interviewNotes: string | null;
   rehireEligible: boolean | null;
+  assetsReturned: boolean | null;
+  finalSettlementPaid: boolean | null;
   status: string;
   updatedAt: string;
 };

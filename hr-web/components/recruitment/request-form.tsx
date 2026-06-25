@@ -15,10 +15,19 @@ import { Button } from '@/components/ui/button';
 
 type Lookups = { departments: LookupRow[]; regions: LookupRow[]; jobTitles: LookupRow[] };
 
+/** ISO string → value for <input type="date"> (yyyy-MM-dd). */
+function toDateInput(iso: string | null): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
 /** Form values are all strings (HTML inputs); Zod coerces numbers/uuids on submit. */
 type FormValues = {
   positionTitle: string; departmentId: string; regionId: string; jobTitleId: string;
-  headcount: string; motivation: string; status: string;
+  headcount: string; motivation: string; employmentType: string; targetStartDate: string; status: string;
 };
 
 export function RequestForm({
@@ -39,6 +48,8 @@ export function RequestForm({
       jobTitleId: request?.jobTitleId ?? '',
       headcount: request?.headcount != null ? String(request.headcount) : '1',
       motivation: request?.motivation ?? '',
+      employmentType: request?.employmentType ?? '',
+      targetStartDate: toDateInput(request?.targetStartDate ?? null),
       status: request?.status ?? 'draft',
     },
   });
@@ -92,6 +103,12 @@ export function RequestForm({
         </F>
         <F label="Headcount" error={err.headcount?.message}>
           <Input type="number" step="1" min="1" {...form.register('headcount')} />
+        </F>
+        <F label="Employment type" error={err.employmentType?.message}>
+          <Input {...form.register('employmentType')} />
+        </F>
+        <F label="Target start date" error={err.targetStartDate?.message}>
+          <Input type="date" {...form.register('targetStartDate')} />
         </F>
       </div>
       <F label="Motivation" error={err.motivation?.message}><Textarea {...form.register('motivation')} /></F>

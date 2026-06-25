@@ -3,10 +3,12 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { UserCreate, UserUpdate } from '@/lib/api/contracts/users';
 import type { UserRow } from '@/lib/api/contracts/users';
 import type { RoleOption } from '@/lib/api/users-client';
 import { usersApi } from '@/lib/api/users-client';
+import { employeesApi } from '@/lib/api/resources';
 import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { FormField } from '@/components/ui/form-field';
@@ -19,6 +21,7 @@ type FormValues = {
   username: string;
   password: string;
   roleId: string;
+  employeeId: string;
   isActive: string;
 };
 
@@ -34,6 +37,14 @@ export function UserForm({
   const [serverError, setServerError] = React.useState<string | null>(null);
   const roleIdForName = (name?: string) => roles.find((r) => r.name === name)?.id ?? '';
 
+  const employees = useQuery({
+    queryKey: ['user-form-employees'],
+    queryFn: async () => {
+      const r = await employeesApi.list({ pageSize: 1000 });
+      return r.ok ? r.value.items : [];
+    },
+  });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(isEdit ? UserUpdate : UserCreate) as never,
     defaultValues: {
@@ -41,6 +52,7 @@ export function UserForm({
       username: user?.username ?? '',
       password: '',
       roleId: roleIdForName(user?.roleName),
+      employeeId: user?.employeeId ?? '',
       isActive: user ? String(user.isActive) : 'true',
     },
   });
@@ -51,6 +63,7 @@ export function UserForm({
       ? await usersApi.update(user.id, {
           fullName: values.fullName,
           roleId: values.roleId,
+          employeeId: values.employeeId,
           isActive: values.isActive,
           password: values.password,
           expectedUpdatedAt: user.updatedAt,
@@ -83,6 +96,16 @@ export function UserForm({
           <Select {...form.register('roleId')}>
             <option value="">—</option>
             {roles.map((r) => <option key={r.id} value={r.id}>{titleCase(r.name)}</option>)}
+          </Select>
+        </FormField>
+        <FormField label="Employee" error={err.employeeId?.message}>
+          <Select {...form.register('employeeId')}>
+            <option value="">—</option>
+            {employees.data?.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.firstName} {e.surname} ({e.employeeNumber})
+              </option>
+            ))}
           </Select>
         </FormField>
         {isEdit && (

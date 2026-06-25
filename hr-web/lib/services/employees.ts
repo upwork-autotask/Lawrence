@@ -8,6 +8,7 @@ export async function listEmployees(
   input: {
     q?: string; status?: string; page?: number; pageSize?: number;
     departmentId?: string; regionId?: string; jobTitleId?: string; depotId?: string; skillLevel?: string;
+    criticalSkills?: string;
   },
 ) {
   const page = input.page ?? 1;
@@ -19,6 +20,7 @@ export async function listEmployees(
   if (input.jobTitleId) where.push(eq(employees.jobTitleId, input.jobTitleId));
   if (input.depotId) where.push(eq(employees.depotId, input.depotId));
   if (input.skillLevel) where.push(eq(employees.skillLevel, input.skillLevel));
+  if (input.criticalSkills) where.push(eq(employees.criticalSkills, input.criticalSkills));
   if (input.q) {
     const like = `%${input.q}%`;
     where.push(

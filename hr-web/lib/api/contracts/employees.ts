@@ -120,6 +120,7 @@ export const EmployeeListQuery = ListQuery.extend({
   jobTitleId: z.string().uuid().optional(),
   depotId: z.string().uuid().optional(),
   skillLevel: z.string().optional(),
+  criticalSkills: z.string().optional(),
 });
 
 export type EmployeeCreate = z.infer<typeof EmployeeCreate>;

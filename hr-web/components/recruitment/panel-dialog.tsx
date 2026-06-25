@@ -17,7 +17,9 @@ import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
-type FormValues = { employeeId: string; roleOnPanel: string; isPrimary: string };
+type FormValues = { employeeId: string; roleOnPanel: string; notes: string; isPrimary: string };
+
+const PANEL_ROLES = ['Lead', 'Co-lead', 'HR', 'Technical Assessor', 'Observer'] as const;
 
 export function PanelDialog({
   interview, employees, canWrite, onClose,
@@ -46,7 +48,7 @@ export function PanelDialog({
 
   const form = useForm<FormValues>({
     resolver: zodResolver(InterviewLeadCreate.omit({ interviewId: true })) as never,
-    defaultValues: { employeeId: '', roleOnPanel: '', isPrimary: 'false' },
+    defaultValues: { employeeId: '', roleOnPanel: '', notes: '', isPrimary: 'false' },
   });
 
   async function submit(values: FormValues) {
@@ -60,7 +62,7 @@ export function PanelDialog({
       }
       return;
     }
-    form.reset({ employeeId: '', roleOnPanel: '', isPrimary: 'false' });
+    form.reset({ employeeId: '', roleOnPanel: '', notes: '', isPrimary: 'false' });
     qc.invalidateQueries({ queryKey: ['interview-leads', interview.id] });
   }
 
@@ -80,16 +82,17 @@ export function PanelDialog({
       <div className="rounded-lg border bg-card">
         <Table>
           <THead>
-            <TR><TH>Member</TH><TH>Role</TH><TH>Primary</TH><TH className="w-12"></TH></TR>
+            <TR><TH>Member</TH><TH>Role</TH><TH>Notes</TH><TH>Primary</TH><TH className="w-12"></TH></TR>
           </THead>
           <TBody>
-            {list.isLoading && <TR><TD colSpan={4} className="text-muted-foreground">Loading…</TD></TR>}
-            {list.isError && <TR><TD colSpan={4} className="text-destructive">Could not load panel: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={4} className="text-muted-foreground">No panel members yet.</TD></TR>}
+            {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load panel: {(list.error as Error).message}</TD></TR>}
+            {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No panel members yet.</TD></TR>}
             {list.data?.items.map((lead) => (
               <TR key={lead.id}>
                 <TD className="font-medium">{employeeName(lead.employeeId)}</TD>
                 <TD>{lead.roleOnPanel ?? '—'}</TD>
+                <TD>{lead.notes ?? '—'}</TD>
                 <TD>{lead.isPrimary ? <Badge tone="green">Primary</Badge> : '—'}</TD>
                 <TD>
                   <div className="flex justify-end">
@@ -108,7 +111,7 @@ export function PanelDialog({
 
       {canWrite && (
         <form className="mt-4 space-y-3" onSubmit={form.handleSubmit(submit)}>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <F label="Panel member" error={err.employeeId?.message}>
               <Select {...form.register('employeeId')}>
                 <option value="">—</option>
@@ -116,7 +119,13 @@ export function PanelDialog({
               </Select>
             </F>
             <F label="Role on panel" error={err.roleOnPanel?.message}>
-              <Input {...form.register('roleOnPanel')} />
+              <Select {...form.register('roleOnPanel')}>
+                <option value="">—</option>
+                {PANEL_ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+              </Select>
+            </F>
+            <F label="Notes" error={err.notes?.message}>
+              <Input {...form.register('notes')} />
             </F>
             <F label="Primary" error={err.isPrimary?.message}>
               <Select {...form.register('isPrimary')}>

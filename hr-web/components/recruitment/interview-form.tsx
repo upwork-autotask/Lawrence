@@ -9,10 +9,11 @@ import { interviewsApi } from '@/lib/api/recruitment-client';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
 type FormValues = {
-  candidateId: string; scheduledAt: string; stage: string; status: string;
+  candidateId: string; scheduledAt: string; venue: string; notes: string; stage: string; status: string;
 };
 
 /** ISO string → value for <input type="datetime-local"> (yyyy-MM-ddTHH:mm). */
@@ -39,6 +40,8 @@ export function InterviewForm({
     defaultValues: {
       candidateId: interview?.candidateId ?? '',
       scheduledAt: toLocalInput(interview?.scheduledAt ?? null),
+      venue: interview?.venue ?? '',
+      notes: interview?.notes ?? '',
       stage: interview?.stage ?? 'first',
       status: interview?.status ?? 'scheduled',
     },
@@ -73,6 +76,9 @@ export function InterviewForm({
         <F label="Scheduled at" error={err.scheduledAt?.message}>
           <Input type="datetime-local" {...form.register('scheduledAt')} />
         </F>
+        <F label="Venue" error={err.venue?.message}>
+          <Input {...form.register('venue')} />
+        </F>
         <F label="Stage" error={err.stage?.message}>
           <Select {...form.register('stage')}>
             <option value="screening">Screening</option>
@@ -91,6 +97,7 @@ export function InterviewForm({
           </Select>
         </F>
       </div>
+      <F label="Notes" error={err.notes?.message}><Textarea {...form.register('notes')} /></F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">
         <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>

@@ -35,6 +35,16 @@ export function JdTrainingForm({
 }) {
   const api = kind === 'internal' ? jdTrainingInternalApi : jdTrainingExternalApi;
   const [serverError, setServerError] = React.useState<string | null>(null);
+  // Only offer courses whose catalogue kind matches this section; 'blended' courses
+  // count toward both internal and external requirements. Always keep the currently
+  // selected course so editing an existing row never drops its value.
+  const courses = React.useMemo(
+    () =>
+      trainings.filter(
+        (t) => t.id === row?.trainingId || t.kind === kind || t.kind === 'blended',
+      ),
+    [trainings, kind, row?.trainingId],
+  );
   const form = useForm<FormValues>({
     resolver: zodResolver(JdTrainingCreate.omit({ jdId: true })) as never,
     defaultValues: {
@@ -65,7 +75,7 @@ export function JdTrainingForm({
       <Field label="Training" error={err.trainingId?.message}>
         <Select {...form.register('trainingId')}>
           <option value="">—</option>
-          {trainings.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+          {courses.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
         </Select>
       </Field>
       <div className="grid grid-cols-2 gap-4">

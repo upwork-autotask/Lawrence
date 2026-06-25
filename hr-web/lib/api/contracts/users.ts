@@ -12,6 +12,7 @@ export const UserCreate = z.object({
 export const UserUpdate = z.object({
   fullName: optStr,
   roleId: z.preprocess((v) => (v === '' ? undefined : v), z.string().uuid().optional()),
+  employeeId: optUuid,
   isActive: z.preprocess(
     (v) => (v === '' || v === undefined ? undefined : v),
     z.coerce.boolean().optional(),
@@ -36,5 +37,6 @@ export type UserRow = {
   fullName: string;
   roleName: string;
   isActive: boolean;
+  employeeId: string | null;
   updatedAt: string;
 };

@@ -3,10 +3,12 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ExitCreate } from '@/lib/api/contracts/exit';
 import type { ExitRecordRow, ExitReasonRow } from '@/lib/api/contracts/exit';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { exitRecordsApi } from '@/lib/api/exit-client';
+import { employeesApi } from '@/lib/api/resources';
 import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,8 +25,8 @@ const statuses = ['initiated', 'in_progress', 'completed', 'cancelled'];
 /** Form values are all strings (HTML inputs); Zod coerces dates/uuids/bools on submit. */
 type FormValues = {
   employeeId: string; exitType: string; reasonId: string; noticeDate: string;
-  lastWorkingDay: string; interviewDate: string; interviewNotes: string;
-  rehireEligible: string; status: string;
+  lastWorkingDay: string; interviewDate: string; interviewerId: string; interviewNotes: string;
+  rehireEligible: string; assetsReturned: boolean; finalSettlementPaid: boolean; status: string;
 };
 
 export function ExitForm({
@@ -36,6 +38,15 @@ export function ExitForm({
   onCancel: () => void;
 }) {
   const [serverError, setServerError] = React.useState<string | null>(null);
+
+  const interviewers = useQuery({
+    queryKey: ['exit-form-employees'],
+    queryFn: async () => {
+      const r = await employeesApi.list({ pageSize: 1000 });
+      return r.ok ? r.value.items : [];
+    },
+  });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(ExitCreate) as never,
     defaultValues: {
@@ -45,8 +56,11 @@ export function ExitForm({
       noticeDate: day(record?.noticeDate),
       lastWorkingDay: day(record?.lastWorkingDay),
       interviewDate: day(record?.interviewDate),
+      interviewerId: record?.interviewerId ?? '',
       interviewNotes: record?.interviewNotes ?? '',
       rehireEligible: record?.rehireEligible ? 'true' : '',
+      assetsReturned: record?.assetsReturned ?? false,
+      finalSettlementPaid: record?.finalSettlementPaid ?? false,
       status: record?.status ?? 'initiated',
     },
   });
@@ -95,6 +109,12 @@ export function ExitForm({
         <F label="Notice date" error={err.noticeDate?.message}><Input type="date" {...form.register('noticeDate')} /></F>
         <F label="Last working day" error={err.lastWorkingDay?.message}><Input type="date" {...form.register('lastWorkingDay')} /></F>
         <F label="Interview date" error={err.interviewDate?.message}><Input type="date" {...form.register('interviewDate')} /></F>
+        <F label="Interviewed by" error={err.interviewerId?.message}>
+          <Select {...form.register('interviewerId')}>
+            <option value="">—</option>
+            {interviewers.data?.map((e) => <option key={e.id} value={e.id}>{employeeName(e)}</option>)}
+          </Select>
+        </F>
         <F label="Rehire eligible" error={err.rehireEligible?.message}>
           <Select {...form.register('rehireEligible')}>
             <option value="">—</option>
@@ -102,6 +122,14 @@ export function ExitForm({
             <option value="false">No</option>
           </Select>
         </F>
+      </div>
+      <div className="flex flex-wrap gap-6">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" className="h-4 w-4" {...form.register('assetsReturned')} /> Assets returned
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" className="h-4 w-4" {...form.register('finalSettlementPaid')} /> Final settlement paid
+        </label>
       </div>
       <F label="Interview notes" error={err.interviewNotes?.message}><Textarea {...form.register('interviewNotes')} /></F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}

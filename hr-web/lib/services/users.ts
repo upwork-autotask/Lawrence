@@ -31,6 +31,7 @@ export async function listUsers(
       username: users.username,
       fullName: users.fullName,
       roleName: roles.name,
+      employeeId: users.employeeId,
       isActive: users.isActive,
       updatedAt: users.updatedAt,
     })
@@ -66,6 +67,7 @@ type UpdateInput = {
   roleId?: unknown;
   isActive?: unknown;
   password?: unknown;
+  employeeId?: unknown;
 };
 
 export async function createUser(ctx: Ctx, input: CreateInput) {
@@ -107,6 +109,7 @@ export async function updateUser(
   if (input.fullName != null) values.fullName = input.fullName as string;
   if (input.roleId != null) values.roleId = input.roleId as string;
   if (input.isActive != null) values.isActive = input.isActive as boolean;
+  if (input.employeeId !== undefined) values.employeeId = (input.employeeId as string | null) ?? null;
   if (input.password) values.passwordHash = await hashPassword(input.password as string);
 
   const [row] = await ctx.tx.update(users).set(values).where(eq(users.id, id)).returning();
