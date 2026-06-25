@@ -145,11 +145,12 @@ export default function DashboardPage() {
             <Stat icon={Network} label="Open requisitions" value={d.pending.recruitment} href="/recruitment" />
             <Stat icon={Users} label="Candidates (hired)" value={d.recruitment.candidatesByStatus.find((b) => b.label === 'hired')?.count ?? 0} />
             <Stat icon={UserPlus} label="In interview" value={d.recruitment.requestsByStatus.find((b) => b.label === 'interviewing')?.count ?? 0} />
-            <Stat icon={ClipboardList} label="Candidate records" value={d.recruitment.candidatesByStatus.reduce((n, b) => n + b.count, 0)} />
+            <Stat icon={ClipboardList} label="Actual appointments" value={d.recruitment.actualTotal} href="/recruitment/actual" />
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             <BarList title="Requisitions by status" buckets={d.recruitment.requestsByStatus} empty="No recruitment requests." />
             <BarList title="Candidate pipeline" buckets={d.recruitment.candidatesByStatus} empty="No candidates yet." />
+            <BarList title="Actual appointments by race (EE)" buckets={d.recruitment.actualByRace} empty="No appointments recorded." />
           </div>
           <Card className="p-4">
             <h3 className="mb-3 text-sm font-semibold">Recruitment targets — target vs. actual</h3>

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Pencil, Trash2, PanelRightOpen } from 'lucide-react';
+import { Plus, Pencil, Trash2, PanelRightOpen, Target, UserCheck } from 'lucide-react';
 import { requestsApi } from '@/lib/api/recruitment-client';
 import { lookupsApi } from '@/lib/api/resources';
 import type { RequestRow } from '@/lib/api/contracts/recruitment';
@@ -76,11 +76,19 @@ export default function RecruitmentPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Recruitment</h1>
           <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'requisition')}</p>
         </div>
-        {canWrite && (
-          <Button onClick={() => setEditing(null)}>
-            <Plus className="h-4 w-4" /> New requisition
-          </Button>
-        )}
+        <div className="flex flex-wrap gap-2">
+          <Link href="/recruitment/targets" className={buttonVariants({ variant: 'outline' })}>
+            <Target className="h-4 w-4" /> EE targets
+          </Link>
+          <Link href="/recruitment/actual" className={buttonVariants({ variant: 'outline' })}>
+            <UserCheck className="h-4 w-4" /> Actual recruitment
+          </Link>
+          {canWrite && (
+            <Button onClick={() => setEditing(null)}>
+              <Plus className="h-4 w-4" /> New requisition
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="rounded-lg border bg-card">

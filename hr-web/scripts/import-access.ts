@@ -45,7 +45,7 @@ import {
   // succession
   criticalRoles, criticalSkills, successionCandidates, successionCommitments,
   // recruitment
-  nonRecruitmentReasons, recruitmentRequests, recruitmentTargets, interviewQuestions,
+  nonRecruitmentReasons, recruitmentRequests, recruitmentTargets, interviewQuestions, actualRecruitment,
   // expenses
   expenseCategories, expenses,
   // exit
@@ -1429,38 +1429,62 @@ async function main() {
     const rows = readCSV('tblRecruitmentTarget.csv');
     let inserted = 0;
     for (const r of rows) {
-      const year = toFloat(r['Due Date']);
+      const due = toDate(r['Due Date']);
+      const yearNum = toFloat(r['Due Date']);
+      const periodYear = due ? due.getFullYear() : (yearNum ? Math.round(yearNum) : null);
+      if (!periodYear) continue;
       const value = toFloat(r['Value']) ?? 0;
-      const occLevel = str(r['Occupational Level']);
-      const gender = str(r['Gender']);
-      const race = str(r['Race']);
-      if (!year) continue;
-
-      // Build a composite EE group name from race + gender
-      const eeLabel = [race, gender].filter(Boolean).join(' - ');
-      let eeUuid: string | undefined;
-      if (eeLabel) {
-        if (eeGroupMap.has(eeLabel)) {
-          eeUuid = eeGroupMap.get(eeLabel);
-        } else {
-          // Try to find the occupational level as EE group
-          if (occLevel && eeGroupMap.has(occLevel)) {
-            eeUuid = eeGroupMap.get(occLevel);
-          }
-        }
-      }
-
       try {
         await db.insert(recruitmentTargets).values({
-          periodYear: Math.round(year),
+          periodYear,
+          dueDate: due,
+          occupationalLevel: str(r['Occupational Level']),
+          employmentType: str(r['Employment Type']),
+          gender: str(r['Gender']),
+          race: str(r['Race']),
           targetCount: Math.round(value),
           achievedCount: 0,
-          eeGroupId: eeUuid ?? null,
         });
         inserted++;
       } catch { /* skip */ }
     }
     log('recruitment_targets', inserted);
+  }
+
+  // 3r-ii. Actual recruitment register (tblActualRecruitment → actual_recruitment)
+  {
+    const rows = readCSV('tblActualRecruitment.csv');
+    let inserted = 0;
+    for (const r of rows) {
+      const name = str(r['Name']);
+      const surname = str(r['Surname']);
+      if (!name && !surname) continue;
+      const nonEe = (str(r['NonEE']) ?? '').toLowerCase().startsWith('y') || str(r['NonEE']) === '1';
+      try {
+        await db.insert(actualRecruitment).values({
+          dueDate: toDate(r['Due Date']),
+          name,
+          surname,
+          companyNo: str(r['Company No']),
+          jobTitle: str(r['Job Title']),
+          occupationalLevel: str(r['Occupational Level']),
+          employmentType: str(r['Employment Type']),
+          gender: str(r['Gender']),
+          race: str(r['Race']),
+          value: Math.round(toFloat(r['Value']) ?? 1),
+          reasonForAppointment: str(r['Reason for appoinment']),
+          responsibleExecutive: str(r['Responsible Executive']),
+          responsibleManager: str(r['Resposnsible Manager']),
+          progressStatus: str(r['Progress Track Status']) ?? 'appointed',
+          reason: str(r['Reason']),
+          nonEe,
+          approval: str(r['Approval']),
+          supportingDocument: str(r['Suporting Document']),
+        });
+        inserted++;
+      } catch { /* skip */ }
+    }
+    log('actual_recruitment', inserted);
   }
 
   // 3s. Recruitment Requests (tblRequest)

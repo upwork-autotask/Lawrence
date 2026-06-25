@@ -71,6 +71,13 @@
       "when": 1782332907046,
       "tag": "0009_interview_scoring",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1782345788791,
+      "tag": "0010_ee_targets_actual",
+      "breakpoints": true
     }
   ]
 }

@@ -141,18 +141,54 @@ export const interviewScores = pgTable(
   (t) => ({ interviewIdx: index('interview_scores_interview_idx').on(t.interviewId) }),
 );
 
-/** EE recruitment targets (tblRecruitmentTarget). */
+/** EE recruitment targets (tblRecruitmentTarget) — per demographic cell. */
 export const recruitmentTargets = pgTable(
   'recruitment_targets',
   {
     id: pk(),
     eeGroupId: uuid('ee_group_id').references(() => eeGroups.id),
     periodYear: integer('period_year').notNull(),
-    targetCount: integer('target_count').notNull().default(0),
+    dueDate: timestamp('due_date', { withTimezone: true }),
+    occupationalLevel: text('occupational_level'),
+    employmentType: text('employment_type'),
+    gender: text('gender'),
+    race: text('race'),
+    targetCount: integer('target_count').notNull().default(0), // Access "Value"
     achievedCount: integer('achieved_count').notNull().default(0),
     ...auditColumns,
   },
   (t) => ({ periodIdx: index('recruitment_targets_period_idx').on(t.periodYear) }),
+);
+
+/** EE actual-appointment register (tblActualRecruitment) — measured vs targets. */
+export const actualRecruitment = pgTable(
+  'actual_recruitment',
+  {
+    id: pk(),
+    dueDate: timestamp('due_date', { withTimezone: true }),
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+    name: text('name'),
+    surname: text('surname'),
+    companyNo: text('company_no'),
+    jobTitle: text('job_title'),
+    occupationalLevel: text('occupational_level'),
+    employmentType: text('employment_type'),
+    gender: text('gender'),
+    race: text('race'),
+    value: integer('value').notNull().default(1),
+    reasonForAppointment: text('reason_for_appointment'),
+    responsibleExecutive: text('responsible_executive'),
+    responsibleManager: text('responsible_manager'),
+    progressStatus: text('progress_status'), // appointed | in_progress | pending | …
+    reason: text('reason'),
+    nonEe: boolean('non_ee').notNull().default(false),
+    approval: text('approval'),
+    nonRecruitmentReasonId: uuid('non_recruitment_reason_id').references(() => nonRecruitmentReasons.id),
+    supportingDocument: text('supporting_document'),
+    ...auditColumns,
+  },
+  (t) => ({ dueIdx: index('actual_recruitment_due_idx').on(t.dueDate) }),
 );
 
 export type RecruitmentRequest = typeof recruitmentRequests.$inferSelect;
@@ -162,3 +198,5 @@ export type InterviewLead = typeof interviewLeads.$inferSelect;
 export type Evaluation = typeof evaluations.$inferSelect;
 export type InterviewQuestion = typeof interviewQuestions.$inferSelect;
 export type InterviewScore = typeof interviewScores.$inferSelect;
+export type RecruitmentTarget = typeof recruitmentTargets.$inferSelect;
+export type ActualRecruitment = typeof actualRecruitment.$inferSelect;

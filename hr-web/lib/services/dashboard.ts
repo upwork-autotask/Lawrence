@@ -3,6 +3,7 @@ import {
   employees, depots, regions, leaveForms, disciplinaryCases,
   expenses, recruitmentRequests, employeeTakeOns,
   candidates, recruitmentTargets, trainingInternal, trainingExternal, employeePerformance,
+  actualRecruitment,
 } from '../db/schema';
 import type { Ctx } from '../api/handler';
 import type { Db } from '../db/client';
@@ -56,7 +57,7 @@ export type HrDashboard = {
   byGender: Bucket[];
   pending: { leave: number; claims: number; disciplinary: number; recruitment: number; takeOns: number };
   alerts: DashboardAlert[];
-  recruitment: { requestsByStatus: Bucket[]; candidatesByStatus: Bucket[]; targets: { year: number; target: number; achieved: number }[] };
+  recruitment: { requestsByStatus: Bucket[]; candidatesByStatus: Bucket[]; targets: { year: number; target: number; achieved: number }[]; actualTotal: number; actualByRace: Bucket[] };
   training: { byStatus: Bucket[]; completed: number; total: number };
   performance: { byStatus: Bucket[]; avgScore: number; total: number };
 };
@@ -111,12 +112,14 @@ export async function hrDashboard(ctx: Ctx): Promise<HrDashboard> {
   const alerts = allAlerts.filter((a) => a.count > 0);
 
   // ── Module dashboards (Access frmRecruitmentDash / FrmTrainDash / frmKPIdash) ──
-  const [requestsByStatus, candidatesByStatus, trainInt, trainExt, perfByStatus] = await Promise.all([
+  const [requestsByStatus, candidatesByStatus, trainInt, trainExt, perfByStatus, actualByRace, actualTotal] = await Promise.all([
     groupBy(tx, recruitmentRequests, recruitmentRequests.status),
     groupBy(tx, candidates, candidates.status),
     groupBy(tx, trainingInternal, trainingInternal.status),
     groupBy(tx, trainingExternal, trainingExternal.status),
     groupBy(tx, employeePerformance, employeePerformance.status),
+    groupBy(tx, actualRecruitment, actualRecruitment.race),
+    count(tx, actualRecruitment, [isNull(actualRecruitment.deletedAt)]),
   ]);
 
   const targetRows = await (tx as any)
@@ -154,6 +157,8 @@ export async function hrDashboard(ctx: Ctx): Promise<HrDashboard> {
       requestsByStatus,
       candidatesByStatus,
       targets: targetRows.map((r: { year: number; target: number; achieved: number }) => r),
+      actualTotal,
+      actualByRace,
     },
     training: { byStatus: trainingByStatus, completed: trainingCompleted, total: trainingTotal },
     performance: { byStatus: perfByStatus, avgScore, total: perfTotal },
