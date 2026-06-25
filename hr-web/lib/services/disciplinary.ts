@@ -5,13 +5,14 @@ import type { Ctx } from '../api/handler';
 
 export async function listCases(
   ctx: Ctx,
-  input: { q?: string; status?: string; employeeId?: string; page?: number; pageSize?: number },
+  input: { q?: string; status?: string; employeeId?: string; typeOfDisciplinary?: string; page?: number; pageSize?: number },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.status) where.push(eq(disciplinaryCases.status, input.status));
   if (input.employeeId) where.push(eq(disciplinaryCases.employeeId, input.employeeId));
+  if (input.typeOfDisciplinary) where.push(eq(disciplinaryCases.typeOfDisciplinary, input.typeOfDisciplinary));
   if (input.q) {
     const like = `%${input.q}%`;
     where.push(

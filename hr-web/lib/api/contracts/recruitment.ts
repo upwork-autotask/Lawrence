@@ -19,6 +19,10 @@ export const RequestUpdate = RequestCreate.partial().extend({ expectedUpdatedAt 
 
 export const RequestListQuery = ListQuery.extend({
   status: z.string().optional(),
+  departmentId: z.string().uuid().optional(),
+  regionId: z.string().uuid().optional(),
+  jobTitleId: z.string().uuid().optional(),
+  employmentType: z.string().optional(),
 });
 
 /* ── Candidates ────────────────────────────────────────────────────────── */

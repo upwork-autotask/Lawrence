@@ -79,6 +79,8 @@ export async function listExpenses(
     status?: string;
     managerStatus?: string;
     employeeId?: string;
+    regionId?: string;
+    departmentId?: string;
     from?: Date;
     to?: Date;
     q?: string;
@@ -92,6 +94,8 @@ export async function listExpenses(
   if (input.status) where.push(eq(expenses.status, input.status));
   if (input.managerStatus) where.push(eq(expenses.managerStatus, input.managerStatus));
   if (input.employeeId) where.push(eq(expenses.employeeId, input.employeeId));
+  if (input.regionId) where.push(eq(expenses.regionId, input.regionId));
+  if (input.departmentId) where.push(eq(expenses.departmentId, input.departmentId));
   if (input.from) where.push(gte(expenses.expenseDate, input.from));
   if (input.to) where.push(lte(expenses.expenseDate, input.to));
   if (input.q) {
@@ -117,12 +121,23 @@ export async function listExpenses(
 
 export async function listCarScheme(
   ctx: Ctx,
-  input: { employeeId?: string; q?: string; page?: number; pageSize?: number },
+  input: {
+    employeeId?: string;
+    status?: string;
+    from?: Date;
+    to?: Date;
+    q?: string;
+    page?: number;
+    pageSize?: number;
+  },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.employeeId) where.push(eq(carScheme.employeeId, input.employeeId));
+  if (input.status) where.push(eq(carScheme.status, input.status));
+  if (input.from) where.push(gte(carScheme.cMonth, input.from));
+  if (input.to) where.push(lte(carScheme.cMonth, input.to));
   const { items, total } = await crudList(ctx.tx, carScheme, {
     where,
     limit: pageSize,

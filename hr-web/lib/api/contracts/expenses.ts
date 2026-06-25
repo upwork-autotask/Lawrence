@@ -47,6 +47,8 @@ export const ExpenseListQuery = ListQuery.extend({
   status: z.string().optional(),
   managerStatus: z.string().optional(),
   employeeId: z.string().uuid().optional(),
+  regionId: z.string().uuid().optional(),
+  departmentId: z.string().uuid().optional(),
   from: z.coerce.date().optional(), // claim date range (register/history)
   to: z.coerce.date().optional(),
 });
@@ -88,6 +90,9 @@ export const CarSchemeUpdate = CarSchemeCreate.partial().extend({ expectedUpdate
 
 export const CarSchemeListQuery = ListQuery.extend({
   employeeId: z.string().uuid().optional(),
+  status: z.string().optional(),
+  from: z.coerce.date().optional(), // cMonth range
+  to: z.coerce.date().optional(),
 });
 
 export type ExpenseCreate = z.infer<typeof ExpenseCreate>;

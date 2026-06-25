@@ -5,12 +5,25 @@ import type { Ctx } from '../api/handler';
 
 export async function listRequests(
   ctx: Ctx,
-  input: { q?: string; status?: string; page?: number; pageSize?: number },
+  input: {
+    q?: string;
+    status?: string;
+    departmentId?: string;
+    regionId?: string;
+    jobTitleId?: string;
+    employmentType?: string;
+    page?: number;
+    pageSize?: number;
+  },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.status) where.push(eq(recruitmentRequests.status, input.status));
+  if (input.departmentId) where.push(eq(recruitmentRequests.departmentId, input.departmentId));
+  if (input.regionId) where.push(eq(recruitmentRequests.regionId, input.regionId));
+  if (input.jobTitleId) where.push(eq(recruitmentRequests.jobTitleId, input.jobTitleId));
+  if (input.employmentType) where.push(eq(recruitmentRequests.employmentType, input.employmentType));
   if (input.q) where.push(ilike(recruitmentRequests.positionTitle, `%${input.q}%`));
   const { items, total } = await crudList(ctx.tx, recruitmentRequests, {
     where,

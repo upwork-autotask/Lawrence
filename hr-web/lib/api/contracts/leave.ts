@@ -25,6 +25,11 @@ export const LeaveFormUpdate = LeaveFormCreate.partial().extend({ expectedUpdate
 export const LeaveListQuery = ListQuery.extend({
   status: z.string().optional(),
   employeeId: z.string().uuid().optional(),
+  regionId: z.string().uuid().optional(),
+  departmentId: z.string().uuid().optional(),
+  leaveTypeId: z.string().uuid().optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
 });
 
 export const LeaveTypeCreate = z.object({
@@ -73,6 +78,15 @@ export type LeaveFormRow = {
   hrComments: string | null;
   hrDecidedAt: string | null;
   updatedAt: string;
+};
+
+/** Leave list response: paginated rows plus a `totalDays` sum across the filtered set. */
+export type LeaveListResult = {
+  items: LeaveFormRow[];
+  total: number;
+  totalDays: number;
+  page: number;
+  pageSize: number;
 };
 
 export type LeaveTypeRow = {

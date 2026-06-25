@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Download, Printer } from 'lucide-react';
 import { expensesApi, expenseCategoriesApi, carSchemeApi } from '@/lib/api/expenses-client';
 import { employeesApi, lookupsApi } from '@/lib/api/resources';
 import { titleCase, pluralize } from '@/lib/format';
+import { downloadCsv } from '@/lib/csv';
 import type { ExpenseRow, CarSchemeRow } from '@/lib/api/contracts/expenses';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
@@ -15,6 +16,8 @@ import { ApprovalsPanel } from '@/components/expenses/approvals-panel';
 import { RegisterPanel } from '@/components/expenses/register-panel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 import { cn } from '@/lib/cn';
@@ -48,19 +51,46 @@ export default function ExpensesPage() {
 
   const canWrite = can(me, Permissions.ExpenseWrite);
 
+  // --- Claims (Register) filter bar state -> applied query params ---
+  const [claimStatus, setClaimStatus] = React.useState('');
+  const [claimRegionId, setClaimRegionId] = React.useState('');
+  const [claimDepartmentId, setClaimDepartmentId] = React.useState('');
+  const [claimFilters, setClaimFilters] = React.useState({ status: '', regionId: '', departmentId: '' });
+  function applyClaimFilters() {
+    setClaimFilters({ status: claimStatus, regionId: claimRegionId, departmentId: claimDepartmentId });
+  }
+  function clearClaimFilters() {
+    setClaimStatus(''); setClaimRegionId(''); setClaimDepartmentId('');
+    setClaimFilters({ status: '', regionId: '', departmentId: '' });
+  }
+
+  // --- Car-scheme filter bar state -> applied query params ---
+  const [carEmployeeId, setCarEmployeeId] = React.useState('');
+  const [carStatus, setCarStatus] = React.useState('');
+  const [carFrom, setCarFrom] = React.useState('');
+  const [carTo, setCarTo] = React.useState('');
+  const [carFilters, setCarFilters] = React.useState({ employeeId: '', status: '', from: '', to: '' });
+  function applyCarFilters() {
+    setCarFilters({ employeeId: carEmployeeId, status: carStatus, from: carFrom, to: carTo });
+  }
+  function clearCarFilters() {
+    setCarEmployeeId(''); setCarStatus(''); setCarFrom(''); setCarTo('');
+    setCarFilters({ employeeId: '', status: '', from: '', to: '' });
+  }
+
   const list = useQuery({
-    queryKey: ['expenses', 'claims'],
+    queryKey: ['expenses', 'claims', claimFilters],
     queryFn: async () => {
-      const r = await expensesApi.list({ pageSize: 100 });
+      const r = await expensesApi.list({ pageSize: 100, ...claimFilters });
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
   });
 
   const schemes = useQuery({
-    queryKey: ['car-scheme'],
+    queryKey: ['car-scheme', carFilters],
     queryFn: async () => {
-      const r = await carSchemeApi.list({ pageSize: 200 });
+      const r = await carSchemeApi.list({ pageSize: 200, ...carFilters });
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
@@ -100,6 +130,44 @@ export default function ExpensesPage() {
     const name = id ? options.data?.categories.find((x) => x.id === id)?.name : null;
     return name ? titleCase(name) : '—';
   };
+  const regionName = (id: string | null) => {
+    const name = id ? options.data?.regions.find((x) => x.id === id)?.name : null;
+    return name ? titleCase(name) : '—';
+  };
+  const departmentName = (id: string | null) => {
+    const name = id ? options.data?.departments.find((x) => x.id === id)?.name : null;
+    return name ? titleCase(name) : '—';
+  };
+
+  function exportClaimsCsv() {
+    downloadCsv('expenses-claims', list.data?.items ?? [], [
+      { label: 'Ref', value: (r) => r.claimNumber ?? '' },
+      { label: 'Employee', value: (r) => employeeName(r.employeeId) },
+      { label: 'Category', value: (r) => categoryName(r.categoryId) },
+      { label: 'Region', value: (r) => regionName(r.regionId) },
+      { label: 'Department', value: (r) => departmentName(r.departmentId) },
+      { label: 'Claim date', value: (r) => day(r.expenseDate) },
+      { label: 'Currency', key: 'currency' },
+      { label: 'Total', value: (r) => r.amount.toFixed(2) },
+      { label: 'Status', value: (r) => titleCase(r.status) },
+      { label: 'Manager status', value: (r) => titleCase(r.managerStatus) },
+    ]);
+  }
+
+  function exportCarCsv() {
+    downloadCsv('car-scheme', schemes.data?.items ?? [], [
+      { label: 'Employee', value: (r) => employeeName(r.employeeId) },
+      { label: 'Registration', value: (r) => r.registration ?? '' },
+      { label: 'Make/model', value: (r) => r.makeModel ?? '' },
+      { label: 'Month', value: (r) => day(r.cMonth) },
+      { label: 'KM start', value: (r) => num(r.kmStart) },
+      { label: 'KM end', value: (r) => num(r.kmEnd) },
+      { label: 'Total km', value: (r) => num(r.totalKm) },
+      { label: 'Rate/km', value: (r) => (r.ratePerKm != null ? r.ratePerKm.toFixed(2) : '') },
+      { label: 'Total amount', value: (r) => (r.totalAmount != null ? r.totalAmount.toFixed(2) : '') },
+      { label: 'Status', value: (r) => titleCase(r.status) },
+    ]);
+  }
 
   async function onDelete(expense: ExpenseRow) {
     if (!confirm('Delete this expense claim?')) return;
@@ -159,10 +227,44 @@ export default function ExpensesPage() {
       {/* Claims */}
       {tab === 'claims' && (
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">
-            {pluralize(list.data?.total ?? 0, 'claim')}
-            {list.data ? ` · ${money(list.data.totalAmount)} total` : ''}
-          </p>
+          {/* Filter bar */}
+          <div className="grid grid-cols-2 gap-3 rounded-lg border bg-card p-3 sm:grid-cols-4">
+            <Select value={claimStatus} onChange={(e) => setClaimStatus(e.target.value)} aria-label="Status">
+              <option value="">Any status</option>
+              <option value="draft">Draft</option>
+              <option value="submitted">Submitted</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="reimbursed">Reimbursed</option>
+            </Select>
+            <Select value={claimRegionId} onChange={(e) => setClaimRegionId(e.target.value)} aria-label="Region">
+              <option value="">All regions</option>
+              {options.data?.regions.map((r) => <option key={r.id} value={r.id}>{titleCase(r.name)}</option>)}
+            </Select>
+            <Select value={claimDepartmentId} onChange={(e) => setClaimDepartmentId(e.target.value)} aria-label="Department">
+              <option value="">All departments</option>
+              {options.data?.departments.map((d) => <option key={d.id} value={d.id}>{titleCase(d.name)}</option>)}
+            </Select>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={applyClaimFilters}>Search</Button>
+              <Button variant="ghost" size="sm" onClick={clearClaimFilters}>Clear</Button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">
+              {pluralize(list.data?.total ?? 0, 'claim')}
+              {list.data ? ` · ${money(list.data.totalAmount)} total` : ''}
+            </p>
+            <div className="flex gap-2 print:hidden">
+              <Button variant="outline" size="sm" onClick={exportClaimsCsv} disabled={(list.data?.items.length ?? 0) === 0}>
+                <Download className="h-4 w-4" /> Export CSV
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => window.print()}>
+                <Printer className="h-4 w-4" /> Print
+              </Button>
+            </div>
+          </div>
           <div className="rounded-lg border bg-card">
             <Table>
               <THead>
@@ -211,13 +313,53 @@ export default function ExpensesPage() {
 
       {/* Register */}
       {tab === 'register' && options.data && (
-        <RegisterPanel employees={options.data.employees} categories={options.data.categories} />
+        <div className="space-y-2">
+          <div className="flex justify-end print:hidden">
+            <Button variant="outline" size="sm" onClick={() => window.print()}>
+              <Printer className="h-4 w-4" /> Print
+            </Button>
+          </div>
+          <RegisterPanel employees={options.data.employees} categories={options.data.categories} />
+        </div>
       )}
 
       {/* Car scheme */}
       {tab === 'car' && (
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">{pluralize(schemes.data?.total ?? 0, 'vehicle')}</p>
+          {/* Filter bar */}
+          <div className="grid grid-cols-2 gap-3 rounded-lg border bg-card p-3 sm:grid-cols-5">
+            <Select value={carEmployeeId} onChange={(e) => setCarEmployeeId(e.target.value)} aria-label="Employee">
+              <option value="">All employees</option>
+              {options.data?.employees.map((e) => <option key={e.id} value={e.id}>{e.firstName} {e.surname}</option>)}
+            </Select>
+            <Select value={carStatus} onChange={(e) => setCarStatus(e.target.value)} aria-label="Status">
+              <option value="">Any status</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="active">Active</option>
+              <option value="suspended">Suspended</option>
+              <option value="ended">Ended</option>
+            </Select>
+            <Input type="date" value={carFrom} onChange={(e) => setCarFrom(e.target.value)} aria-label="Month from" />
+            <Input type="date" value={carTo} onChange={(e) => setCarTo(e.target.value)} aria-label="Month to" />
+            <div className="flex gap-2">
+              <Button size="sm" onClick={applyCarFilters}>Search</Button>
+              <Button variant="ghost" size="sm" onClick={clearCarFilters}>Clear</Button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">{pluralize(schemes.data?.total ?? 0, 'vehicle')}</p>
+            <div className="flex gap-2 print:hidden">
+              <Button variant="outline" size="sm" onClick={exportCarCsv} disabled={(schemes.data?.items.length ?? 0) === 0}>
+                <Download className="h-4 w-4" /> Export CSV
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => window.print()}>
+                <Printer className="h-4 w-4" /> Print
+              </Button>
+            </div>
+          </div>
           <div className="rounded-lg border bg-card">
             <Table>
               <THead>

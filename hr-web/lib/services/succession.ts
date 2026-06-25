@@ -7,13 +7,25 @@ import type { Ctx } from '../api/handler';
 
 export async function listCriticalRoles(
   ctx: Ctx,
-  input: { q?: string; status?: string; riskLevel?: string; page?: number; pageSize?: number },
+  input: {
+    q?: string;
+    status?: string;
+    riskLevel?: string;
+    regionId?: string;
+    departmentId?: string;
+    jobTitleId?: string;
+    page?: number;
+    pageSize?: number;
+  },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.status) where.push(eq(criticalRoles.status, input.status));
   if (input.riskLevel) where.push(eq(criticalRoles.riskLevel, input.riskLevel));
+  if (input.regionId) where.push(eq(criticalRoles.regionId, input.regionId));
+  if (input.departmentId) where.push(eq(criticalRoles.departmentId, input.departmentId));
+  if (input.jobTitleId) where.push(eq(criticalRoles.jobTitleId, input.jobTitleId));
   if (input.q) where.push(ilike(criticalRoles.title, `%${input.q}%`));
   const { items, total } = await crudList(ctx.tx, criticalRoles, {
     where,

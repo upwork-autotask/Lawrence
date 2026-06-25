@@ -5,15 +5,17 @@ import Link from 'next/link';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2, PanelRightOpen } from 'lucide-react';
 import { criticalRolesApi, successionSchemesApi } from '@/lib/api/succession-client';
-import { employeesApi } from '@/lib/api/resources';
+import { employeesApi, lookupsApi } from '@/lib/api/resources';
 import type { CriticalRoleRow, SchemeRow } from '@/lib/api/contracts/succession';
 import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { CriticalRoleForm } from '@/components/succession/critical-role-form';
 import { SchemeForm } from '@/components/succession/scheme-form';
 import { titleCase, pluralize } from '@/lib/format';
+import { downloadCsv } from '@/lib/csv';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Select } from '@/components/ui/select';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
@@ -21,16 +23,40 @@ const riskTone: Record<string, 'green' | 'amber' | 'red' | 'gray'> = {
   low: 'green', medium: 'amber', high: 'red', critical: 'red',
 };
 
+// Access-parity filter option lists (match critical_roles enum comments in the schema).
+const RISK_LEVELS = ['low', 'medium', 'high', 'critical'];
+const STATUSES = ['open', 'in_progress', 'filled', 'closed'];
+
+type RoleFilters = {
+  status: string;
+  riskLevel: string;
+  regionId: string;
+  departmentId: string;
+  jobTitleId: string;
+};
+const EMPTY_FILTERS: RoleFilters = { status: '', riskLevel: '', regionId: '', departmentId: '', jobTitleId: '' };
+
 export default function SuccessionPage() {
   const qc = useQueryClient();
   const { data: me } = useMe();
   const [editing, setEditing] = React.useState<CriticalRoleRow | null | undefined>(undefined); // undefined = closed
   const [editingScheme, setEditingScheme] = React.useState<SchemeRow | null | undefined>(undefined); // undefined = closed
 
+  // Draft filter state (the bar) vs applied filters (drive the query / queryKey).
+  const [draft, setDraft] = React.useState<RoleFilters>(EMPTY_FILTERS);
+  const [filters, setFilters] = React.useState<RoleFilters>(EMPTY_FILTERS);
+
   const list = useQuery({
-    queryKey: ['critical-roles'],
+    queryKey: ['critical-roles', filters],
     queryFn: async () => {
-      const r = await criticalRolesApi.list({ pageSize: 100 });
+      const r = await criticalRolesApi.list({
+        pageSize: 100,
+        status: filters.status || undefined,
+        riskLevel: filters.riskLevel || undefined,
+        regionId: filters.regionId || undefined,
+        departmentId: filters.departmentId || undefined,
+        jobTitleId: filters.jobTitleId || undefined,
+      });
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
@@ -48,8 +74,18 @@ export default function SuccessionPage() {
   const options = useQuery({
     queryKey: ['succession-options'],
     queryFn: async () => {
-      const e = await employeesApi.list({ pageSize: 1000 });
-      return { employees: e.ok ? e.value.items : [] };
+      const [e, rg, dep, jt] = await Promise.all([
+        employeesApi.list({ pageSize: 1000 }),
+        lookupsApi.list('regions'),
+        lookupsApi.list('departments'),
+        lookupsApi.list('jobTitles'),
+      ]);
+      return {
+        employees: e.ok ? e.value.items : [],
+        regions: rg.ok ? rg.value.items : [],
+        departments: dep.ok ? dep.value.items : [],
+        jobTitles: jt.ok ? jt.value.items : [],
+      };
     },
   });
 
@@ -60,6 +96,34 @@ export default function SuccessionPage() {
     const e = options.data?.employees.find((x) => x.id === id);
     return e ? `${e.firstName} ${e.surname}` : '—';
   };
+  const regionName = (id: string | null) =>
+    (id ? options.data?.regions.find((x) => x.id === id)?.name : null) ?? '—';
+  const departmentName = (id: string | null) =>
+    (id ? options.data?.departments.find((x) => x.id === id)?.name : null) ?? '—';
+  const jobTitleName = (id: string | null) =>
+    (id ? options.data?.jobTitles.find((x) => x.id === id)?.name : null) ?? '—';
+
+  function applyFilters() {
+    setFilters(draft);
+  }
+  function clearFilters() {
+    setDraft(EMPTY_FILTERS);
+    setFilters(EMPTY_FILTERS);
+  }
+  function exportCsv() {
+    const rows = list.data?.items ?? [];
+    downloadCsv('succession-critical-roles', rows, [
+      { label: 'Title', key: 'title' },
+      { label: 'Ref no', value: (r) => r.refNo ?? '' },
+      { label: 'Incumbent', value: (r) => employeeName(r.incumbentEmployeeId) },
+      { label: 'Successor', value: (r) => employeeName(r.successorIdentifiedId) },
+      { label: 'Region', value: (r) => regionName(r.regionId) },
+      { label: 'Department', value: (r) => departmentName(r.departmentId) },
+      { label: 'Job title', value: (r) => jobTitleName(r.jobTitleId) },
+      { label: 'Risk level', value: (r) => titleCase(r.riskLevel) },
+      { label: 'Status', value: (r) => titleCase(r.status) },
+    ]);
+  }
 
   async function onDelete(role: CriticalRoleRow) {
     if (!confirm('Delete this critical role?')) return;
@@ -100,21 +164,101 @@ export default function SuccessionPage() {
           )}
         </div>
 
+        {/* Access-parity filter bar */}
+        <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-card p-3 print:hidden">
+          <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+            Region
+            <Select
+              className="w-44"
+              value={draft.regionId}
+              onChange={(e) => setDraft((d) => ({ ...d, regionId: e.target.value }))}
+            >
+              <option value="">All regions</option>
+              {options.data?.regions.map((r) => (
+                <option key={r.id} value={r.id}>{r.name}</option>
+              ))}
+            </Select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+            Department
+            <Select
+              className="w-44"
+              value={draft.departmentId}
+              onChange={(e) => setDraft((d) => ({ ...d, departmentId: e.target.value }))}
+            >
+              <option value="">All departments</option>
+              {options.data?.departments.map((r) => (
+                <option key={r.id} value={r.id}>{r.name}</option>
+              ))}
+            </Select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+            Job title
+            <Select
+              className="w-44"
+              value={draft.jobTitleId}
+              onChange={(e) => setDraft((d) => ({ ...d, jobTitleId: e.target.value }))}
+            >
+              <option value="">All job titles</option>
+              {options.data?.jobTitles.map((r) => (
+                <option key={r.id} value={r.id}>{r.name}</option>
+              ))}
+            </Select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+            Risk level
+            <Select
+              className="w-36"
+              value={draft.riskLevel}
+              onChange={(e) => setDraft((d) => ({ ...d, riskLevel: e.target.value }))}
+            >
+              <option value="">All risk levels</option>
+              {RISK_LEVELS.map((r) => (
+                <option key={r} value={r}>{titleCase(r)}</option>
+              ))}
+            </Select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted-foreground">
+            Status
+            <Select
+              className="w-36"
+              value={draft.status}
+              onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}
+            >
+              <option value="">All statuses</option>
+              {STATUSES.map((s) => (
+                <option key={s} value={s}>{titleCase(s)}</option>
+              ))}
+            </Select>
+          </label>
+          <div className="flex gap-2">
+            <Button onClick={applyFilters}>Search</Button>
+            <Button variant="outline" onClick={clearFilters}>Clear</Button>
+          </div>
+          <div className="ml-auto flex gap-2">
+            <Button variant="outline" onClick={exportCsv}>Export CSV</Button>
+            <Button variant="outline" onClick={() => window.print()}>Print</Button>
+          </div>
+        </div>
+
         <div className="rounded-lg border bg-card">
           <Table>
             <THead>
               <TR>
-                <TH>Title</TH><TH>Incumbent</TH><TH>Risk</TH><TH>Status</TH><TH className="w-32"></TH>
+                <TH>Title</TH><TH>Incumbent</TH><TH>Region</TH><TH>Department</TH><TH>Job title</TH><TH>Risk</TH><TH>Status</TH><TH className="w-32"></TH>
               </TR>
             </THead>
             <TBody>
-              {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
-              {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load critical roles: {(list.error as Error).message}</TD></TR>}
-              {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No critical roles yet.</TD></TR>}
+              {list.isLoading && <TR><TD colSpan={8} className="text-muted-foreground">Loading…</TD></TR>}
+              {list.isError && <TR><TD colSpan={8} className="text-destructive">Could not load critical roles: {(list.error as Error).message}</TD></TR>}
+              {list.data?.items.length === 0 && <TR><TD colSpan={8} className="text-muted-foreground">No critical roles yet.</TD></TR>}
               {list.data?.items.map((role) => (
                 <TR key={role.id}>
                   <TD className="font-medium">{role.title}</TD>
                   <TD>{employeeName(role.incumbentEmployeeId)}</TD>
+                  <TD>{regionName(role.regionId)}</TD>
+                  <TD>{departmentName(role.departmentId)}</TD>
+                  <TD>{jobTitleName(role.jobTitleId)}</TD>
                   <TD><Badge tone={riskTone[role.riskLevel] ?? 'gray'}>{titleCase(role.riskLevel)}</Badge></TD>
                   <TD><Badge tone="gray">{titleCase(role.status)}</Badge></TD>
                   <TD>

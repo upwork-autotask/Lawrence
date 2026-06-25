@@ -63,6 +63,8 @@ export const PerformanceListQuery = ListQuery.extend({
   employeeId: z.string().uuid().optional(),
   periodYear: z.coerce.number().int().optional(),
   status: z.string().optional(),
+  kpiCategory: z.string().optional(),
+  achievementStatus: z.string().optional(),
 });
 
 export type KpiCategoryCreate = z.infer<typeof KpiCategoryCreate>;

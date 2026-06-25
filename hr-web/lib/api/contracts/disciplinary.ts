@@ -29,6 +29,7 @@ export const CaseUpdate = CaseCreate.partial().extend({ expectedUpdatedAt });
 export const CaseListQuery = ListQuery.extend({
   status: z.string().optional(),
   employeeId: z.string().uuid().optional(),
+  typeOfDisciplinary: z.string().optional(),
 });
 
 export type CaseCreate = z.infer<typeof CaseCreate>;

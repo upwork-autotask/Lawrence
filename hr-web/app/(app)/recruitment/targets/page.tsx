@@ -10,7 +10,11 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { TargetForm } from '@/components/recruitment/target-form';
 import { pluralize } from '@/lib/format';
+import { downloadCsv } from '@/lib/csv';
+import { OCC_LEVELS, EMP_TYPES } from '@/lib/ee-options';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { Select } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
@@ -31,6 +35,47 @@ export default function EeTargetsPage() {
     },
   });
 
+  // Filter bar — applied client-side over the loaded target set.
+  const [periodYear, setPeriodYear] = React.useState('');
+  const [occupationalLevel, setOccupationalLevel] = React.useState('');
+  const [employmentType, setEmploymentType] = React.useState('');
+  const [applied, setApplied] = React.useState({ periodYear: '', occupationalLevel: '', employmentType: '' });
+
+  const years = React.useMemo(() => {
+    const set = new Set<number>();
+    for (const t of list.data?.items ?? []) set.add(t.periodYear);
+    return [...set].sort((a, b) => b - a);
+  }, [list.data]);
+
+  const rows = React.useMemo(() => {
+    const items = list.data?.items ?? [];
+    return items.filter((t) =>
+      (!applied.periodYear || String(t.periodYear) === applied.periodYear) &&
+      (!applied.occupationalLevel || t.occupationalLevel === applied.occupationalLevel) &&
+      (!applied.employmentType || t.employmentType === applied.employmentType),
+    );
+  }, [list.data, applied]);
+
+  function onSearch() {
+    setApplied({ periodYear, occupationalLevel, employmentType });
+  }
+  function onClear() {
+    setPeriodYear(''); setOccupationalLevel(''); setEmploymentType('');
+    setApplied({ periodYear: '', occupationalLevel: '', employmentType: '' });
+  }
+  function onExport() {
+    downloadCsv('ee-recruitment-targets', rows, [
+      { label: 'Year', key: 'periodYear' },
+      { label: 'Due', value: (t) => (t.dueDate ? t.dueDate.slice(0, 10) : '') },
+      { label: 'Occupational level', key: 'occupationalLevel' },
+      { label: 'Employment type', key: 'employmentType' },
+      { label: 'Gender', key: 'gender' },
+      { label: 'Race', key: 'race' },
+      { label: 'Target', key: 'targetCount' },
+      { label: 'Achieved', key: 'achievedCount' },
+    ]);
+  }
+
   async function onDelete(t: TargetRow) {
     if (!confirm('Delete this target?')) return;
     const r = await recruitmentTargetsApi.remove(t.id);
@@ -42,7 +87,7 @@ export default function EeTargetsPage() {
     qc.invalidateQueries({ queryKey: ['recruitment-targets'] });
   }
 
-  const totalTarget = (list.data?.items ?? []).reduce((n, t) => n + (t.targetCount || 0), 0);
+  const totalTarget = rows.reduce((n, t) => n + (t.targetCount || 0), 0);
 
   return (
     <div className="space-y-4">
@@ -52,13 +97,46 @@ export default function EeTargetsPage() {
         </Link>
         <div className="flex-1">
           <h1 className="text-2xl font-semibold tracking-tight">EE recruitment targets</h1>
-          <p className="text-sm text-muted-foreground">{pluralize(list.data?.total ?? 0, 'target')} · {totalTarget} total positions</p>
+          <p className="text-sm text-muted-foreground">{pluralize(rows.length, 'target')} · {totalTarget} total positions</p>
         </div>
         {canWrite && (
           <Button onClick={() => setEditing(null)}>
             <Plus className="h-4 w-4" /> Add target
           </Button>
         )}
+      </div>
+
+      {/* Filter bar — Year / Occupational level / Employment type, applied client-side. */}
+      <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-card p-3 print:hidden">
+        <div className="space-y-1">
+          <Label htmlFor="filter-year">Year</Label>
+          <Select id="filter-year" className="w-32" value={periodYear} onChange={(e) => setPeriodYear(e.target.value)}>
+            <option value="">All</option>
+            {years.map((y) => <option key={y} value={String(y)}>{y}</option>)}
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="filter-occ-level">Occupational level</Label>
+          <Select id="filter-occ-level" className="w-44" value={occupationalLevel} onChange={(e) => setOccupationalLevel(e.target.value)}>
+            <option value="">All</option>
+            {OCC_LEVELS.map((o) => <option key={o} value={o}>{o}</option>)}
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="filter-emp-type">Employment type</Label>
+          <Select id="filter-emp-type" className="w-40" value={employmentType} onChange={(e) => setEmploymentType(e.target.value)}>
+            <option value="">All</option>
+            {EMP_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+          </Select>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={onSearch}>Search</Button>
+          <Button variant="outline" onClick={onClear}>Clear</Button>
+        </div>
+        <div className="ml-auto flex gap-2">
+          <Button variant="outline" onClick={onExport}>Export CSV</Button>
+          <Button variant="outline" onClick={() => window.print()}>Print</Button>
+        </div>
       </div>
 
       <div className="rounded-lg border bg-card">
@@ -72,8 +150,8 @@ export default function EeTargetsPage() {
           <TBody>
             {list.isLoading && <TR><TD colSpan={9} className="text-muted-foreground">Loading…</TD></TR>}
             {list.isError && <TR><TD colSpan={9} className="text-destructive">Could not load targets: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={9} className="text-muted-foreground">No EE targets yet.</TD></TR>}
-            {list.data?.items.map((t) => (
+            {!list.isLoading && rows.length === 0 && <TR><TD colSpan={9} className="text-muted-foreground">No EE targets match the current filters.</TD></TR>}
+            {rows.map((t) => (
               <TR key={t.id}>
                 <TD className="font-medium">{t.periodYear}</TD>
                 <TD>{day(t.dueDate)}</TD>

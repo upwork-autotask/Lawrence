@@ -1,4 +1,4 @@
-import { desc, eq, type SQL } from 'drizzle-orm';
+import { and, desc, eq, gte, isNull, lte, sql, type SQL } from 'drizzle-orm';
 import { leaveForms } from '../db/schema';
 import { crudList, crudGet } from '../api/crud';
 import { Errors } from '../api/errors';
@@ -6,20 +6,48 @@ import type { Ctx } from '../api/handler';
 
 export async function listLeave(
   ctx: Ctx,
-  input: { status?: string; employeeId?: string; q?: string; page?: number; pageSize?: number },
+  input: {
+    status?: string;
+    employeeId?: string;
+    regionId?: string;
+    departmentId?: string;
+    leaveTypeId?: string;
+    from?: Date;
+    to?: Date;
+    q?: string;
+    page?: number;
+    pageSize?: number;
+  },
 ) {
   const page = input.page ?? 1;
   const pageSize = input.pageSize ?? 25;
   const where: SQL[] = [];
   if (input.status) where.push(eq(leaveForms.status, input.status));
   if (input.employeeId) where.push(eq(leaveForms.employeeId, input.employeeId));
+  if (input.regionId) where.push(eq(leaveForms.regionId, input.regionId));
+  if (input.departmentId) where.push(eq(leaveForms.departmentId, input.departmentId));
+  if (input.leaveTypeId) where.push(eq(leaveForms.leaveTypeId, input.leaveTypeId));
+  if (input.from) where.push(gte(leaveForms.startDate, input.from));
+  if (input.to) where.push(lte(leaveForms.startDate, input.to));
+  if (input.q) {
+    where.push(sql`(${leaveForms.reason} ilike ${'%' + input.q + '%'})`);
+  }
   const { items, total } = await crudList(ctx.tx, leaveForms, {
     where,
     limit: pageSize,
     offset: (page - 1) * pageSize,
     orderBy: desc(leaveForms.createdAt),
   });
-  return { items, total, page, pageSize };
+  // Sum daysRequested across the whole filtered set (not just the page) for the footer.
+  const [{ sum }] = await (ctx.tx as never as {
+    select: (s: unknown) => {
+      from: (t: unknown) => { where: (c: SQL | undefined) => Promise<{ sum: number }[]> };
+    };
+  })
+    .select({ sum: sql<number>`coalesce(sum(${leaveForms.daysRequested}), 0)::float` })
+    .from(leaveForms)
+    .where(and(isNull(leaveForms.deletedAt), ...where));
+  return { items, total, totalDays: Math.round((sum ?? 0) * 100) / 100, page, pageSize };
 }
 
 /**

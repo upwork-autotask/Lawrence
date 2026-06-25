@@ -34,6 +34,9 @@ export const CriticalRoleUpdate = CriticalRoleCreate.partial().extend({ expected
 export const CriticalRoleListQuery = ListQuery.extend({
   status: z.string().optional(),
   riskLevel: z.string().optional(),
+  regionId: z.string().uuid().optional(),
+  departmentId: z.string().uuid().optional(),
+  jobTitleId: z.string().uuid().optional(),
 });
 
 export const CriticalSkillCreate = z.object({

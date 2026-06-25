@@ -11,8 +11,11 @@ import { useMe, can } from '@/lib/hooks/use-me';
 import { Permissions } from '@/lib/auth/permissions';
 import { RequestForm } from '@/components/recruitment/request-form';
 import { titleCase, pluralize } from '@/lib/format';
+import { downloadCsv } from '@/lib/csv';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Select } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import { Dialog, DialogTitle } from '@/components/ui/dialog';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
@@ -20,15 +23,33 @@ const statusTone: Record<string, 'green' | 'amber' | 'red' | 'gray'> = {
   draft: 'gray', approved: 'green', advertised: 'amber', interviewing: 'amber', filled: 'green', cancelled: 'red',
 };
 
+const STATUS_OPTIONS = ['draft', 'approved', 'advertised', 'interviewing', 'filled', 'cancelled'];
+const EMPLOYMENT_TYPES = ['Permanent', 'Temporary', 'Contract', 'Fixed Term'];
+
 export default function RecruitmentPage() {
   const qc = useQueryClient();
   const { data: me } = useMe();
   const [editing, setEditing] = React.useState<RequestRow | null | undefined>(undefined); // undefined = closed
 
+  // Filter bar state (all strings; '' = unset). Edits stay local until "Search".
+  const [departmentId, setDepartmentId] = React.useState('');
+  const [regionId, setRegionId] = React.useState('');
+  const [status, setStatus] = React.useState('');
+  const [employmentType, setEmploymentType] = React.useState('');
+  const [applied, setApplied] = React.useState<{
+    departmentId: string; regionId: string; status: string; employmentType: string;
+  }>({ departmentId: '', regionId: '', status: '', employmentType: '' });
+
   const list = useQuery({
-    queryKey: ['recruitment-requests'],
+    queryKey: ['recruitment-requests', applied],
     queryFn: async () => {
-      const r = await requestsApi.list({ pageSize: 100 });
+      const r = await requestsApi.list({
+        pageSize: 100,
+        departmentId: applied.departmentId || undefined,
+        regionId: applied.regionId || undefined,
+        status: applied.status || undefined,
+        employmentType: applied.employmentType || undefined,
+      });
       if (!r.ok) throw new Error(r.error.message);
       return r.value;
     },
@@ -69,6 +90,28 @@ export default function RecruitmentPage() {
     qc.invalidateQueries({ queryKey: ['recruitment-requests'] });
   }
 
+  function onSearch() {
+    setApplied({ departmentId, regionId, status, employmentType });
+  }
+  function onClear() {
+    setDepartmentId(''); setRegionId(''); setStatus(''); setEmploymentType('');
+    setApplied({ departmentId: '', regionId: '', status: '', employmentType: '' });
+  }
+  function onExport() {
+    const rows = list.data?.items ?? [];
+    downloadCsv('recruitment-requisitions', rows, [
+      { label: 'Request #', key: 'requestNumber' },
+      { label: 'Position', key: 'positionTitle' },
+      { label: 'Department', value: (r) => lookupName('departments', r.departmentId) },
+      { label: 'Region', value: (r) => lookupName('regions', r.regionId) },
+      { label: 'Job title', value: (r) => lookupName('jobTitles', r.jobTitleId) },
+      { label: 'Headcount', key: 'headcount' },
+      { label: 'Employment type', key: 'employmentType' },
+      { label: 'Status', value: (r) => titleCase(r.status) },
+      { label: 'Target start', value: (r) => (r.targetStartDate ? r.targetStartDate.slice(0, 10) : '') },
+    ]);
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -91,6 +134,46 @@ export default function RecruitmentPage() {
         </div>
       </div>
 
+      {/* Filter bar — mirrors the Access requisition filters. */}
+      <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-card p-3 print:hidden">
+        <div className="space-y-1">
+          <Label htmlFor="filter-department">Department</Label>
+          <Select id="filter-department" className="w-44" value={departmentId} onChange={(e) => setDepartmentId(e.target.value)}>
+            <option value="">All</option>
+            {lookups.data?.departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="filter-region">Region</Label>
+          <Select id="filter-region" className="w-44" value={regionId} onChange={(e) => setRegionId(e.target.value)}>
+            <option value="">All</option>
+            {lookups.data?.regions.map((rg) => <option key={rg.id} value={rg.id}>{rg.name}</option>)}
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="filter-status">Status</Label>
+          <Select id="filter-status" className="w-40" value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="">All</option>
+            {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{titleCase(s)}</option>)}
+          </Select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="filter-employment-type">Employment type</Label>
+          <Select id="filter-employment-type" className="w-40" value={employmentType} onChange={(e) => setEmploymentType(e.target.value)}>
+            <option value="">All</option>
+            {EMPLOYMENT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+          </Select>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={onSearch}>Search</Button>
+          <Button variant="outline" onClick={onClear}>Clear</Button>
+        </div>
+        <div className="ml-auto flex gap-2">
+          <Button variant="outline" onClick={onExport}>Export CSV</Button>
+          <Button variant="outline" onClick={() => window.print()}>Print</Button>
+        </div>
+      </div>
+
       <div className="rounded-lg border bg-card">
         <Table>
           <THead>
@@ -101,7 +184,7 @@ export default function RecruitmentPage() {
           <TBody>
             {list.isLoading && <TR><TD colSpan={6} className="text-muted-foreground">Loading…</TD></TR>}
             {list.isError && <TR><TD colSpan={6} className="text-destructive">Could not load requisitions: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No requisitions yet.</TD></TR>}
+            {list.data?.items.length === 0 && <TR><TD colSpan={6} className="text-muted-foreground">No requisitions match the current filters.</TD></TR>}
             {list.data?.items.map((request) => (
               <TR key={request.id}>
                 <TD className="font-medium">{request.positionTitle}</TD>
