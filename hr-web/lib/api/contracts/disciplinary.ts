@@ -3,11 +3,18 @@ import { optStr, optUuid, optDate, expectedUpdatedAt, ListQuery } from './common
 
 export const CaseCreate = z.object({
   caseNumber: z.string().min(1, 'Case number is required'),
+  title: optStr,
   employeeId: z.string().uuid('Employee is required'),
   offenceId: z.string().uuid('Offence is required'),
   actionId: optUuid,
+  typeOfDisciplinary: optStr,
+  who: optStr,
   incidentDate: z.coerce.date({ required_error: 'Incident date is required' }),
   reportedDate: z.coerce.date({ required_error: 'Reported date is required' }),
+  dateOfDisciplinary: optDate,
+  dateOfEnquiry: optDate,
+  actionOpenDate: optDate,
+  actionClosedDate: optDate,
   description: z.string().min(1, 'Description is required'),
   status: z.string().default('open'),
   hearingDate: optDate,
@@ -53,11 +60,18 @@ export type ActionCreate = z.infer<typeof ActionCreate>;
 export type CaseRow = {
   id: string;
   caseNumber: string;
+  title: string | null;
   employeeId: string;
   offenceId: string;
   actionId: string | null;
+  typeOfDisciplinary: string | null;
+  who: string | null;
   incidentDate: string;
   reportedDate: string;
+  dateOfDisciplinary: string | null;
+  dateOfEnquiry: string | null;
+  actionOpenDate: string | null;
+  actionClosedDate: string | null;
   description: string;
   status: string;
   hearingDate: string | null;

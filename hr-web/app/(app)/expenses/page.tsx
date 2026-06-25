@@ -23,10 +23,13 @@ const statusTone: Record<string, 'green' | 'amber' | 'red' | 'gray'> = {
   draft: 'gray', submitted: 'amber', approved: 'green', rejected: 'red', reimbursed: 'green',
 };
 const carStatusTone: Record<string, 'green' | 'amber' | 'red' | 'gray'> = {
+  // Access km-claim statuses (Pending/Approved/Rejected) + legacy allocation values.
+  Pending: 'amber', Approved: 'green', Rejected: 'red',
   active: 'green', suspended: 'amber', ended: 'gray',
 };
 const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '—');
 const money = (n: number) => `R ${n.toFixed(2)}`;
+const num = (n: number | null | undefined) => (n != null ? String(n) : '—');
 
 type Tab = 'claims' | 'approvals' | 'register' | 'car';
 const TABS: { key: Tab; label: string }[] = [
@@ -66,9 +69,11 @@ export default function ExpensesPage() {
   const options = useQuery({
     queryKey: ['expense-options'],
     queryFn: async () => {
-      const [e, c, dp, cos, act, ovh] = await Promise.all([
+      const [e, c, rg, dep, dp, cos, act, ovh] = await Promise.all([
         employeesApi.list({ pageSize: 1000 }),
         expenseCategoriesApi.list({ pageSize: 200 }),
+        lookupsApi.list('regions'),
+        lookupsApi.list('departments'),
         lookupsApi.list('depots'),
         lookupsApi.list('costOfSale'),
         lookupsApi.list('activities'),
@@ -77,6 +82,8 @@ export default function ExpensesPage() {
       return {
         employees: e.ok ? e.value.items : [],
         categories: c.ok ? c.value.items : [],
+        regions: rg.ok ? rg.value.items : [],
+        departments: dep.ok ? dep.value.items : [],
         depots: dp.ok ? dp.value.items : [],
         costOfSale: cos.ok ? cos.value.items : [],
         activities: act.ok ? act.value.items : [],
@@ -215,20 +222,24 @@ export default function ExpensesPage() {
             <Table>
               <THead>
                 <TR>
-                  <TH>Employee</TH><TH>Registration</TH><TH>Make/model</TH><TH>Year</TH><TH>Monthly allowance</TH><TH>Status</TH><TH className="w-28"></TH>
+                  <TH>Employee</TH><TH>Registration</TH><TH>Make/model</TH><TH>Month</TH><TH className="text-right">KM start</TH><TH className="text-right">KM end</TH><TH className="text-right">Total km</TH><TH className="text-right">Rate/km</TH><TH className="text-right">Total amount</TH><TH>Status</TH><TH className="w-28"></TH>
                 </TR>
               </THead>
               <TBody>
-                {schemes.isLoading && <TR><TD colSpan={7} className="text-muted-foreground">Loading…</TD></TR>}
-                {schemes.isError && <TR><TD colSpan={7} className="text-destructive">Could not load car scheme: {(schemes.error as Error).message}</TD></TR>}
-                {schemes.data?.items.length === 0 && <TR><TD colSpan={7} className="text-muted-foreground">No car scheme records yet.</TD></TR>}
+                {schemes.isLoading && <TR><TD colSpan={11} className="text-muted-foreground">Loading…</TD></TR>}
+                {schemes.isError && <TR><TD colSpan={11} className="text-destructive">Could not load car scheme: {(schemes.error as Error).message}</TD></TR>}
+                {schemes.data?.items.length === 0 && <TR><TD colSpan={11} className="text-muted-foreground">No car scheme records yet.</TD></TR>}
                 {schemes.data?.items.map((scheme) => (
                   <TR key={scheme.id}>
                     <TD className="font-medium">{employeeName(scheme.employeeId)}</TD>
                     <TD>{scheme.registration ?? '—'}</TD>
                     <TD>{scheme.makeModel ?? '—'}</TD>
-                    <TD>{scheme.year ?? '—'}</TD>
-                    <TD>{scheme.monthlyAllowance != null ? `R ${scheme.monthlyAllowance.toFixed(2)}` : '—'}</TD>
+                    <TD>{day(scheme.cMonth)}</TD>
+                    <TD className="text-right">{num(scheme.kmStart)}</TD>
+                    <TD className="text-right">{num(scheme.kmEnd)}</TD>
+                    <TD className="text-right">{num(scheme.totalKm)}</TD>
+                    <TD className="text-right">{scheme.ratePerKm != null ? `R ${scheme.ratePerKm.toFixed(2)}` : '—'}</TD>
+                    <TD className="text-right">{scheme.totalAmount != null ? `R ${scheme.totalAmount.toFixed(2)}` : '—'}</TD>
                     <TD><Badge tone={carStatusTone[scheme.status] ?? 'gray'}>{titleCase(scheme.status)}</Badge></TD>
                     <TD>
                       <div className="flex justify-end gap-1">
@@ -270,6 +281,8 @@ export default function ExpensesPage() {
           <CarSchemeForm
             scheme={editingScheme}
             employees={options.data.employees}
+            regions={options.data.regions}
+            departments={options.data.departments}
             onSaved={onSchemeSaved}
             onCancel={() => setEditingScheme(undefined)}
           />

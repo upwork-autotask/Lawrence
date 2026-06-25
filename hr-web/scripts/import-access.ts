@@ -867,10 +867,16 @@ async function main() {
           leaveTypeId: ltUuid,
           startDate,
           endDate,
-          daysRequested: days,
+          daysRequested: toFloat(r['TotalDays']) ?? days,
           status: lmStatus === 'approved' && hrStatus === 'approved' ? 'approved' : 'submitted',
           lineManagerStatus: lmStatus,
           hrStatus,
+          // P3 parity fields (TblLeaveForm Region/Department/DateOFEngagement/TotalHoildays/Approver).
+          regionId: regionMap.get(toInt(r['Region'])!) ?? null,
+          departmentId: departmentMap.get(toInt(r['Department'])!) ?? null,
+          dateOfEngagement: toDate(r['DateOFEngagement']),
+          totalHolidays: toFloat(r['TotalHoildays']) ?? null,
+          approverId: employeeMap.get(toInt(r['Approver'])!) ?? null,
           legacyId: toInt(r['LeaveID']),
         });
         inserted++;
@@ -1288,7 +1294,8 @@ async function main() {
         await db.insert(exitRecords).values({
           employeeId: empUuid,
           exitType,
-          interviewNotes: str(r['Reason Code(drop down)']),
+          interviewNotes: reason, // free-text Reason
+          reasonCode: str(r['Reason Code(drop down)']), // P3 parity
           status: 'completed',
         });
         inserted++;
@@ -1312,6 +1319,7 @@ async function main() {
           riskLevel: 'medium',
           status: 'open',
           reason: code,
+          refNo: code, // P3 parity (tblCritical.REF)
           legacyId: lid,
         }).returning();
         if (row) { critRoleMap.set(lid, row.id); inserted++; }
@@ -1327,14 +1335,18 @@ async function main() {
     const errors: string[] = [];
     for (const r of rows) {
       const lid = toInt(r['ID']);
-      const critLid = toInt(r['CriticalityReason']);
+      const critLid = toInt(r['RefID']) ?? toInt(r['CriticalityReason']);
       const critUuid = critLid ? critRoleMap.get(critLid) : undefined;
       if (!critUuid) { errors.push(`critical_skills: no role ${critLid}`); continue; }
       const riskLevel = str(r['RiskLevel'])?.toLowerCase() ?? 'medium';
       const tierSel = str(r['TierSelection']);
-      // Update the critical role's risk level
+      // Update the critical role's risk level + P3 parity fields (tier / last review).
       await db.update(criticalRoles)
-        .set({ riskLevel: riskLevel || 'medium' })
+        .set({
+          riskLevel: riskLevel || 'medium',
+          tierSelection: tierSel,
+          lastReviewDate: toDate(r['LastReviewDate']),
+        })
         .where(eq(criticalRoles.id, critUuid));
       try {
         await db.insert(criticalSkills).values({
@@ -1391,6 +1403,12 @@ async function main() {
           readiness,
           developmentNeeds: str(r['FocusArea']),
           status: 'identified',
+          // P3 parity (tblSuccession DateInitiated/Position/Tier/SubTier/Focus).
+          dateInitiated: toDate(r['DateInitiated']),
+          identifiedSuccessionPosition: identifiedPos,
+          assessmentTier: tierText,
+          subTier: str(r['SubTierRoleType']),
+          focusArea: str(r['FocusArea']),
           legacyId: succId,
         }).returning();
         if (row) { succCandidateMap.set(succId!, row.id); inserted++; }

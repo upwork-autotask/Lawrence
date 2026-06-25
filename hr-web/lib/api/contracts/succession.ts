@@ -13,9 +13,17 @@ export const SchemeUpdate = SchemeCreate.partial().extend({ expectedUpdatedAt })
 
 export const CriticalRoleCreate = z.object({
   title: z.string().min(1, 'Title is required'),
+  refNo: optStr,
+  lastReviewDate: optDate,
   incumbentEmployeeId: optUuid,
+  successorIdentifiedId: optUuid,
   schemeId: optUuid,
+  regionId: optUuid,
+  departmentId: optUuid,
+  jobTitleId: optUuid,
   riskLevel: z.string().default('medium'),
+  criticalityReason: optStr,
+  tierSelection: optStr,
   impact: optStr,
   reason: optStr,
   status: z.string().default('open'),
@@ -40,6 +48,18 @@ export const CriticalSkillUpdate = CriticalSkillCreate.partial().extend({ expect
 export const CandidateCreate = z.object({
   criticalRoleId: z.string().uuid('Critical role is required'),
   employeeId: z.string().uuid('Employee is required'),
+  dateInitiated: optDate,
+  identifiedSuccessionPosition: optStr,
+  lineManager: optStr,
+  assessmentTier: optStr,
+  subTier: optStr,
+  focusArea: optStr,
+  qualificationReq: optStr,
+  experienceReq: optStr,
+  psychologicalReq: optStr,
+  culturalFitReq: optStr,
+  complianceReq: optStr,
+  possibleTargetPlan: optStr,
   readiness: z.string().default('1_2_years'),
   performanceRating: optStr,
   potentialRating: optStr,
@@ -84,9 +104,17 @@ export type SchemeRow = {
 export type CriticalRoleRow = {
   id: string;
   title: string;
+  refNo: string | null;
+  lastReviewDate: string | null;
   incumbentEmployeeId: string | null;
+  successorIdentifiedId: string | null;
   schemeId: string | null;
+  regionId: string | null;
+  departmentId: string | null;
+  jobTitleId: string | null;
   riskLevel: string;
+  criticalityReason: string | null;
+  tierSelection: string | null;
   impact: string | null;
   reason: string | null;
   status: string;
@@ -106,6 +134,18 @@ export type SuccessionCandidateRow = {
   id: string;
   criticalRoleId: string;
   employeeId: string;
+  dateInitiated: string | null;
+  identifiedSuccessionPosition: string | null;
+  lineManager: string | null;
+  assessmentTier: string | null;
+  subTier: string | null;
+  focusArea: string | null;
+  qualificationReq: string | null;
+  experienceReq: string | null;
+  psychologicalReq: string | null;
+  culturalFitReq: string | null;
+  complianceReq: string | null;
+  possibleTargetPlan: string | null;
   readiness: string;
   performanceRating: string | null;
   potentialRating: string | null;

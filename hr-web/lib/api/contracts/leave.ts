@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optStr, optUuid, optDate, expectedUpdatedAt, ListQuery } from './common';
+import { optStr, optUuid, optDate, optNum, expectedUpdatedAt, ListQuery } from './common';
 
 export const LeaveFormCreate = z.object({
   employeeId: z.string().uuid('Employee is required'),
@@ -8,6 +8,11 @@ export const LeaveFormCreate = z.object({
   endDate: z.coerce.date({ required_error: 'End date is required', invalid_type_error: 'End date is required' }),
   daysRequested: z.coerce.number({ required_error: 'Days requested is required', invalid_type_error: 'Days requested is required' }),
   reason: optStr,
+  regionId: optUuid,
+  departmentId: optUuid,
+  dateOfEngagement: optDate,
+  totalHolidays: optNum,
+  approverId: optUuid,
   status: z.string().default('draft'),
   lineManagerStatus: z.string().default('pending'),
   hrStatus: z.string().default('pending'),
@@ -55,6 +60,11 @@ export type LeaveFormRow = {
   endDate: string;
   daysRequested: number;
   reason: string | null;
+  regionId: string | null;
+  departmentId: string | null;
+  dateOfEngagement: string | null;
+  totalHolidays: number | null;
+  approverId: string | null;
   status: string;
   lineManagerStatus: string;
   lineManagerComments: string | null;

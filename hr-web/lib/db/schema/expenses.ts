@@ -2,7 +2,7 @@
 import { doublePrecision, pgTable, text, timestamp, uuid, index } from 'drizzle-orm/pg-core';
 import { pk, auditColumns, lookupColumns } from './common';
 import { employees } from './employees';
-import { depots, costOfSale, activities, overheads } from './lookups';
+import { regions, departments, depots, costOfSale, activities, overheads } from './lookups';
 
 export const expenseCategories = pgTable('expense_categories', lookupColumns);
 
@@ -19,11 +19,16 @@ export const expenses = pgTable(
     employeeId: uuid('employee_id').notNull().references(() => employees.id),
     categoryId: uuid('category_id').references(() => expenseCategories.id),
 
+    // Org allocation (Access RegionID / DepartmentID).
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+
     // Cost allocation (Access DepotID / CostOfSaleID / ActivitiesID / OverheadsID).
     depotId: uuid('depot_id').references(() => depots.id),
     costOfSaleId: uuid('cost_of_sale_id').references(() => costOfSale.id),
     activitiesId: uuid('activities_id').references(() => activities.id),
     overheadsId: uuid('overheads_id').references(() => overheads.id),
+    merge: text('merge'), // Access Merge — merged cost-allocation code string
 
     expenseDate: timestamp('expense_date', { withTimezone: true }).notNull(), // DateOfClaim
     periodStart: timestamp('period_start', { withTimezone: true }), // PeriodClaimStartDate
@@ -35,6 +40,12 @@ export const expenses = pgTable(
     vatAmount: doublePrecision('vat_amount'),
     amount: doublePrecision('amount').notNull(), // TotalAmount (VAT-inclusive)
     currency: text('currency').notNull().default('ZAR'),
+
+    // Per-category cost buckets (Access Accommodation / Entertainment / International / Sundry).
+    accommodation: doublePrecision('accommodation'),
+    entertainment: doublePrecision('entertainment'),
+    international: doublePrecision('international'),
+    sundry: doublePrecision('sundry'),
 
     description: text('description'), // ListTextItems
     receiptPath: text('receipt_path'), // reference/link to the receipt (Access FIles attachment)
@@ -70,8 +81,20 @@ export const carScheme = pgTable(
     monthlyAllowance: doublePrecision('monthly_allowance'),
     startDate: timestamp('start_date', { withTimezone: true }),
     endDate: timestamp('end_date', { withTimezone: true }),
-    status: text('status').notNull().default('active'), // active|returned|suspended
+    status: text('status').notNull().default('active'), // active|returned|suspended (Access: Pending|Approved|Rejected)
     notes: text('notes'),
+
+    // Monthly kilometre-reimbursement claim (Access tblCarScheme).
+    cMonth: timestamp('c_month', { withTimezone: true }), // Access cMonth
+    kmStart: doublePrecision('km_start'),
+    kmEnd: doublePrecision('km_end'),
+    totalKm: doublePrecision('total_km'),
+    bkm: doublePrecision('bkm'),
+    pkm: doublePrecision('pkm'),
+    ratePerKm: doublePrecision('rate_per_km'),
+    totalAmount: doublePrecision('total_amount'),
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
     ...auditColumns,
   },
   (t) => ({ employeeIdx: index('car_scheme_employee_idx').on(t.employeeId) }),

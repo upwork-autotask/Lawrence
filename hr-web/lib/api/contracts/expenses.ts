@@ -4,11 +4,15 @@ import { optStr, optUuid, optDate, optNum, expectedUpdatedAt, ListQuery } from '
 export const ExpenseCreate = z.object({
   employeeId: z.string().uuid('Employee is required'),
   categoryId: optUuid,
+  // Org allocation
+  regionId: optUuid,
+  departmentId: optUuid,
   // Cost allocation
   depotId: optUuid,
   costOfSaleId: optUuid,
   activitiesId: optUuid,
   overheadsId: optUuid,
+  merge: optStr,
   // Dates
   expenseDate: z.coerce.date({ required_error: 'Claim date is required', invalid_type_error: 'Claim date is required' }),
   periodStart: optDate,
@@ -18,6 +22,11 @@ export const ExpenseCreate = z.object({
   costExVat: optNum,
   vatRate: optNum,
   amount: optNum,
+  // Per-category cost buckets
+  accommodation: optNum,
+  entertainment: optNum,
+  international: optNum,
+  sundry: optNum,
   currency: z.string().default('ZAR'),
   description: optStr,
   receiptPath: optStr, // reference/link to the receipt
@@ -62,6 +71,17 @@ export const CarSchemeCreate = z.object({
   endDate: optDate,
   status: z.string().default('active'),
   notes: optStr,
+  // Monthly kilometre-reimbursement claim
+  cMonth: optDate,
+  kmStart: optNum,
+  kmEnd: optNum,
+  totalKm: optNum,
+  bkm: optNum,
+  pkm: optNum,
+  ratePerKm: optNum,
+  totalAmount: optNum,
+  regionId: optUuid,
+  departmentId: optUuid,
 });
 
 export const CarSchemeUpdate = CarSchemeCreate.partial().extend({ expectedUpdatedAt });
@@ -84,10 +104,13 @@ export type ExpenseRow = {
   claimNumber: string | null;
   employeeId: string;
   categoryId: string | null;
+  regionId: string | null;
+  departmentId: string | null;
   depotId: string | null;
   costOfSaleId: string | null;
   activitiesId: string | null;
   overheadsId: string | null;
+  merge: string | null;
   expenseDate: string;
   periodStart: string | null;
   periodEnd: string | null;
@@ -95,6 +118,10 @@ export type ExpenseRow = {
   vatRate: number | null;
   vatAmount: number | null;
   amount: number;
+  accommodation: number | null;
+  entertainment: number | null;
+  international: number | null;
+  sundry: number | null;
   currency: string;
   description: string | null;
   receiptPath: string | null;
@@ -139,5 +166,15 @@ export type CarSchemeRow = {
   endDate: string | null;
   status: string;
   notes: string | null;
+  cMonth: string | null;
+  kmStart: number | null;
+  kmEnd: number | null;
+  totalKm: number | null;
+  bkm: number | null;
+  pkm: number | null;
+  ratePerKm: number | null;
+  totalAmount: number | null;
+  regionId: string | null;
+  departmentId: string | null;
   updatedAt: string;
 };

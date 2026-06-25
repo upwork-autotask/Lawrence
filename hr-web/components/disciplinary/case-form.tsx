@@ -18,8 +18,10 @@ const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 
 /** Form values are all strings (HTML inputs); Zod coerces dates/uuids on submit. */
 type FormValues = {
-  caseNumber: string; employeeId: string; offenceId: string; actionId: string;
+  caseNumber: string; title: string; employeeId: string; offenceId: string; actionId: string;
+  typeOfDisciplinary: string; who: string;
   incidentDate: string; reportedDate: string; description: string; status: string;
+  dateOfDisciplinary: string; dateOfEnquiry: string; actionOpenDate: string; actionClosedDate: string;
   hearingDate: string; outcome: string; witnesses: string;
 };
 
@@ -36,11 +38,18 @@ export function CaseForm({
     resolver: zodResolver(CaseCreate) as never,
     defaultValues: {
       caseNumber: caseRecord?.caseNumber ?? '',
+      title: caseRecord?.title ?? '',
       employeeId: caseRecord?.employeeId ?? '',
       offenceId: caseRecord?.offenceId ?? '',
       actionId: caseRecord?.actionId ?? '',
+      typeOfDisciplinary: caseRecord?.typeOfDisciplinary ?? '',
+      who: caseRecord?.who ?? '',
       incidentDate: day(caseRecord?.incidentDate),
       reportedDate: day(caseRecord?.reportedDate),
+      dateOfDisciplinary: day(caseRecord?.dateOfDisciplinary),
+      dateOfEnquiry: day(caseRecord?.dateOfEnquiry),
+      actionOpenDate: day(caseRecord?.actionOpenDate),
+      actionClosedDate: day(caseRecord?.actionClosedDate),
       description: caseRecord?.description ?? '',
       status: caseRecord?.status ?? 'open',
       hearingDate: day(caseRecord?.hearingDate),
@@ -69,6 +78,7 @@ export function CaseForm({
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
       <div className="grid grid-cols-2 gap-4">
         <F label="Case no." error={err.caseNumber?.message}><Input {...form.register('caseNumber')} /></F>
+        <F label="Title" error={err.title?.message}><Input {...form.register('title')} /></F>
         <F label="Status" error={err.status?.message}>
           <Select {...form.register('status')}>
             <option value="open">Open</option>
@@ -96,8 +106,27 @@ export function CaseForm({
             {lookups.actions.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
           </Select>
         </F>
+        <F label="Type of disciplinary" error={err.typeOfDisciplinary?.message}>
+          <Select {...form.register('typeOfDisciplinary')}>
+            <option value="">—</option>
+            <option value="Misconduct">Misconduct</option>
+            <option value="Incapacity">Incapacity</option>
+          </Select>
+        </F>
+        <F label="Who" error={err.who?.message}>
+          <Select {...form.register('who')}>
+            <option value="">—</option>
+            <option value="Internal">Internal</option>
+            <option value="Labour Net">Labour Net</option>
+            <option value="labour broker">labour broker</option>
+          </Select>
+        </F>
         <F label="Incident date" error={err.incidentDate?.message}><Input type="date" {...form.register('incidentDate')} /></F>
         <F label="Reported date" error={err.reportedDate?.message}><Input type="date" {...form.register('reportedDate')} /></F>
+        <F label="Date of disciplinary" error={err.dateOfDisciplinary?.message}><Input type="date" {...form.register('dateOfDisciplinary')} /></F>
+        <F label="Date of enquiry" error={err.dateOfEnquiry?.message}><Input type="date" {...form.register('dateOfEnquiry')} /></F>
+        <F label="Action open date" error={err.actionOpenDate?.message}><Input type="date" {...form.register('actionOpenDate')} /></F>
+        <F label="Action closed date" error={err.actionClosedDate?.message}><Input type="date" {...form.register('actionClosedDate')} /></F>
         <F label="Hearing date" error={err.hearingDate?.message}><Input type="date" {...form.register('hearingDate')} /></F>
       </div>
       <F label="Description" error={err.description?.message}><Textarea {...form.register('description')} /></F>

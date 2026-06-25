@@ -1,11 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { JdCreate } from '@/lib/api/contracts/job-descriptions';
 import type { JdRow } from '@/lib/api/contracts/job-descriptions';
 import { jdApi } from '@/lib/api/job-descriptions-client';
+import { lookupsApi } from '@/lib/api/resources';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -17,7 +19,8 @@ const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 /** Form values are all strings (HTML inputs); Zod coerces numbers/dates on submit. */
 type FormValues = {
   title: string; version: string; status: string;
-  summary: string; reportsToTitle: string; effectiveDate: string;
+  summary: string; skillLevel: string; qualification: string; jobTitleId: string;
+  reportsToTitle: string; effectiveDate: string;
 };
 
 export function JdForm({
@@ -28,6 +31,15 @@ export function JdForm({
   onCancel: () => void;
 }) {
   const [serverError, setServerError] = React.useState<string | null>(null);
+
+  const jobTitles = useQuery({
+    queryKey: ['jd-form-job-titles'],
+    queryFn: async () => {
+      const r = await lookupsApi.list('jobTitles');
+      return r.ok ? r.value.items : [];
+    },
+  });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(JdCreate) as never,
     defaultValues: {
@@ -35,6 +47,9 @@ export function JdForm({
       version: jd?.version != null ? String(jd.version) : '1',
       status: jd?.status ?? 'draft',
       summary: jd?.summary ?? '',
+      skillLevel: jd?.skillLevel ?? '',
+      qualification: jd?.qualification ?? '',
+      jobTitleId: jd?.jobTitleId ?? '',
       reportsToTitle: jd?.reportsToTitle ?? '',
       effectiveDate: day(jd?.effectiveDate),
     },
@@ -68,6 +83,18 @@ export function JdForm({
             <option value="active">Active</option>
             <option value="retired">Retired</option>
           </Select>
+        </F>
+        <F label="Job title" error={err.jobTitleId?.message}>
+          <Select {...form.register('jobTitleId')}>
+            <option value="">—</option>
+            {jobTitles.data?.map((j) => <option key={j.id} value={j.id}>{j.name}</option>)}
+          </Select>
+        </F>
+        <F label="Skill level" error={err.skillLevel?.message}>
+          <Input {...form.register('skillLevel')} />
+        </F>
+        <F label="Qualification" error={err.qualification?.message}>
+          <Input {...form.register('qualification')} />
         </F>
         <F label="Reports to (title)" error={err.reportsToTitle?.message}>
           <Input {...form.register('reportsToTitle')} />

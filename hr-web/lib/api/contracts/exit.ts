@@ -10,6 +10,11 @@ export const ExitCreate = z.object({
   interviewDate: optDate,
   interviewerId: optUuid,
   interviewNotes: optStr,
+  regionId: optUuid,
+  departmentId: optUuid,
+  jobTitleId: optUuid,
+  occupationalLevel: optStr,
+  reasonCode: optStr,
   rehireEligible: z.coerce.boolean().optional(),
   assetsReturned: z.coerce.boolean().optional(),
   finalSettlementPaid: z.coerce.boolean().optional(),
@@ -49,6 +54,11 @@ export type ExitRecordRow = {
   interviewDate: string | null;
   interviewerId: string | null;
   interviewNotes: string | null;
+  regionId: string | null;
+  departmentId: string | null;
+  jobTitleId: string | null;
+  occupationalLevel: string | null;
+  reasonCode: string | null;
   rehireEligible: boolean | null;
   assetsReturned: boolean | null;
   finalSettlementPaid: boolean | null;

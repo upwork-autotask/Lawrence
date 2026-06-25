@@ -2,6 +2,7 @@
 import { boolean, pgTable, text, timestamp, uuid, index } from 'drizzle-orm/pg-core';
 import { pk, auditColumns, lookupColumns } from './common';
 import { employees } from './employees';
+import { regions, departments, jobTitles } from './lookups';
 
 export const exitReasons = pgTable('exit_reasons', lookupColumns);
 
@@ -18,6 +19,11 @@ export const exitRecords = pgTable(
     interviewDate: timestamp('interview_date', { withTimezone: true }),
     interviewerId: uuid('interviewer_id'),
     interviewNotes: text('interview_notes'),
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+    jobTitleId: uuid('job_title_id').references(() => jobTitles.id),
+    occupationalLevel: text('occupational_level'),
+    reasonCode: text('reason_code'),
     rehireEligible: boolean('rehire_eligible'),
     assetsReturned: boolean('assets_returned').notNull().default(false),
     finalSettlementPaid: boolean('final_settlement_paid').notNull().default(false),

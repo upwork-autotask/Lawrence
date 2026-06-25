@@ -1,12 +1,14 @@
 'use client';
 
 import * as React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LeaveFormCreate } from '@/lib/api/contracts/leave';
 import type { LeaveFormRow, LeaveTypeRow } from '@/lib/api/contracts/leave';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { leaveApi } from '@/lib/api/leave-client';
+import { lookupsApi } from '@/lib/api/resources';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
@@ -20,6 +22,8 @@ const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 type FormValues = {
   employeeId: string; leaveTypeId: string; startDate: string; endDate: string;
   daysRequested: string; reason: string;
+  regionId: string; departmentId: string; dateOfEngagement: string;
+  totalHolidays: string; approverId: string;
 };
 
 export function LeaveForm({
@@ -31,6 +35,21 @@ export function LeaveForm({
   onCancel: () => void;
 }) {
   const [serverError, setServerError] = React.useState<string | null>(null);
+
+  const lookups = useQuery({
+    queryKey: ['leave-form-lookups'],
+    queryFn: async () => {
+      const [regions, departments] = await Promise.all([
+        lookupsApi.list('regions'),
+        lookupsApi.list('departments'),
+      ]);
+      return {
+        regions: regions.ok ? regions.value.items : [],
+        departments: departments.ok ? departments.value.items : [],
+      };
+    },
+  });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(LeaveFormCreate) as never,
     defaultValues: {
@@ -40,6 +59,11 @@ export function LeaveForm({
       endDate: day(leave?.endDate),
       daysRequested: leave?.daysRequested != null ? String(leave.daysRequested) : '',
       reason: leave?.reason ?? '',
+      regionId: leave?.regionId ?? '',
+      departmentId: leave?.departmentId ?? '',
+      dateOfEngagement: day(leave?.dateOfEngagement),
+      totalHolidays: leave?.totalHolidays != null ? String(leave.totalHolidays) : '',
+      approverId: leave?.approverId ?? '',
     },
   });
 
@@ -62,12 +86,18 @@ export function LeaveForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate]);
 
-  // Approver = the selected employee's line manager.
+  // Approver defaults to the selected employee's line manager but is overridable.
+  // Seed approverId from the line manager only while it is still empty, so an
+  // explicit user choice (or a stored value when editing) is never clobbered.
   const selectedEmployeeId = form.watch('employeeId');
-  const approver = React.useMemo(() => {
+  const approverId = form.watch('approverId');
+  React.useEffect(() => {
+    if (approverId) return;
     const emp = options.employees.find((e) => e.id === selectedEmployeeId);
-    if (!emp?.lineManagerId) return null;
-    return options.employees.find((e) => e.id === emp.lineManagerId) ?? null;
+    if (emp?.lineManagerId) {
+      form.setValue('approverId', emp.lineManagerId, { shouldValidate: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEmployeeId, options.employees]);
 
   async function submit(values: FormValues) {
@@ -107,12 +137,32 @@ export function LeaveForm({
           <Input type="number" step="0.5" {...form.register('daysRequested')} />
           <p className="mt-1 text-xs text-muted-foreground">Auto-calculated from the dates (inclusive) — adjust for half-days if needed.</p>
         </F>
-        <div className="space-y-1">
-          <Label>Approver (line manager)</Label>
-          <div className="flex h-9 items-center rounded-md border bg-muted/40 px-3 text-sm">
-            {approver ? `${approver.firstName} ${approver.surname}` : '— not assigned'}
-          </div>
-        </div>
+        <F label="Region" error={err.regionId?.message}>
+          <Select {...form.register('regionId')}>
+            <option value="">—</option>
+            {lookups.data?.regions.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+          </Select>
+        </F>
+        <F label="Department" error={err.departmentId?.message}>
+          <Select {...form.register('departmentId')}>
+            <option value="">—</option>
+            {lookups.data?.departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </Select>
+        </F>
+        <F label="Date of engagement" error={err.dateOfEngagement?.message}>
+          <Input type="date" {...form.register('dateOfEngagement')} />
+        </F>
+        <F label="Total holidays" error={err.totalHolidays?.message}>
+          <Input type="number" step="0.5" {...form.register('totalHolidays')} />
+          <p className="mt-1 text-xs text-muted-foreground">Public holidays falling within the leave span.</p>
+        </F>
+        <F label="Approver" error={err.approverId?.message}>
+          <Select {...form.register('approverId')}>
+            <option value="">—</option>
+            {options.employees.map((e) => <option key={e.id} value={e.id}>{employeeName(e)}</option>)}
+          </Select>
+          <p className="mt-1 text-xs text-muted-foreground">Defaults to the employee&apos;s line manager — change to override.</p>
+        </F>
       </div>
       <F label="Reason" error={err.reason?.message}><Textarea {...form.register('reason')} /></F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}

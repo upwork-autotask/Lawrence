@@ -19,10 +19,13 @@ type Options = { employees: EmployeeRow[]; kpis: KpiRow[] };
 type FormValues = {
   employeeId: string; kpiId: string; periodYear: string; periodQuarter: string;
   targetValue: string; actualValue: string; score: string; weight: string;
-  status: string; managerComments: string;
+  status: string; managerComments: string; employeeComments: string;
+  title: string; paSetDate: string; reviewDate: string; percentage: string;
+  kpiNotes: string; achievementStatus: string; kpiCategory: string;
 };
 
 const num = (n: number | null | undefined) => (n != null ? String(n) : '');
+const date = (d: string | null | undefined) => (d ? d.slice(0, 10) : '');
 
 export function PerformanceForm({
   review, options, onSaved, onCancel,
@@ -46,6 +49,14 @@ export function PerformanceForm({
       weight: review?.weight != null ? String(review.weight) : '1',
       status: review?.status ?? 'draft',
       managerComments: review?.managerComments ?? '',
+      employeeComments: review?.employeeComments ?? '',
+      title: review?.title ?? '',
+      paSetDate: date(review?.paSetDate),
+      reviewDate: date(review?.reviewDate),
+      percentage: num(review?.percentage),
+      kpiNotes: review?.kpiNotes ?? '',
+      achievementStatus: review?.achievementStatus ?? '',
+      kpiCategory: review?.kpiCategory ?? '',
     },
   });
 
@@ -67,6 +78,9 @@ export function PerformanceForm({
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
+      <F label="Title" error={err.title?.message}>
+        <Input {...form.register('title')} />
+      </F>
       <div className="grid grid-cols-2 gap-4">
         <F label="Employee" error={err.employeeId?.message}>
           <Select {...form.register('employeeId')}>
@@ -79,6 +93,26 @@ export function PerformanceForm({
             <option value="">—</option>
             {options.kpis.map((k) => <option key={k.id} value={k.id}>{k.name}</option>)}
           </Select>
+        </F>
+        <F label="KPI category" error={err.kpiCategory?.message}>
+          <Select {...form.register('kpiCategory')}>
+            <option value="">—</option>
+            <option value="Production">Production</option>
+            <option value="Revenue target">Revenue target</option>
+            <option value="SHEQ (IOD etc)">SHEQ (IOD etc)</option>
+            <option value="Project">Project</option>
+            <option value="Training">Training</option>
+            <option value="Customer complain">Customer complain</option>
+            <option value="ISO compliance">ISO compliance</option>
+            <option value="Employee training">Employee training</option>
+            <option value="Peer review">Peer review</option>
+          </Select>
+        </F>
+        <F label="PA set date" error={err.paSetDate?.message}>
+          <Input type="date" {...form.register('paSetDate')} />
+        </F>
+        <F label="Review date" error={err.reviewDate?.message}>
+          <Input type="date" {...form.register('reviewDate')} />
         </F>
         <F label="Period year" error={err.periodYear?.message}>
           <Input type="number" {...form.register('periodYear')} />
@@ -95,8 +129,20 @@ export function PerformanceForm({
         <F label="Score" error={err.score?.message}>
           <Input type="number" step="any" {...form.register('score')} />
         </F>
+        <F label="Percentage" error={err.percentage?.message}>
+          <Input type="number" step="any" {...form.register('percentage')} />
+        </F>
         <F label="Weight" error={err.weight?.message}>
           <Input type="number" step="any" {...form.register('weight')} />
+        </F>
+        <F label="Achievement status" error={err.achievementStatus?.message}>
+          <Select {...form.register('achievementStatus')}>
+            <option value="">—</option>
+            <option value="Not achieved">Not achieved</option>
+            <option value="Partially achieved">Partially achieved</option>
+            <option value="Fully Achieved">Fully Achieved</option>
+            <option value="Above Achiever">Above Achiever</option>
+          </Select>
         </F>
         <F label="Status" error={err.status?.message}>
           <Select {...form.register('status')}>
@@ -108,8 +154,14 @@ export function PerformanceForm({
           </Select>
         </F>
       </div>
+      <F label="KPI notes" error={err.kpiNotes?.message}>
+        <Textarea {...form.register('kpiNotes')} />
+      </F>
       <F label="Manager comments" error={err.managerComments?.message}>
         <Textarea {...form.register('managerComments')} />
+      </F>
+      <F label="Employee comments" error={err.employeeComments?.message}>
+        <Textarea {...form.register('employeeComments')} />
       </F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">

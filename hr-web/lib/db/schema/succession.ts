@@ -2,6 +2,7 @@
 import { boolean, pgTable, text, timestamp, uuid, index } from 'drizzle-orm/pg-core';
 import { pk, auditColumns, lookupColumns } from './common';
 import { employees } from './employees';
+import { regions, departments, jobTitles } from './lookups';
 
 /** Schemes / talent pools (TblScheme). */
 export const successionSchemes = pgTable('succession_schemes', lookupColumns);
@@ -12,9 +13,17 @@ export const criticalRoles = pgTable(
   {
     id: pk(),
     title: text('title').notNull(),
+    refNo: text('ref_no'),
+    lastReviewDate: timestamp('last_review_date', { withTimezone: true }),
     incumbentEmployeeId: uuid('incumbent_employee_id').references(() => employees.id),
+    successorIdentifiedId: uuid('successor_identified_id').references(() => employees.id),
     schemeId: uuid('scheme_id').references(() => successionSchemes.id),
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+    jobTitleId: uuid('job_title_id').references(() => jobTitles.id),
     riskLevel: text('risk_level').notNull().default('medium'), // low|medium|high|critical
+    criticalityReason: text('criticality_reason'),
+    tierSelection: text('tier_selection'),
     impact: text('impact'),
     reason: text('reason'),
     status: text('status').notNull().default('open'), // open|in_progress|filled|closed
@@ -44,6 +53,18 @@ export const successionCandidates = pgTable(
     id: pk(),
     criticalRoleId: uuid('critical_role_id').notNull().references(() => criticalRoles.id, { onDelete: 'cascade' }),
     employeeId: uuid('employee_id').notNull().references(() => employees.id),
+    dateInitiated: timestamp('date_initiated', { withTimezone: true }),
+    identifiedSuccessionPosition: text('identified_succession_position'),
+    lineManager: text('line_manager'),
+    assessmentTier: text('assessment_tier'),
+    subTier: text('sub_tier'),
+    focusArea: text('focus_area'),
+    qualificationReq: text('qualification_req'),
+    experienceReq: text('experience_req'),
+    psychologicalReq: text('psychological_req'),
+    culturalFitReq: text('cultural_fit_req'),
+    complianceReq: text('compliance_req'),
+    possibleTargetPlan: text('possible_target_plan'),
     readiness: text('readiness').notNull().default('1_2_years'), // ready_now|1_2_years|3_5_years|long_term
     performanceRating: text('performance_rating'),
     potentialRating: text('potential_rating'),

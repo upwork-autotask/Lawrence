@@ -3,6 +3,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { pk, auditColumns } from './common';
 import { employees } from './employees';
+import { regions, departments } from './lookups';
 
 /** Leave type catalogue. Maps from legacy `TblTypeofLeave`. */
 export const leaveTypes = pgTable(
@@ -34,6 +35,12 @@ export const leaveForms = pgTable(
     reason: text('reason'),
     attachmentPath: text('attachment_path'),
     status: text('status').notNull().default('draft'), // draft|submitted|approved|rejected|cancelled
+
+    regionId: uuid('region_id').references(() => regions.id),
+    departmentId: uuid('department_id').references(() => departments.id),
+    dateOfEngagement: timestamp('date_of_engagement', { withTimezone: true }),
+    totalHolidays: doublePrecision('total_holidays'),
+    approverId: uuid('approver_id').references(() => employees.id),
 
     lineManagerId: uuid('line_manager_id').references(() => employees.id),
     lineManagerDecidedAt: timestamp('line_manager_decided_at', { withTimezone: true }),

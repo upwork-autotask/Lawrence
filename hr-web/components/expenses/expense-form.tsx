@@ -18,6 +18,8 @@ import { Button } from '@/components/ui/button';
 export type ExpenseFormOptions = {
   employees: EmployeeRow[];
   categories: CategoryRow[];
+  regions: LookupRow[];
+  departments: LookupRow[];
   depots: LookupRow[];
   costOfSale: LookupRow[];
   activities: LookupRow[];
@@ -31,9 +33,11 @@ const money = (n: number) => `R ${n.toFixed(2)}`;
 /** Form values are all strings (HTML inputs); Zod coerces on submit. */
 type FormValues = {
   employeeId: string; claimNumber: string; categoryId: string;
-  depotId: string; costOfSaleId: string; activitiesId: string; overheadsId: string;
+  regionId: string; departmentId: string;
+  depotId: string; costOfSaleId: string; activitiesId: string; overheadsId: string; merge: string;
   expenseDate: string; periodStart: string; periodEnd: string;
   costExVat: string; vatRate: string;
+  accommodation: string; entertainment: string; international: string; sundry: string;
   currency: string; description: string; receiptPath: string; status: string;
 };
 
@@ -53,15 +57,22 @@ export function ExpenseForm({
       employeeId: expense?.employeeId ?? '',
       claimNumber: expense?.claimNumber ?? '',
       categoryId: expense?.categoryId ?? '',
+      regionId: expense?.regionId ?? '',
+      departmentId: expense?.departmentId ?? '',
       depotId: expense?.depotId ?? '',
       costOfSaleId: expense?.costOfSaleId ?? '',
       activitiesId: expense?.activitiesId ?? '',
       overheadsId: expense?.overheadsId ?? '',
+      merge: expense?.merge ?? '',
       expenseDate: day(expense?.expenseDate),
       periodStart: day(expense?.periodStart),
       periodEnd: day(expense?.periodEnd),
       costExVat: num(expense?.costExVat),
       vatRate: expense?.vatRate != null ? String(expense.vatRate) : '15',
+      accommodation: num(expense?.accommodation),
+      entertainment: num(expense?.entertainment),
+      international: num(expense?.international),
+      sundry: num(expense?.sundry),
       currency: expense?.currency ?? 'ZAR',
       description: expense?.description ?? '',
       receiptPath: expense?.receiptPath ?? '',
@@ -115,6 +126,17 @@ export function ExpenseForm({
         <FormField label="Depot" error={err.depotId?.message}>
           <Select {...form.register('depotId')}><option value="">—</option>{lookupOpts(options.depots)}</Select>
         </FormField>
+
+        <FormField label="Region" error={err.regionId?.message}>
+          <Select {...form.register('regionId')}><option value="">—</option>{lookupOpts(options.regions)}</Select>
+        </FormField>
+        <FormField label="Department" error={err.departmentId?.message}>
+          <Select {...form.register('departmentId')}><option value="">—</option>{lookupOpts(options.departments)}</Select>
+        </FormField>
+
+        <FormField label="Merge code" error={err.merge?.message}>
+          <Input {...form.register('merge')} placeholder="merged cost-allocation code" />
+        </FormField>
       </div>
 
       {/* Cost allocation */}
@@ -163,6 +185,25 @@ export function ExpenseForm({
             <p className="text-sm font-medium">Total (incl.)</p>
             <p className="flex h-9 items-center text-sm font-semibold">{money(total)}</p>
           </div>
+        </div>
+      </fieldset>
+
+      {/* Per-category cost buckets */}
+      <fieldset className="rounded-md border p-3">
+        <legend className="px-1 text-xs font-medium text-muted-foreground">Cost buckets</legend>
+        <div className="grid grid-cols-4 gap-4">
+          <FormField label="Accommodation" error={err.accommodation?.message}>
+            <Input type="number" step="0.01" {...form.register('accommodation')} />
+          </FormField>
+          <FormField label="Entertainment" error={err.entertainment?.message}>
+            <Input type="number" step="0.01" {...form.register('entertainment')} />
+          </FormField>
+          <FormField label="International" error={err.international?.message}>
+            <Input type="number" step="0.01" {...form.register('international')} />
+          </FormField>
+          <FormField label="Sundry" error={err.sundry?.message}>
+            <Input type="number" step="0.01" {...form.register('sundry')} />
+          </FormField>
         </div>
       </fieldset>
 

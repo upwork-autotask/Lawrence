@@ -1,11 +1,14 @@
 import { z } from 'zod';
-import { optStr, optDate, optNum, expectedUpdatedAt, ListQuery } from './common';
+import { optStr, optUuid, optDate, optNum, expectedUpdatedAt, ListQuery } from './common';
 
 export const JdCreate = z.object({
   title: z.string().min(1, 'Title is required'),
   version: z.coerce.number().int().default(1),
   status: z.string().default('draft'), // draft|active|retired
   summary: optStr,
+  skillLevel: optStr,
+  qualification: optStr,
+  jobTitleId: optUuid,
   reportsToTitle: optStr,
   effectiveDate: optDate,
 });
@@ -61,6 +64,7 @@ export const EmployeeJdListQuery = ListQuery.extend({
 export const JdKpiCreate = z.object({
   jdId: z.string().uuid('Job description is required'),
   kpiId: z.preprocess((v) => (v === '' || v === undefined ? null : v), z.string().uuid().nullable().optional()),
+  kpiLabel: optStr,
   target: optStr,
   weight: z.coerce.number().default(1),
   sortOrder: z.coerce.number().int().default(0),
@@ -98,6 +102,9 @@ export type JdRow = {
   version: number;
   status: string;
   summary: string | null;
+  skillLevel: string | null;
+  qualification: string | null;
+  jobTitleId: string | null;
   reportsToTitle: string | null;
   effectiveDate: string | null;
   updatedAt: string;

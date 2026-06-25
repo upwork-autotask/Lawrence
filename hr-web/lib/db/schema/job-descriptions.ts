@@ -2,6 +2,7 @@
 import { boolean, doublePrecision, integer, pgTable, text, timestamp, uuid, uniqueIndex, index } from 'drizzle-orm/pg-core';
 import { pk, auditColumns } from './common';
 import { employees } from './employees';
+import { jobTitles } from './lookups';
 
 export const jobDescriptions = pgTable(
   'job_descriptions',
@@ -11,6 +12,9 @@ export const jobDescriptions = pgTable(
     version: integer('version').notNull().default(1),
     status: text('status').notNull().default('draft'), // draft|active|retired
     summary: text('summary'),
+    skillLevel: text('skill_level'),
+    qualification: text('qualification'),
+    jobTitleId: uuid('job_title_id').references(() => jobTitles.id),
     reportsToTitle: text('reports_to_title'),
     preparedBy: uuid('prepared_by'),
     approvedByCeoAt: timestamp('approved_by_ceo_at', { withTimezone: true }),
@@ -56,6 +60,7 @@ export const jdKpis = pgTable(
     id: pk(),
     jdId: uuid('jd_id').notNull().references(() => jobDescriptions.id, { onDelete: 'cascade' }),
     kpiId: uuid('kpi_id'), // cross-module ref to kpis (no FK, parity with Access convention)
+    kpiLabel: text('kpi_label'), // free-text KPI alongside the optional kpiId select
     target: text('target'),
     weight: doublePrecision('weight').notNull().default(1),
     sortOrder: integer('sort_order').notNull().default(0),

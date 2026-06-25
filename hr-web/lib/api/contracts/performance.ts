@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optStr, optNum, expectedUpdatedAt, ListQuery } from './common';
+import { optStr, optNum, optUuid, optDate, expectedUpdatedAt, ListQuery } from './common';
 
 /* ── KPI categories (lookup-style) ─────────────────────────────────────── */
 
@@ -36,16 +36,24 @@ export const KpiListQuery = ListQuery.extend({
 
 export const PerformanceCreate = z.object({
   employeeId: z.string().uuid('Employee is required'),
+  title: optStr,
+  paSetDate: optDate,
   periodYear: z.coerce.number({ required_error: 'Period year is required', invalid_type_error: 'Period year is required' }).int(),
   periodQuarter: optNum,
   periodLabel: optStr,
   kpiId: z.string().uuid('KPI is required'),
+  kpiCategory: optStr,
+  kpiNotes: optStr,
   targetValue: optNum,
   actualValue: optNum,
   score: optNum,
+  percentage: optNum,
+  achievementStatus: optStr,
   weight: z.coerce.number().default(1),
   managerComments: optStr,
   employeeComments: optStr,
+  reviewDate: optDate,
+  reviewedById: optUuid,
   status: z.string().default('draft'),
 });
 
@@ -92,16 +100,24 @@ export type KpiRow = {
 export type PerformanceRow = {
   id: string;
   employeeId: string;
+  title: string | null;
+  paSetDate: string | null;
   periodYear: number;
   periodQuarter: number | null;
   periodLabel: string | null;
   kpiId: string;
+  kpiCategory: string | null;
+  kpiNotes: string | null;
   targetValue: number | null;
   actualValue: number | null;
   score: number | null;
+  percentage: number | null;
+  achievementStatus: string | null;
   weight: number;
   managerComments: string | null;
   employeeComments: string | null;
+  reviewDate: string | null;
+  reviewedById: string | null;
   status: string;
   updatedAt: string;
 };

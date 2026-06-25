@@ -15,13 +15,14 @@ export type JdKpiRow = {
   id: string;
   jdId: string;
   kpiId: string | null;
+  kpiLabel: string | null;
   target: string | null;
   weight: number;
   sortOrder: number;
   updatedAt: string;
 };
 
-type FormValues = { kpiId: string; target: string; weight: string; sortOrder: string };
+type FormValues = { kpiId: string; kpiLabel: string; target: string; weight: string; sortOrder: string };
 
 export function JdKpiForm({
   jdId, row, kpis, onSaved, onCancel,
@@ -37,6 +38,7 @@ export function JdKpiForm({
     resolver: zodResolver(JdKpiCreate.omit({ jdId: true })) as never,
     defaultValues: {
       kpiId: row?.kpiId ?? '',
+      kpiLabel: row?.kpiLabel ?? '',
       target: row?.target ?? '',
       weight: row?.weight != null ? String(row.weight) : '1',
       sortOrder: row?.sortOrder != null ? String(row.sortOrder) : '0',
@@ -60,11 +62,14 @@ export function JdKpiForm({
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(submit)}>
-      <Field label="KPI" error={err.kpiId?.message}>
+      <Field label="KPI (select)" error={err.kpiId?.message}>
         <Select {...form.register('kpiId')}>
           <option value="">—</option>
           {kpis.map((k) => <option key={k.id} value={k.id}>{k.name}</option>)}
         </Select>
+      </Field>
+      <Field label="KPI" error={err.kpiLabel?.message}>
+        <Input {...form.register('kpiLabel')} />
       </Field>
       <Field label="Target" error={err.target?.message}>
         <Input {...form.register('target')} />

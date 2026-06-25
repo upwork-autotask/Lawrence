@@ -16,10 +16,17 @@ import { Button } from '@/components/ui/button';
 
 const readinessOptions = ['ready_now', '1_2_years', '3_5_years'];
 const statusOptions = ['identified', 'in_development', 'ready', 'placed', 'withdrawn'];
+const assessmentTiers = ['Tier1', 'Tier2', 'Tier3'];
+const possibleTargetPlans = ['Promotion', 'Sucession', 'Recruitment (Ext)'];
+const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 
 /** Form values are all strings (HTML inputs); Zod coerces on submit. */
 type FormValues = {
-  employeeId: string; readiness: string; performanceRating: string;
+  employeeId: string; dateInitiated: string; identifiedSuccessionPosition: string;
+  lineManager: string; assessmentTier: string; subTier: string; focusArea: string;
+  qualificationReq: string; experienceReq: string; psychologicalReq: string;
+  culturalFitReq: string; complianceReq: string; possibleTargetPlan: string;
+  readiness: string; performanceRating: string;
   potentialRating: string; developmentNeeds: string; isPrimary: string; status: string;
 };
 
@@ -37,6 +44,18 @@ export function CandidateForm({
     resolver: zodResolver(CandidateCreate.omit({ criticalRoleId: true })) as never,
     defaultValues: {
       employeeId: candidate?.employeeId ?? '',
+      dateInitiated: day(candidate?.dateInitiated),
+      identifiedSuccessionPosition: candidate?.identifiedSuccessionPosition ?? '',
+      lineManager: candidate?.lineManager ?? '',
+      assessmentTier: candidate?.assessmentTier ?? '',
+      subTier: candidate?.subTier ?? '',
+      focusArea: candidate?.focusArea ?? '',
+      qualificationReq: candidate?.qualificationReq ?? '',
+      experienceReq: candidate?.experienceReq ?? '',
+      psychologicalReq: candidate?.psychologicalReq ?? '',
+      culturalFitReq: candidate?.culturalFitReq ?? '',
+      complianceReq: candidate?.complianceReq ?? '',
+      possibleTargetPlan: candidate?.possibleTargetPlan ?? '',
       readiness: candidate?.readiness ?? '1_2_years',
       performanceRating: candidate?.performanceRating ?? '',
       potentialRating: candidate?.potentialRating ?? '',
@@ -71,6 +90,33 @@ export function CandidateForm({
             {employees.map((e) => <option key={e.id} value={e.id}>{employeeName(e)}</option>)}
           </Select>
         </F>
+        <F label="Date initiated" error={err.dateInitiated?.message}>
+          <Input type="date" {...form.register('dateInitiated')} />
+        </F>
+        <F label="Identified succession position" error={err.identifiedSuccessionPosition?.message}>
+          <Input {...form.register('identifiedSuccessionPosition')} />
+        </F>
+        <F label="Line manager" error={err.lineManager?.message}>
+          <Input {...form.register('lineManager')} />
+        </F>
+        <F label="Assessment tier" error={err.assessmentTier?.message}>
+          <Select {...form.register('assessmentTier')}>
+            <option value="">—</option>
+            {assessmentTiers.map((t) => <option key={t} value={t}>{t}</option>)}
+          </Select>
+        </F>
+        <F label="Sub-tier" error={err.subTier?.message}>
+          <Input {...form.register('subTier')} />
+        </F>
+        <F label="Focus area" error={err.focusArea?.message}>
+          <Input {...form.register('focusArea')} />
+        </F>
+        <F label="Possible target plan" error={err.possibleTargetPlan?.message}>
+          <Select {...form.register('possibleTargetPlan')}>
+            <option value="">—</option>
+            {possibleTargetPlans.map((p) => <option key={p} value={p}>{p}</option>)}
+          </Select>
+        </F>
         <F label="Readiness" error={err.readiness?.message}>
           <Select {...form.register('readiness')}>
             {readinessOptions.map((o) => <option key={o} value={o}>{titleCase(o)}</option>)}
@@ -96,6 +142,21 @@ export function CandidateForm({
       </div>
       <F label="Development needs" error={err.developmentNeeds?.message}>
         <Textarea {...form.register('developmentNeeds')} />
+      </F>
+      <F label="Qualification requirements" error={err.qualificationReq?.message}>
+        <Textarea {...form.register('qualificationReq')} />
+      </F>
+      <F label="Experience requirements" error={err.experienceReq?.message}>
+        <Textarea {...form.register('experienceReq')} />
+      </F>
+      <F label="Psychological requirements" error={err.psychologicalReq?.message}>
+        <Textarea {...form.register('psychologicalReq')} />
+      </F>
+      <F label="Cultural fit requirements" error={err.culturalFitReq?.message}>
+        <Textarea {...form.register('culturalFitReq')} />
+      </F>
+      <F label="Compliance requirements" error={err.complianceReq?.message}>
+        <Textarea {...form.register('complianceReq')} />
       </F>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <div className="flex justify-end gap-2">

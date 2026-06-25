@@ -8,7 +8,7 @@ import { ExitCreate } from '@/lib/api/contracts/exit';
 import type { ExitRecordRow, ExitReasonRow } from '@/lib/api/contracts/exit';
 import type { EmployeeRow } from '@/lib/api/contracts/employees';
 import { exitRecordsApi } from '@/lib/api/exit-client';
-import { employeesApi } from '@/lib/api/resources';
+import { employeesApi, lookupsApi } from '@/lib/api/resources';
 import { titleCase } from '@/lib/format';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,11 +21,13 @@ const day = (s: string | null | undefined) => (s ? s.slice(0, 10) : '');
 
 const exitTypes = ['resignation', 'dismissal', 'retirement', 'retrenchment', 'end_of_contract', 'death'];
 const statuses = ['initiated', 'in_progress', 'completed', 'cancelled'];
+const occupationalLevels = ['Top Mgmt', 'Senior Mgmt', 'Middle Mgmt', 'Junior Mgmt', 'Semi-Skilled', 'Unskilled'];
 
 /** Form values are all strings (HTML inputs); Zod coerces dates/uuids/bools on submit. */
 type FormValues = {
   employeeId: string; exitType: string; reasonId: string; noticeDate: string;
   lastWorkingDay: string; interviewDate: string; interviewerId: string; interviewNotes: string;
+  regionId: string; departmentId: string; jobTitleId: string; occupationalLevel: string; reasonCode: string;
   rehireEligible: string; assetsReturned: boolean; finalSettlementPaid: boolean; status: string;
 };
 
@@ -47,6 +49,22 @@ export function ExitForm({
     },
   });
 
+  const lookups = useQuery({
+    queryKey: ['exit-form-lookups'],
+    queryFn: async () => {
+      const [regions, departments, jobTitles] = await Promise.all([
+        lookupsApi.list('regions'),
+        lookupsApi.list('departments'),
+        lookupsApi.list('jobTitles'),
+      ]);
+      return {
+        regions: regions.ok ? regions.value.items : [],
+        departments: departments.ok ? departments.value.items : [],
+        jobTitles: jobTitles.ok ? jobTitles.value.items : [],
+      };
+    },
+  });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(ExitCreate) as never,
     defaultValues: {
@@ -58,6 +76,11 @@ export function ExitForm({
       interviewDate: day(record?.interviewDate),
       interviewerId: record?.interviewerId ?? '',
       interviewNotes: record?.interviewNotes ?? '',
+      regionId: record?.regionId ?? '',
+      departmentId: record?.departmentId ?? '',
+      jobTitleId: record?.jobTitleId ?? '',
+      occupationalLevel: record?.occupationalLevel ?? '',
+      reasonCode: record?.reasonCode ?? '',
       rehireEligible: record?.rehireEligible ? 'true' : '',
       assetsReturned: record?.assetsReturned ?? false,
       finalSettlementPaid: record?.finalSettlementPaid ?? false,
@@ -99,6 +122,31 @@ export function ExitForm({
           <Select {...form.register('reasonId')}>
             <option value="">—</option>
             {options.reasons.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+          </Select>
+        </F>
+        <F label="Reason code" error={err.reasonCode?.message}><Input {...form.register('reasonCode')} /></F>
+        <F label="Region" error={err.regionId?.message}>
+          <Select {...form.register('regionId')}>
+            <option value="">—</option>
+            {lookups.data?.regions.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+          </Select>
+        </F>
+        <F label="Department" error={err.departmentId?.message}>
+          <Select {...form.register('departmentId')}>
+            <option value="">—</option>
+            {lookups.data?.departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </Select>
+        </F>
+        <F label="Job title" error={err.jobTitleId?.message}>
+          <Select {...form.register('jobTitleId')}>
+            <option value="">—</option>
+            {lookups.data?.jobTitles.map((j) => <option key={j.id} value={j.id}>{j.name}</option>)}
+          </Select>
+        </F>
+        <F label="Occupational level" error={err.occupationalLevel?.message}>
+          <Select {...form.register('occupationalLevel')}>
+            <option value="">—</option>
+            {occupationalLevels.map((o) => <option key={o} value={o}>{o}</option>)}
           </Select>
         </F>
         <F label="Status" error={err.status?.message}>
