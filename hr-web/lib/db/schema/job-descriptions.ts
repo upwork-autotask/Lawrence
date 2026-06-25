@@ -108,6 +108,10 @@ export const employeeJds = pgTable(
     hrId: uuid('hr_id'),
     ceoApprovedAt: timestamp('ceo_approved_at', { withTimezone: true }),
     status: text('status').notNull().default('assigned'), // assigned|acknowledged|signed_off
+    // Access "JobDescription (assigned KPA)" — free-text KPA label assigned to the employee.
+    assignedKpa: text('assigned_kpa'),
+    // Optional ref to the specific JD entry record (Access TblJobDescriptionEntryRecord → jd_entries) the KPA came from.
+    assignedKpaJdEntryId: uuid('assigned_kpa_jd_entry_id').references(() => jdEntries.id),
     notes: text('notes'),
     ...auditColumns,
   },

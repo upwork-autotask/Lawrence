@@ -39,6 +39,8 @@ export const CandidateCreate = z.object({
   eeGroupId: optUuid,
   rejectionReasonId: optUuid,
   status: z.string().default('applied'),
+  recruited: z.coerce.boolean().optional(), // Access "Recruitmented" flag (set by Make-Employee)
+  score: optNum, // aggregate assessment score (mirrored from candidate_assessments)
 });
 
 export const CandidateUpdate = CandidateCreate.partial().extend({ expectedUpdatedAt });
@@ -155,6 +157,8 @@ export type CandidateRow = {
   eeGroupId: string | null;
   rejectionReasonId: string | null;
   status: string;
+  recruited: boolean;
+  score: number | null;
   updatedAt: string;
 };
 

@@ -49,6 +49,9 @@ export const candidates = pgTable(
     cvPath: text('cv_path'),
     status: text('status').notNull().default('applied'), // applied|shortlisted|interviewed|offered|hired|rejected
     rejectionReasonId: uuid('rejection_reason_id').references(() => nonRecruitmentReasons.id),
+    // Access "Recruitment subform": Yes/No recruited flag + aggregate score surfaced per candidate.
+    recruited: boolean('recruited').notNull().default(false),
+    score: doublePrecision('score'),
     ...auditColumns,
   },
   (t) => ({ requestIdx: index('candidates_request_idx').on(t.requestId) }),

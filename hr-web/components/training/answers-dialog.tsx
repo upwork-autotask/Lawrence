@@ -16,9 +16,9 @@ import { Select } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, THead, TBody, TR, TH, TD } from '@/components/ui/table';
 
-type FormValues = { answerText: string; isCorrect: string; sortOrder: string };
+type FormValues = { answerText: string; isCorrect: string; sortOrder: string; points: string };
 
-const emptyDefaults: FormValues = { answerText: '', isCorrect: 'false', sortOrder: '0' };
+const emptyDefaults: FormValues = { answerText: '', isCorrect: 'false', sortOrder: '0', points: '0' };
 
 export function AnswersDialog({
   question, canWrite, onClose,
@@ -53,6 +53,7 @@ export function AnswersDialog({
       answerText: a.answerText,
       isCorrect: a.isCorrect ? 'true' : 'false',
       sortOrder: String(a.sortOrder),
+      points: String(a.points ?? 0),
     });
   }
 
@@ -97,17 +98,18 @@ export function AnswersDialog({
       <div className="rounded-lg border bg-card">
         <Table>
           <THead>
-            <TR><TH className="w-12">#</TH><TH>Answer</TH><TH>Correct</TH><TH className="w-24"></TH></TR>
+            <TR><TH className="w-12">#</TH><TH>Answer</TH><TH>Correct</TH><TH className="w-16 text-right">Points</TH><TH className="w-24"></TH></TR>
           </THead>
           <TBody>
-            {list.isLoading && <TR><TD colSpan={4} className="text-muted-foreground">Loading…</TD></TR>}
-            {list.isError && <TR><TD colSpan={4} className="text-destructive">Could not load answers: {(list.error as Error).message}</TD></TR>}
-            {list.data?.items.length === 0 && <TR><TD colSpan={4} className="text-muted-foreground">No answers yet.</TD></TR>}
+            {list.isLoading && <TR><TD colSpan={5} className="text-muted-foreground">Loading…</TD></TR>}
+            {list.isError && <TR><TD colSpan={5} className="text-destructive">Could not load answers: {(list.error as Error).message}</TD></TR>}
+            {list.data?.items.length === 0 && <TR><TD colSpan={5} className="text-muted-foreground">No answers yet.</TD></TR>}
             {list.data?.items.map((a) => (
               <TR key={a.id}>
                 <TD>{a.sortOrder}</TD>
                 <TD className="font-medium">{a.answerText}</TD>
                 <TD>{a.isCorrect ? <Badge tone="green">Correct</Badge> : '—'}</TD>
+                <TD className="text-right tabular-nums">{a.points ?? 0}</TD>
                 <TD>
                   <div className="flex justify-end gap-1">
                     {canWrite && (
@@ -130,7 +132,7 @@ export function AnswersDialog({
 
       {canWrite && (
         <form className="mt-4 space-y-3" onSubmit={form.handleSubmit(submit)}>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             <F label="Answer text" error={err.answerText?.message}>
               <Input {...form.register('answerText')} />
             </F>
@@ -139,6 +141,9 @@ export function AnswersDialog({
                 <option value="false">No</option>
                 <option value="true">Yes</option>
               </Select>
+            </F>
+            <F label="Points" error={err.points?.message}>
+              <Input type="number" step="1" {...form.register('points')} />
             </F>
             <F label="Sort order" error={err.sortOrder?.message}>
               <Input type="number" step="1" {...form.register('sortOrder')} />

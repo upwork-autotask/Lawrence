@@ -1,7 +1,7 @@
 import {
   Users, CalendarDays, ShieldAlert, FileText, GraduationCap, Gauge, TrendingUp,
   Network, UserPlus, Receipt, DoorOpen, BarChart3, ListTree, UserCog, ScrollText, Settings, Scale,
-  LayoutDashboard, ListChecks,
+  LayoutDashboard, ListChecks, ClipboardList, ClipboardCheck, Award, KeyRound,
   type LucideIcon,
 } from 'lucide-react';
 import { Permissions } from './auth/permissions';
@@ -28,7 +28,12 @@ export const NAV: NavGroup[] = [
     group: 'Talent',
     items: [
       { label: 'Job Descriptions', href: '/job-descriptions', icon: FileText, permission: Permissions.JobDescriptionRead },
+      { label: 'JD Assignments', href: '/job-descriptions/assignments', icon: ClipboardList, permission: Permissions.JobDescriptionRead },
+      { label: 'JD Grading', href: '/jd-grading-eval', icon: Scale, permission: Permissions.JobDescriptionRead },
       { label: 'Training', href: '/training', icon: GraduationCap, permission: Permissions.TrainingRead },
+      { label: 'Take a test', href: '/training/test', icon: ClipboardCheck, permission: Permissions.TrainingRead },
+      { label: 'Test results', href: '/training/results', icon: Award, permission: Permissions.TrainingRead },
+      { label: 'Training assignments', href: '/training/assignments', icon: GraduationCap, permission: Permissions.TrainingRead },
       { label: 'Performance', href: '/performance', icon: Gauge, permission: Permissions.PerformanceRead },
     ],
   },
@@ -43,6 +48,7 @@ export const NAV: NavGroup[] = [
     group: 'Operations',
     items: [
       { label: 'Recruitment', href: '/recruitment', icon: UserPlus, permission: Permissions.RecruitmentRead },
+      { label: 'Candidate assessments', href: '/recruitment/assessments', icon: ClipboardCheck, permission: Permissions.RecruitmentRead },
       { label: 'Expenses', href: '/expenses', icon: Receipt, permission: Permissions.ExpenseRead },
       { label: 'Exit', href: '/exit', icon: DoorOpen, permission: Permissions.ExitRead },
     ],
@@ -57,6 +63,7 @@ export const NAV: NavGroup[] = [
       { label: 'KPI categories', href: '/kpi-categories', icon: Gauge, permission: Permissions.PerformanceRead },
       { label: 'Interview questions', href: '/interview-questions', icon: ListChecks, permission: Permissions.RecruitmentRead },
       { label: 'Users', href: '/users', icon: UserCog, permission: Permissions.UsersManage },
+      { label: 'Permissions', href: '/permissions', icon: KeyRound, permission: Permissions.UsersManage },
       { label: 'Audit Log', href: '/audit', icon: ScrollText, permission: Permissions.AuditRead },
       { label: 'Settings', href: '/settings', icon: Settings, permission: Permissions.SettingsRead },
     ],

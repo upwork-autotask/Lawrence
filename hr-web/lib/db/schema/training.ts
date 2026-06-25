@@ -113,6 +113,9 @@ export const quizAnswers = pgTable(
     questionId: uuid('question_id').notNull().references(() => quizQuestions.id, { onDelete: 'cascade' }),
     answerText: text('answer_text').notNull(),
     isCorrect: boolean('is_correct').notNull().default(false),
+    // Per-answer weighted score (Access subfrmAns.Points). The test runner SUMS the
+    // points of the answers a candidate selects, rather than just counting isCorrect.
+    points: integer('points').notNull().default(0),
     sortOrder: integer('sort_order').notNull().default(0),
     ...auditColumns,
   },
@@ -136,8 +139,52 @@ export const employeeTests = pgTable(
   (t) => ({ employeeIdx: index('employee_tests_employee_idx').on(t.employeeId) }),
 );
 
+/**
+ * Test-runner attempt header (Access frmResult). One row per candidate sitting a
+ * course quiz; `totalScore` is the SUM of selected-answer points after grading.
+ */
+export const quizAttempts = pgTable(
+  'quiz_attempts',
+  {
+    id: pk(),
+    quizId: uuid('quiz_id'),
+    courseId: uuid('course_id').references(() => trainingsCatalogue.id),
+    employeeId: uuid('employee_id').notNull().references(() => employees.id),
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
+    submittedAt: timestamp('submitted_at', { withTimezone: true }),
+    totalQuestions: integer('total_questions').notNull().default(0),
+    totalScore: doublePrecision('total_score').notNull().default(0),
+    status: text('status').notNull().default('in_progress'), // in_progress|submitted
+    ...auditColumns,
+  },
+  (t) => ({
+    employeeIdx: index('quiz_attempts_employee_idx').on(t.employeeId),
+    courseIdx: index('quiz_attempts_course_idx').on(t.courseId),
+    statusIdx: index('quiz_attempts_status_idx').on(t.status),
+  }),
+);
+
+/** One row per answered question within an attempt (Access subfrmAns selection). */
+export const quizAttemptAnswers = pgTable(
+  'quiz_attempt_answers',
+  {
+    id: pk(),
+    attemptId: uuid('attempt_id').notNull().references(() => quizAttempts.id, { onDelete: 'cascade' }),
+    questionId: uuid('question_id').notNull().references(() => quizQuestions.id),
+    selectedAnswerId: uuid('selected_answer_id').references(() => quizAnswers.id),
+    pointsAwarded: doublePrecision('points_awarded').notNull().default(0),
+    ...auditColumns,
+  },
+  (t) => ({
+    attemptIdx: index('quiz_attempt_answers_attempt_idx').on(t.attemptId),
+    questionIdx: index('quiz_attempt_answers_question_idx').on(t.questionId),
+  }),
+);
+
 export type TrainingCatalogue = typeof trainingsCatalogue.$inferSelect;
 export type TrainingInternal = typeof trainingInternal.$inferSelect;
 export type TrainingExternal = typeof trainingExternal.$inferSelect;
 export type QuizQuestion = typeof quizQuestions.$inferSelect;
 export type QuizAnswer = typeof quizAnswers.$inferSelect;
+export type QuizAttempt = typeof quizAttempts.$inferSelect;
+export type QuizAttemptAnswer = typeof quizAttemptAnswers.$inferSelect;

@@ -50,6 +50,8 @@ export const EmployeeJdCreate = z.object({
   jdId: z.string().uuid('Job description is required'),
   assignedAt: z.coerce.date({ required_error: 'Assigned date is required', invalid_type_error: 'Assigned date is required' }),
   status: z.string().default('assigned'), // assigned|acknowledged|signed_off
+  assignedKpa: optStr, // free-text KPA label (Access "JobDescription (assigned KPA)")
+  assignedKpaJdEntryId: optUuid, // optional ref to the source jd_entries record
   notes: optStr,
 });
 
@@ -134,6 +136,8 @@ export type EmployeeJdRow = {
   jdId: string;
   assignedAt: string;
   status: string;
+  assignedKpa: string | null;
+  assignedKpaJdEntryId: string | null;
   notes: string | null;
   updatedAt: string;
 };

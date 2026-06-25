@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { optStr, optNum, optDate, expectedUpdatedAt, ListQuery } from './common';
+import { optStr, optNum, optUuid, optDate, expectedUpdatedAt, ListQuery } from './common';
 
 /* ── Catalogue (trainings_catalogue) ─────────────────────────────────────── */
 
@@ -116,6 +116,8 @@ export const QuizAnswerCreate = z.object({
   questionId: z.string().uuid('Question is required'),
   answerText: z.string().min(1, 'Answer text is required'),
   isCorrect: z.coerce.boolean().default(false),
+  // Weighted per-answer score (Access subfrmAns.Points); summed by the test runner.
+  points: z.coerce.number().int().default(0),
   sortOrder: z.coerce.number().int().default(0),
 });
 
@@ -223,6 +225,66 @@ export type QuizAnswerRow = {
   questionId: string;
   answerText: string;
   isCorrect: boolean;
+  points: number;
   sortOrder: number;
+  updatedAt: string;
+};
+
+/* ── Quiz attempts / test runner (quiz_attempts, quiz_attempt_answers) ────── */
+
+export const QuizAttemptCreate = z.object({
+  courseId: optUuid,
+  quizId: optUuid,
+  employeeId: z.string().uuid('Employee is required'),
+  totalQuestions: z.coerce.number().int().default(0),
+});
+
+export const QuizAttemptUpdate = QuizAttemptCreate.partial().extend({ expectedUpdatedAt });
+
+export const QuizAttemptListQuery = ListQuery.extend({
+  employeeId: z.string().uuid().optional(),
+  courseId: z.string().uuid().optional(),
+  status: z.string().optional(),
+});
+
+/** Body for POST /api/quiz-attempts/:id/submit — the candidate's selections. */
+export const QuizAttemptSubmit = z.object({
+  expectedUpdatedAt,
+  answers: z
+    .array(
+      z.object({
+        questionId: z.string().uuid('Question is required'),
+        selectedAnswerId: z.preprocess(
+          (v) => (v === '' || v === undefined ? null : v),
+          z.string().uuid().nullable().optional(),
+        ),
+      }),
+    )
+    .default([]),
+});
+
+export type QuizAttemptCreate = z.infer<typeof QuizAttemptCreate>;
+export type QuizAttemptUpdate = z.infer<typeof QuizAttemptUpdate>;
+export type QuizAttemptSubmit = z.infer<typeof QuizAttemptSubmit>;
+
+export type QuizAttemptRow = {
+  id: string;
+  quizId: string | null;
+  courseId: string | null;
+  employeeId: string;
+  startedAt: string;
+  submittedAt: string | null;
+  totalQuestions: number;
+  totalScore: number;
+  status: string;
+  updatedAt: string;
+};
+
+export type QuizAttemptAnswerRow = {
+  id: string;
+  attemptId: string;
+  questionId: string;
+  selectedAnswerId: string | null;
+  pointsAwarded: number;
   updatedAt: string;
 };

@@ -15,6 +15,7 @@ export * from './disciplinary';
 export * from './performance';
 export * from './job-descriptions';
 export * from './training';
+export * from './employee-training';
 
 // Phase 3 — growth
 export * from './development';
@@ -22,6 +23,8 @@ export * from './succession';
 
 // Phase 4 — operations & lifecycle
 export * from './recruitment';
+export * from './recruitment-assessment';
+export * from './jd-grade-eval';
 export * from './expenses';
 export * from './exit';
 
